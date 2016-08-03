@@ -1,6 +1,6 @@
 package com.squirrel.model;
 import com.squirrel.model.TuileFactory.TypeTuile;
-/**Cette classe est un créateur de tuiles.
+/**Cette classe est le modèle effectif d'une tuile.
  * @author Kevin
  */
 public class Tuile {
