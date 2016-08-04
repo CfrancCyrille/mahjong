@@ -7,15 +7,34 @@ import static com.squirrel.model.TuileFactory.TypeTuile.FLEU;
 import static com.squirrel.model.TuileFactory.TypeTuile.ROND;
 import static com.squirrel.model.TuileFactory.TypeTuile.SAIS;
 import static com.squirrel.model.TuileFactory.TypeTuile.VENT;
+/**import static com.squirrel.Valuable.NumTuile.UN;
+import static com.squirrel.Valuable.NumTuile.DEU;
+import static com.squirrel.Valuable.NumTuile.TRO;
+import static com.squirrel.Valuable.NumTuile.QUA;
+import static com.squirrel.Valuable.NumTuile.CIN;
+import static com.squirrel.Valuable.NumTuile.SIX;
+import static com.squirrel.Valuable.NumTuile.SEP;
+import static com.squirrel.Valuable.NumTuile.HUI;
+import static com.squirrel.Valuable.NumTuile.NEU;
+import static com.squirrel.Valuable.VenTuile.NOR;
+import static com.squirrel.Valuable.VenTuile.EST;
+import static com.squirrel.Valuable.VenTuile.SUD;
+import static com.squirrel.Valuable.VenTuile.OUE;
+import static com.squirrel.Valuable.DraTuile.BLA;
+import static com.squirrel.Valuable.DraTuile.VER;
+import static com.squirrel.Valuable.DraTuile.ROU;
+import static com.squirrel.Valuable.SaiTuile.PRI;
+import static com.squirrel.Valuable.SaiTuile.ETE;
+import static com.squirrel.Valuable.SaiTuile.AUT;
+import static com.squirrel.Valuable.SaiTuile.HIV;
+import static com.squirrel.Valuable.FleTuile.PRU;
+import static com.squirrel.Valuable.FleTuile.ORC;
+import static com.squirrel.Valuable.FleTuile.CHR;
+import static com.squirrel.Valuable.FleTuile.BAM;
+**/
 
 import java.util.ArrayList;
 import java.util.Collections;
-
-import com.squirrel.model.Valuable.DraTuile;
-import com.squirrel.model.Valuable.FleTuile;
-import com.squirrel.model.Valuable.NumTuile;
-import com.squirrel.model.Valuable.SaiTuile;
-import com.squirrel.model.Valuable.VenTuile;
 
 public class TuileFactory {
 	//int numero;
@@ -26,9 +45,8 @@ public class TuileFactory {
 	
 	static ArrayList<Tuile> tuilesList;
 	
-	public static void initialize(){
-		 //Création de la liste de tuiles.
-	    ArrayList<Tuile> tuilesList = new ArrayList<Tuile>();
+	public static void initialize(ArrayList<Tuile> tuilesList){
+		 
 		for (int i = 0; i < 4; i++) {
 			for (Valuable.NumTuile Num : Valuable.NumTuile.values() ) {
 				Tuile tuile=new Tuile(BAMB, Num);
@@ -65,7 +83,7 @@ public class TuileFactory {
 	public static void main(String[] args) {
 		
 		System.out.println("Gros Stress oulala");
-		initialize();
+		initialize(tuilesList);
 		System.out.println(tuilesList);
 		
 		for (int i = 0; i < 144; i++) {
