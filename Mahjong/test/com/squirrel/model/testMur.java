@@ -39,7 +39,7 @@ public class testMur {
 		leMur.piocherTuile();
 		assertEquals(32, leMur.breche);
 		Tuile d = new Tuile(TypeTuile.BAMB, Valuable.NumTuile.UN);
-		d = leMur.getTuilesDuMur()[31];
+		d = leMur.getTuilesDuMur()[33];
 		assertEquals(null, d);
 	}
 	
@@ -109,7 +109,7 @@ public class testMur {
 		leMur.retirerTuile();
 		assertEquals(30, leMur.brecheSpeciale);
 		Tuile d = new Tuile(TypeTuile.BAMB, Valuable.NumTuile.UN);
-		d = leMur.getTuilesDuMur()[30];
+		d = leMur.getTuilesDuMur()[32];
 		assertEquals(null, d);
 	}
 	

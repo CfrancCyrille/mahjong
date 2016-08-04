@@ -10,13 +10,13 @@ public class Mur {
 
 	public final int NB_TUILE = 36;//Constante correspondant au nb de tuiles dans un mur
 	private int premiereCaseVide =0;//Variable permettant de remplir le mur sans oublier de case
-	int breche =-1;//Variable permettant de savoir où "casser" le mur, doit être modifiée par le gestionnaire
-	int brecheSpeciale =-1;//Variable permettant de savoir où "casser" le mur pour les tuiles fleurs et saison,
+	int breche =-3;//Variable permettant de savoir où "casser" le mur, doit être modifiée par le gestionnaire
+	int brecheSpeciale =-3;//Variable permettant de savoir où "casser" le mur pour les tuiles fleurs et saison,
 							//doit être modifiée par le gestionnaire
 	
 	//Récupère la brèche spéciale du gestionnaire et crée une exception si la brèche n'est pas dans le mur
 	public void setBrecheSpeciale(int brecheSpeciale) throws MurException {
-		if(brecheSpeciale<NB_TUILE){
+		if(brecheSpeciale<NB_TUILE-1){
 			this.brecheSpeciale = brecheSpeciale;
 		}
 		else{
@@ -26,7 +26,7 @@ public class Mur {
 
 	//Récupère la brèche du gestionnaire et crée une exception si la brèche n'est pas dans le mur
 	public void setBreche(int breche) throws MurException {
-		if(breche<NB_TUILE){
+		if(breche<NB_TUILE-2){
 			this.breche = breche;
 		}
 		else{
@@ -65,7 +65,7 @@ public class Mur {
 	 * @throws MurException 
 	 */
 	public Tuile piocherTuile () throws MurException{
-		if(breche<0){
+		if(breche<-2){
 			throw new MurException("Attention, la brèche n'est pas définie");
 		}
 		else{
@@ -74,8 +74,8 @@ public class Mur {
 			}
 			else{
 				Tuile res;
-				res = tuilesDuMur[breche];
-				tuilesDuMur[breche] = null;
+				res = tuilesDuMur[breche+2];
+				tuilesDuMur[breche+2] = null;
 				breche++;
 				return res;
 			}
@@ -86,7 +86,7 @@ public class Mur {
 	//dans le mur ou dans le vide
 	private boolean piocheVide(){
 		boolean res;
-		if(breche==36){
+		if(breche==34){
 			res = true;
 		}
 		else{
@@ -114,8 +114,8 @@ public class Mur {
 			}
 			else{
 				Tuile res;
-				res = tuilesDuMur[brecheSpeciale - 1];
-				tuilesDuMur[brecheSpeciale - 1] = null;
+				res = tuilesDuMur[brecheSpeciale + 1];
+				tuilesDuMur[brecheSpeciale + 1] = null;
 				brecheSpeciale = brecheSpeciale - 1;
 				return res;
 			}
@@ -126,7 +126,7 @@ public class Mur {
 	//dans le mur ou dans le vide
 	private boolean piocheSpecialeVide(){
 		boolean res;
-		if(brecheSpeciale==0){
+		if(brecheSpeciale==-2){
 			res = true;
 		}
 		else{
