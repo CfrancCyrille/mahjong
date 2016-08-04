@@ -92,8 +92,8 @@ public class testGestionnaire {
 	@Test
 	public void testbreche() {
 		int breche;
-		breche = Gestionnaire.breche(23);
-		assertEquals(8, breche);
+		breche = Gestionnaire.breche(19);
+		assertEquals(-2, breche);
 
 	}
 

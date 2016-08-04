@@ -11,8 +11,10 @@ public class Mur {
 	public final int NB_TUILE = 36;//Constante correspondant au nb de tuiles dans un mur
 	private int premiereCaseVide =0;//Variable permettant de remplir le mur sans oublier de case
 	int breche =-3;//Variable permettant de savoir où "casser" le mur, doit être modifiée par le gestionnaire
+					//Comprise entre -2 et 33
 	int brecheSpeciale =-3;//Variable permettant de savoir où "casser" le mur pour les tuiles fleurs et saison,
 							//doit être modifiée par le gestionnaire
+							//doit être comprise entre -1 et 35
 	
 	//Récupère la brèche spéciale du gestionnaire et crée une exception si la brèche n'est pas dans le mur
 	public void setBrecheSpeciale(int brecheSpeciale) throws MurException {

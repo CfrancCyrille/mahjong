@@ -152,12 +152,12 @@ public class Gestionnaire
 		//condition si on ne depasse pas la capacite d'un mur, la position sera la tuile du dessus de la colonne
 		if(sommeDe<19)
 		{
-			return sommeDe = sommeDe*2-2;
+			return sommeDe = sommeDe*2-4;
 		}
 		//sinon la tuile sera la tuile du dessus de la colonne mais sur un autre mur
 		else
 		{
-			return sommeDe = ((sommeDe-18)*2)-2;
+			return sommeDe = ((sommeDe-18)*2)-4;
 		}
 	}
 }
