@@ -12,7 +12,4 @@ public class TuileComparatorType implements Comparator<Tuile> {
 		return (int)(type.charAt(0) - type1.charAt(0));
 	}
 	
-	
-
-	
 }

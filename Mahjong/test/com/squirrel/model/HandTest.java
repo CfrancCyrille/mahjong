@@ -1,237 +1,93 @@
 package com.squirrel.model;
 
+
+
 //import static org.junit.Assert.*;
-//
-//import java.util.ArrayList;
-//import java.util.Collection;
-//import java.util.LinkedList;
-//import java.util.List;
 
-//import org.junit.Test;
+import java.util.ArrayList;
+
+import java.util.List;
+import org.junit.Test;
 
 
-//import com.squirrel.model.Hand;
+import com.squirrel.model.Hand;
 
 public class HandTest {
-//	public LinkedList<Tuile> hand;
-//	@Test 	// On crée une main dont on vérifie le remplissage, 
-//	//on vérifie que la demande d'ajout d'une 15eme tuile renvoie l'exception correspondante
-//	public void testRemplissageMain() {
-//		Tuile tu1= new Tuile("bambous", "1");
-//		Tuile tu2= new Tuile("caracteres", "1");
-//		Tuile tu3= new Tuile("ronds", "1");
-//		Tuile tu4= new Tuile("bambous", "2");
-//		Tuile tu5= new Tuile("bambous", "3");
-//		Tuile tu6= new Tuile("bambous", "4");
-//		Tuile tu7= new Tuile("bambous", "5");
-//		Tuile tu8= new Tuile("bambous", "6");
-//		Tuile tu9= new Tuile("bambous", "7");
-//		Tuile tu10= new Tuile("bambous", "8");
-//		Tuile tu11= new Tuile("bambous", "9");
-//		Tuile tu12= new Tuile("bambous", "1");
-//		Tuile tu13= new Tuile("bambous", "1");
-//		Tuile tu14= new Tuile("bambous", "1");
-//		Tuile tu15 = new Tuile("ronds","2");
-//
-//		Hand hand = new Hand();
-//		try {
-//			hand.fillHand(tu1);
-//			hand.fillHand(tu2);
-//			hand.fillHand(tu3);
-//			hand.fillHand(tu4);
-//			hand.fillHand(tu5);
-//			hand.fillHand(tu6);
-//			hand.fillHand(tu7);
-//			hand.fillHand(tu8);
-//			hand.fillHand(tu9);
-//			hand.fillHand(tu10);
-//			hand.fillHand(tu11);
-//			hand.fillHand(tu12);
-//			hand.fillHand(tu13);
-//			hand.fillHand(tu14);
-//		} catch (MainPleineException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//
-//
-//		String actual =hand.toString();
-//		String expected = "[[bambous, 1], [caracteres, 1], [ronds, 1], [bambous, 2], [bambous, 3], [bambous, 4], [bambous, 5], [bambous, 6], [bambous, 7], [bambous, 8], [bambous, 9], [bambous, 1], [bambous, 1], [bambous, 1]]";
-//		assertEquals(expected,actual);
-//		//tuiles_identiques(hand);
-//
-//
-//		try {
-//			hand.fillHand(tu15);
-//		} catch (MainPleineException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		String actual2 =hand.toString();
-//		String expected2 = "[[bambous, 1], [caracteres, 1], [ronds, 1], [bambous, 2], [bambous, 3], [bambous, 4], [bambous, 5], [bambous, 6], [bambous, 7], [bambous, 8], [bambous, 9], [bambous, 1], [bambous, 1], [bambous, 1]]";
-//		assertEquals(expected2,actual2);
-//
-//	}
-//	@Test 	//On crée une main on vérifie que les tuiles sont bien rangées :
-//	//par famille, avec les familles par ordre alphabetique
-//	//par valeur
-//	public void testTriTuiles() {
-//		Tuile tu1= new Tuile("bambous", "1");
-//		Tuile tu2= new Tuile("caracteres", "1");
-//		Tuile tu3= new Tuile("ronds", "1");
-//		Tuile tu4= new Tuile("bambous", "2");
-//		Tuile tu5= new Tuile("bambous", "3");
-//		Tuile tu6= new Tuile("bambous", "4");
-//		Tuile tu7= new Tuile("bambous", "5");
-//		Tuile tu8= new Tuile("bambous", "6");
-//		Tuile tu9= new Tuile("bambous", "7");
-//		Tuile tu10= new Tuile("bambous", "8");
-//		Tuile tu11= new Tuile("bambous", "9");
-//		Tuile tu12= new Tuile("bambous", "1");
-//		Tuile tu13= new Tuile("bambous", "1");
-//		Tuile tu14= new Tuile("bambous", "1");
-//
-//
-//		Hand hand = new Hand();
-//
-//		try {
-//			hand.fillHand(tu1);
-//			hand.fillHand(tu2);
-//			hand.fillHand(tu3);
-//			hand.fillHand(tu4);
-//			hand.fillHand(tu5);
-//			hand.fillHand(tu6);
-//			hand.fillHand(tu7);
-//			hand.fillHand(tu8);
-//			hand.fillHand(tu9);
-//			hand.fillHand(tu10);
-//			hand.fillHand(tu11);
-//			hand.fillHand(tu12);
-//			hand.fillHand(tu13);
-//			hand.fillHand(tu14);
-//		} catch (MainPleineException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		hand.triTuiles();
-//
-//
-//		String actual =hand.toString();
-//		String expected = "[[bambous, 1], [bambous, 1], [bambous, 1], [bambous, 1], [bambous, 2], [bambous, 3], [bambous, 4], [bambous, 5], [bambous, 6], [bambous, 7], [bambous, 8], [bambous, 9], [caracteres, 1], [ronds, 1]]";
-//		assertEquals(expected,actual);
-//		System.out.println(hand.toString());
-//
-//	}
-//	@Test 	//On crée une main on vérifie que les tuiles sont bien rangées :
-//	//par famille, avec les familles par ordre alphabetique
-//	public void testTriTuilesSpeFamilles() {
-//		Tuile tu1= new Tuile("bambous", "1");
-//		Tuile tu2= new Tuile("caracteres", "1");
-//		Tuile tu3= new Tuile("ronds", "1");
-//		Tuile tu4= new Tuile("dragon", "2");
-//		Tuile tu5= new Tuile("vent", "3");
-//		Tuile tu6= new Tuile("fleur", "4");
-//		Tuile tu7= new Tuile("saison", "5");
-//		Tuile tu8= new Tuile("bambous", "1");
-//		Tuile tu9= new Tuile("caracteres", "1");
-//		Tuile tu10= new Tuile("ronds", "1");
-//		Tuile tu11= new Tuile("dragon", "2");
-//		Tuile tu12= new Tuile("vent", "3");
-//		Tuile tu13= new Tuile("fleur", "4");
-//		Tuile tu14= new Tuile("saison", "5");
-//		Hand hand = new Hand();
-//
-//		try {
-//			hand.fillHand(tu1);
-//			hand.fillHand(tu2);
-//			hand.fillHand(tu3);
-//			hand.fillHand(tu4);
-//			hand.fillHand(tu5);
-//			hand.fillHand(tu6);
-//			hand.fillHand(tu7);
-//			hand.fillHand(tu8);
-//			hand.fillHand(tu9);
-//			hand.fillHand(tu10);
-//			hand.fillHand(tu11);
-//			hand.fillHand(tu12);
-//			hand.fillHand(tu13);
-//			hand.fillHand(tu14);
-//		} catch (MainPleineException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		hand.triTuiles();
-//
-//
-//		String actual =hand.toString();
-//		//String expected = "[[bambous, 1], [bambous, 1], [bambous, 1], [bambous, 1], [bambous, 2], [bambous, 3], [bambous, 4], [bambous, 5], [bambous, 6], [bambous, 7], [bambous, 8], [bambous, 9], [caracteres, 1], [ronds, 1]]";
-//		assertEquals(expected,actual);
-//		System.out.println(hand.toString());
-//
-//	}
-//
-//	@Test 	//On crée une main on vérifie que les tuiles sont bien rangées :
-//	//par famille, avec les familles par ordre alphabetique
-//	public void testTriTuilesSpeValeurs() {
-//		Tuile tu1= new Tuile("bambous", "1");
-//		Tuile tu2= new Tuile("bambous", "2");
-//		Tuile tu3= new Tuile("bambous", "1");
-//		Tuile tu4= new Tuile("bambous", "2");
-//		Tuile tu5= new Tuile("bambous", "3");
-//		Tuile tu6= new Tuile("bambous", "9");
-//		Tuile tu7= new Tuile("bambous", "9");
-//		Tuile tu8= new Tuile("bambous", "1");
-//		Tuile tu9= new Tuile("caracteres", "2");
-//		Tuile tu10= new Tuile("caracteres", "5");
-//		Tuile tu11= new Tuile("caracteres", "7");
-//		Tuile tu12= new Tuile("caracteres", "3");
-//		Tuile tu13= new Tuile("caracteres", "1");
-//		Tuile tu14= new Tuile("caracteres", "5");
-//		Hand hand = new Hand();
-//
-//		try {
-//			hand.fillHand(tu1);
-//			hand.fillHand(tu2);
-//			hand.fillHand(tu3);
-//			hand.fillHand(tu4);
-//			hand.fillHand(tu5);
-//			hand.fillHand(tu6);
-//			hand.fillHand(tu7);
-//			hand.fillHand(tu8);
-//			hand.fillHand(tu9);
-//			hand.fillHand(tu10);
-//			hand.fillHand(tu11);
-//			hand.fillHand(tu12);
-//			hand.fillHand(tu13);
-//			hand.fillHand(tu14);
-//		} catch (MainPleineException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		hand.triTuiles();
-//
-//
-//		String actual =hand.toString();
-//		//String expected = "[[bambous, 1], [bambous, 1], [bambous, 1], [bambous, 1], [bambous, 2], [bambous, 3], [bambous, 4], [bambous, 5], [bambous, 6], [bambous, 7], [bambous, 8], [bambous, 9], [caracteres, 1], [ronds, 1]]";
-//		assertEquals(expected,actual);
-//		System.out.println(hand.toString());
-//
-//	}
-//	@Test
-//public void testTri (){
-//		
-//		ArrayList<Tuile> list= new ArrayList<Tuile>();
-//		FacadeTuile facadeTuile = new FacadeTuile();
-//		facadeTuile.getTuilesList(list);
-//		Hand list = new Hand;
-//		
-//		((Hand) list).triTuiles(list);
-//	}
-	
+
+	@Test
+	public void testTri (){
+		/**
+		 *Ce test crée les tuiles du jeu de Mahjong (elles sont mélangées lors de leur création)
+		 *On teste la capacité de notre fonction triTuile() à les ranger par famille et par valeur 
+		 *Test validé le 04/08/2016 16:30
+		 **/
+		//On instancie un objet hand de type Hand qui contient : hand.tuilesListOfHand = new ArrayList<Tuile>();
+		Hand hand = new Hand();
+
+		//On cree une reference "list" a une liste qui prend pour valeur le "new ArrayList<Tuile>" afin de l'utiliser pour le test.
+		List<Tuile> list= hand.tuilesListOfHand;
+
+		//On instancie la facade de Kevin. 
+		FacadeTuile facadeTuile = new FacadeTuile();
+		// On applique la méthode de la facade pour remplir la liste "list" précédemment créée
+		facadeTuile.getTuilesList((ArrayList<Tuile>) list);
+		//on affiche list avant de la trier
+		System.out.println(list);
+
+
+		//On trie notre main  
+		hand.triTuiles((List<Tuile>) list);
+
+		//On visualise ce que contient la liste rentrée en paramètre.
+		System.out.println(list);
+		//On visualise ce que contient liste remplie.
+		System.out.println(hand.tuilesListOfHand);
+		for (int i=0; i<144;i++){
+			System.out.print(facadeTuile.getITuile( i,(ArrayList<Tuile>) list).getType().getName());
+			System.out.print(" ");
+			System.out.println(facadeTuile.getITuile( i,(ArrayList<Tuile>) list).getValeur().getName());
+		}
+
+
+	}
+
+
+
+	@Test 	
+	/** On crée une main dont on vérifie le remplissage, 
+	 * on vérifie que la demande d'ajout d'une 15eme tuile renvoie l'exception correspondante
+	 * validé le 04/08/2016 17:30
+	 */
+	public void testRemplissageMain() {
+		//On instancie un objet hand de type Hand qui contient : hand.tuilesListOfHand = new ArrayList<Tuile>();
+		Hand hand = new Hand();
+		//On cree une reference "list" a une liste qui prend pour valeur le "new ArrayList<Tuile>" afin de l'utiliser pour piocher dedans .
+		ArrayList<Tuile> list = new ArrayList<Tuile>();
+		//On instancie la facade de Kevin. 
+		FacadeTuile facadeTuile = new FacadeTuile();
+		// On applique la méthode de la facade pour remplir la liste "list" précédemment créée
+		facadeTuile.getTuilesList((ArrayList<Tuile>) list);
+
+		try {
+
+			for(int i=0; i<14 ; i++){
+				hand.fillHand(facadeTuile.getITuile(i,list));
+			}
+			hand.fillHand(facadeTuile.getITuile(14,list));
+
+		} catch (MainPleineException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			for (Tuile t : hand.tuilesListOfHand) {
+				System.out.print(t.getType().getName());
+				System.out.println(t.getValeur().getName()); 
+			}
+
+		}
+
+	}
+
 }
 
 
