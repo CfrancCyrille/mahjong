@@ -1,8 +1,5 @@
 package com.squirrel.model;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
 public class HandFacade {
 	private Hand hand;
 	   //private ??? combi;
@@ -25,7 +22,12 @@ public void getCombinaison(){
 }
 
 public Hand remplirMain(Tuile t){
-	hand.fillHand(t);
+	try {
+		hand.fillHand(t);
+	} catch (MainPleineException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	return  hand;
 }
 

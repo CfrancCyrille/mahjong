@@ -4,10 +4,6 @@ import java.util.Comparator;
 
 public class TuileComparatorType implements Comparator<Tuile> {
 
-	private String type;
-	private String valeur; 
-	
-	
 
 // compare les familles et leur attribue un ordre alphabétique
 	public int compare(Tuile t, Tuile t1){

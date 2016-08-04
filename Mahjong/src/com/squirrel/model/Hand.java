@@ -1,17 +1,14 @@
 package com.squirrel.model;
 
 
-import java.util.Arrays;
+
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
+
 import java.util.LinkedList;
 import java.util.List;
 
-import com.squirrel.MainPleineException;
-import com.squirrel.Tuile;
-import com.squirrel.TuileComparatorType;
-import com.squirrel.TuileComparatorVal;
+
 
 
 
@@ -40,7 +37,7 @@ public class Hand {
 	
 	
 	//permet d'ajouter une tuile à la liste main depuis le Mur
-	Collection fillHand(Tuile t) throws MainPleineException{
+	Collection<Tuile> fillHand(Tuile t) throws MainPleineException{
 		if(hand.size()<TAILLE_MAIN){
 			this.hand.add(t);
 		}else{
@@ -62,7 +59,7 @@ public class Hand {
 
 
 	// permet d'ajouter une tuile à la liste main depuis la défausse : conditions associées à cette fonction
-	Collection pickDefausse(Tuile t, boolean isCombi){
+	Collection<Tuile> pickDefausse(Tuile t, boolean isCombi){
 		if (isCombi == true && hand.size()<TAILLE_MAIN){
 			this.hand.add(t);
 		}else{ System.out.println("Vous ne pouvez pas prendre cette tuile");
@@ -73,7 +70,7 @@ public class Hand {
 	// TODO : test :  on peut ajouter des tuiles / on ne peut pas ajouter une 15eme tuile  / si pas de combi, on ne peut pas la prendre
 	
 	
-	public Collection triTuiles(){
+	public Collection<Tuile> triTuiles(List<Tuile> hand){
 		//Range les tuiles par orde alphabetique selon le type
 	 Collections.sort(hand, new TuileComparatorType());
 	 	//Dans une famille, range par valeur

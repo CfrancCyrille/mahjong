@@ -29,7 +29,7 @@ public class FacadeTuile {
 	}
 	
 	// méthode permettant de recevoir la liste des tuiles
-	public ArrayList<Tuile> getTuilesList(ArrayList<Tuile> tuilesList){
+	public  ArrayList<Tuile> getTuilesList(ArrayList<Tuile> tuilesList){
 		if(tuilesList.isEmpty()==true){
 			TuileFactory.initialize(tuilesList);
 		}
