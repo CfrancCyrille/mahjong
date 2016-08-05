@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.squirrel.ctrl.Gestionnaire;
 import com.squirrel.model.FacadeTuile;
+import com.squirrel.model.HandFacade;
 import com.squirrel.model.Mur;
 import com.squirrel.model.MurException;
 import com.squirrel.model.Tuile;
@@ -12,36 +13,25 @@ import com.squirrel.model.Tuile;
 public class Mahjong 
 
 {
+	public Mur murEst;
+	public Mur murOuest;
+	public Mur murSud;
+	public Mur murNord;
 
-	public static void main(String[] args) 
-
-	{
-
+	public void initialiserUnePartie() {
 		int joueurCommencant;
-
 		String murBrechable;
-
 		int breche;
-
 		int score1=Gestionnaire.lancerDes();
-
 		int score2=Gestionnaire.lancerDes();
-
 		int somme;
-
 		joueurCommencant=Gestionnaire.premierTirage();
-
 		somme=score1+score2+Gestionnaire.lancerDes()+Gestionnaire.lancerDes();
-
 		murBrechable=Gestionnaire.murBrechable(somme, Gestionnaire.muraDetruire(score1, score2));
-
 		breche=Gestionnaire.breche(somme);
 
 		//Creation des 4 murs
-		Mur murEst = new Mur();
-		Mur murOuest = new Mur();
-		Mur murSud = new Mur();
-		Mur murNord = new Mur();
+		this.creationDes4Murs();
 
 		Mur murPioche=null;//"Post it" pour designer le mur dans lequel on pioche
 
@@ -52,24 +42,24 @@ public class Mahjong
 
 		//Remplissage des 4 murs avec les 144 tuiles
 		for(int j =0;j<144;j=j+4){
-			murEst.ajouterTuile(listeTuiles.get(j));
-			murOuest.ajouterTuile(listeTuiles.get(j+1));
-			murSud.ajouterTuile(listeTuiles.get(j+2));
-			murNord.ajouterTuile(listeTuiles.get(j+3));
+			this.murEst.ajouterTuile(listeTuiles.get(j));
+			this.murOuest.ajouterTuile(listeTuiles.get(j+1));
+			this.murSud.ajouterTuile(listeTuiles.get(j+2));
+			this.murNord.ajouterTuile(listeTuiles.get(j+3));
 		}
 
 		//Determination du mur brechable en fonction du calcul du gestionnaire
 		if (murBrechable.equals("Nord")) {
-			murPioche = murNord;
+			murPioche = this.murNord;
 		}
 		else if (murBrechable.equals("Sud")) {
-			murPioche = murSud;
+			murPioche = this.murSud;
 		}
 		else if (murBrechable.equals("Ouest")) {
-			murPioche = murOuest;
+			murPioche = this.murOuest;
 		}
 		else if (murBrechable.equals("Est")) {
-			murPioche = murEst;
+			murPioche = this.murEst;
 		}
 
 		//Placement de la breche sur le mur à piocher
@@ -79,20 +69,77 @@ public class Mahjong
 			e.printStackTrace();
 		}
 
+		//Placement de la brèche spéciale
+		try {
+			murPioche.setBrecheSpeciale(breche);
+		} catch (MurException e1) {
+			e1.printStackTrace();
+		}
+
+		//Création des 4 mains
+		HandFacade mainEst = new HandFacade();
+		HandFacade mainOuest = new HandFacade();
+		HandFacade mainNord = new HandFacade();
+		HandFacade mainSud = new HandFacade();
+
+		//Distribution des tuiles dans les quatre mains selon la distribution du mahjong
+		for (int j = 0; j < 3; j++) {
+			for (int i = 0; i < 4; i++) {
+				murPioche = this.uneTuileDansLaMain(murPioche, mainEst);
+			}
+			for (int i = 0; i < 4; i++) {
+				murPioche = this.uneTuileDansLaMain(murPioche, mainSud);
+			}
+			for (int i = 0; i < 4; i++) {
+				murPioche = this.uneTuileDansLaMain(murPioche, mainOuest);
+			}
+			for (int i = 0; i < 4; i++) {
+				murPioche = this.uneTuileDansLaMain(murPioche, mainNord);
+			}
+		}
+		murPioche = this.uneTuileDansLaMain(murPioche, mainEst);
+		murPioche = this.uneTuileDansLaMain(murPioche, mainSud);
+		murPioche = this.uneTuileDansLaMain(murPioche, mainOuest);
+		murPioche = this.uneTuileDansLaMain(murPioche, mainNord);
+		murPioche = this.uneTuileDansLaMain(murPioche, mainEst);
 
 		//Affichage des infos du debut de jeu
 		System.out.println("Joueur commencant : "+joueurCommencant);
 		System.out.println("Le mur à detruire en premier est : "+murBrechable);
 		System.out.println("Breche : "+breche);
-
+		System.out.println("Le mur pioché à la fin : "+murPioche);
 
 		//Affichage de la premiere tuile piochee
 		try {
 			System.out.println(murPioche.piocherTuile());
 		} catch (MurException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	private Mur uneTuileDansLaMain(Mur murPioche, HandFacade mainEst) {
+		try {
+			Tuile tuilePiochee = murPioche.piocherTuile();
+			int breche1 = murPioche.getBreche();
+			mainEst.remplirMain(tuilePiochee);
+			if(breche1==34){
+				murPioche = murPioche.nextMur(murPioche, tousLesMurs(this));
+			}
+		} catch (MurException e) {
+			e.printStackTrace();
+		}
+		return murPioche;
+	}
+
+	private static Mur[] tousLesMurs(Mahjong mahjong) {
+		return new Mur[]{mahjong.murNord, mahjong.murOuest, mahjong.murSud, mahjong.murEst};
+	}
+
+	private void creationDes4Murs() {
+		this.murEst = new Mur();
+		this.murOuest = new Mur();
+		this.murSud = new Mur();
+		this.murNord = new Mur();
+
+	}
 }

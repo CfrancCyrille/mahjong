@@ -136,4 +136,35 @@ public class Mur {
 		}
 		return res;
 	}
+	
+	
+	public Mur nextMur(Mur murPioche, Mur[] tousLesMursDujeu){
+
+		if (murPioche.equals(tousLesMursDujeu[0])) {
+			murPioche = tousLesMursDujeu[1];
+			murPioche.breche = -2;
+			return murPioche;
+		}
+		else if (murPioche.equals(tousLesMursDujeu[1])) {
+			murPioche = tousLesMursDujeu[2];
+			murPioche.breche = -2;
+			return murPioche;
+		}
+		else if (murPioche.equals(tousLesMursDujeu[2])) {
+			murPioche = tousLesMursDujeu[3];
+			murPioche.breche = -2;
+			return murPioche;
+		}
+		else  {
+			murPioche = tousLesMursDujeu[0];
+			murPioche.breche = -2;
+			return murPioche;
+		}
+		
+	}
+
+	public int getBreche() {
+		// TODO Auto-generated method stub
+		return this.breche;
+	}
 }
