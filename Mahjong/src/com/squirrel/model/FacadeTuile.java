@@ -8,15 +8,20 @@ import java.util.ArrayList;
  *
  */
 public class FacadeTuile {
-	
+	TuileFactory tf=new TuileFactory();
 	int i=0;
 	// méthode permettant de recevoir la prochaine tuile de la liste
 	public Tuile getNextTuile(ArrayList<Tuile> tuilesList){
 		Tuile tuile=null;
 		if(tuilesList.isEmpty()==true){
-			TuileFactory.initialize(tuilesList);
+			tf.initialize(tuilesList);
 		}
-		tuile=tuilesList.get(i);
+		if(i<tuilesList.size()){
+			tuile=tuilesList.get(i);
+		}else{
+			tuile=null;
+		}
+		
 		i++;
 		return tuile;
 	}
@@ -24,7 +29,7 @@ public class FacadeTuile {
 	// méthode permettant de recevoir la liste des tuiles
 	public  ArrayList<Tuile> getTuilesList(ArrayList<Tuile> tuilesList){
 		if(tuilesList.isEmpty()==true){
-			TuileFactory.initialize(tuilesList);
+			tf.initialize(tuilesList);
 		}
 		return tuilesList;
 	}
@@ -32,7 +37,7 @@ public class FacadeTuile {
 	// méthode permettant d'obtenir la ieme tuile
 	public Tuile getITuile(int i,ArrayList<Tuile> tuilesList){
 		if(tuilesList.isEmpty()==true){
-			TuileFactory.initialize(tuilesList);
+			tf.initialize(tuilesList);
 		}
 		Tuile tuile=null;
 		tuile= tuilesList.get(i);

@@ -1,12 +1,8 @@
 package com.squirrel.model;
 
 import static org.junit.Assert.*;
-
 import java.util.ArrayList;
-
 import org.junit.Test;
-
-import com.squirrel.model.TuileFactory.TypeTuile;
 import com.squirrel.model.Tuile;
 
 
@@ -19,10 +15,8 @@ public class TestFacadeTuile extends FacadeTuile{
 		assertEquals(tuilesList.isEmpty(),false);
 		for (int i = 0; i < 146; i++) {
 			Tuile tuile = getNextTuile(tuilesList);
-			if (i>143) {
-				Tuile resultat =null;
-				assertEquals(tuile.getType(),resultat.getType());
-				assertEquals(tuile.getValeur(),resultat.getValeur());
+			if (i>tuilesList.size()) {
+				assertEquals(null,tuile);
 			}
 		}
 	}

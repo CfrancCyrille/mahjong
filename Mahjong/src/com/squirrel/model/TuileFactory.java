@@ -63,44 +63,25 @@ public class TuileFactory {
 
 	ArrayList<Tuile> tuilesList;
 
-	public static void initialize(ArrayList<Tuile> tuilesList){
-		TuileFactory tf=new TuileFactory(); 
+	public ArrayList<Tuile> initialize(ArrayList<Tuile> tuilesList){
 		for (TypeTuile type: TypeTuile.values()){
 			if(type==SAIS||type==FLEU){
 				for(Valuable valeur : type.num ){
-					Tuile tuile=tf.createTuile(type,valeur.ordinal());
+					Tuile tuile=this.createTuile(type,valeur.ordinal());
 					tuilesList.add(tuile);
 				}
 			}else{
 				for (int i = 0; i<4; i++){
 					for(Valuable valeur : type.num ){
-						Tuile tuile=tf.createTuile(type,valeur.ordinal());
+						Tuile tuile=this.createTuile(type,valeur.ordinal());
 						tuilesList.add(tuile);
 					}
 				}
 			}
 		}
-		for (int i = 0; i<4; i++){
-			for(TuileNum.NumTuile n : TuileNum.NumTuile.values() ){
-				Tuile tuile0=tf.createTuile(BAMB,n.ordinal());
-				tuilesList.add(tuile0);
-				Tuile tuile1=tf.createTuile(CARA,n.ordinal());
-				tuilesList.add(tuile1);
-				Tuile tuile2=tf.createTuile(ROND,n.ordinal());
-				tuilesList.add(tuile2);
-			}
-			for (TuileVen.VenTuile n : TuileVen.VenTuile.values()) {
-				Tuile tuile=tf.createTuile(VENT,n.ordinal());
-				tuilesList.add(tuile);
-			}
-			for (TuileDra.DraTuile n : TuileDra.DraTuile.values()) {
-				Tuile tuile=tf.createTuile(DRAG,n.ordinal());
-				tuilesList.add(tuile);
-			}
-		}
-
+		
 		Collections.shuffle(tuilesList);
-		tf.tuilesList=tuilesList;
+		return tuilesList;
 	}
 
 

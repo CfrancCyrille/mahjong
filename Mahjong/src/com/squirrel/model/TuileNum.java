@@ -5,7 +5,7 @@ import com.squirrel.model.TuileFactory.TypeTuile;
 public class TuileNum implements Tuile {
 	TuileFactory.TypeTuile type;
 	Valuable valeur;
-	public static final int LENGTH=8;
+
 	
 	 TuileNum(TypeTuile type, int i){
 		super();

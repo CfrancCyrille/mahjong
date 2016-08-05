@@ -6,7 +6,7 @@ import com.squirrel.model.TuileFactory.TypeTuile;
 public class TuileDra implements Tuile {
 	TuileFactory.TypeTuile type;
 	Valuable valeur;
-	public static final int LENGTH=2;
+
 	
 	 TuileDra(TypeTuile type, int i){
 		super();
