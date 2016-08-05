@@ -137,7 +137,13 @@ public class Mur {
 		return res;
 	}
 	
-	
+	/**
+	 * Methode permettant de passer au mur suivant si on a finit de piocher dans le mur initial 
+	 * et de mettre à jour la position de la breche
+	 * @param murPioche
+	 * @param tousLesMursDujeu
+	 * @return
+	 */
 	public Mur nextMur(Mur murPioche, Mur[] tousLesMursDujeu){
 
 		if (murPioche.equals(tousLesMursDujeu[0])) {

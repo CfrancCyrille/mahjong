@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.squirrel.model.Mur;
-
 public class Gestionnaire 
 {
 	//constructeur

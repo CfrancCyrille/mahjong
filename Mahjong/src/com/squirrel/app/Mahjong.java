@@ -82,7 +82,7 @@ public class Mahjong
 		HandFacade mainNord = new HandFacade();
 		HandFacade mainSud = new HandFacade();
 
-		//Distribution des tuiles dans les quatre mains selon la distribution du mahjong
+		//Distribution des tuiles dans les quatre mains selon la distribution du mahjong traditionnel
 		for (int j = 0; j < 3; j++) {
 			for (int i = 0; i < 4; i++) {
 				murPioche = this.uneTuileDansLaMain(murPioche, mainEst);
@@ -97,26 +97,21 @@ public class Mahjong
 				murPioche = this.uneTuileDansLaMain(murPioche, mainNord);
 			}
 		}
+		//Distribution d'une tuiles dans les mains pour terminer la distribution
 		murPioche = this.uneTuileDansLaMain(murPioche, mainEst);
 		murPioche = this.uneTuileDansLaMain(murPioche, mainSud);
 		murPioche = this.uneTuileDansLaMain(murPioche, mainOuest);
 		murPioche = this.uneTuileDansLaMain(murPioche, mainNord);
 		murPioche = this.uneTuileDansLaMain(murPioche, mainEst);
-
-		//Affichage des infos du debut de jeu
-		System.out.println("Joueur commencant : "+joueurCommencant);
-		System.out.println("Le mur à detruire en premier est : "+murBrechable);
-		System.out.println("Breche : "+breche);
-		System.out.println("Le mur pioché à la fin : "+murPioche);
-
-		//Affichage de la premiere tuile piochee
-		try {
-			System.out.println(murPioche.piocherTuile());
-		} catch (MurException e) {
-			e.printStackTrace();
-		}
 	}
-
+	
+	/**
+	 * Methode permettant de prendre une tuile dans le mur de pioche pour la donner à la main choisie 
+	 * et de changer le mur de pioche si ce dernier est completement vidé de ses tuiles
+	 * @param murPioche
+	 * @param mainEst
+	 * @return
+	 */
 	private Mur uneTuileDansLaMain(Mur murPioche, HandFacade mainEst) {
 		try {
 			Tuile tuilePiochee = murPioche.piocherTuile();
@@ -134,6 +129,7 @@ public class Mahjong
 	private static Mur[] tousLesMurs(Mahjong mahjong) {
 		return new Mur[]{mahjong.murNord, mahjong.murOuest, mahjong.murSud, mahjong.murEst};
 	}
+	
 
 	private void creationDes4Murs() {
 		this.murEst = new Mur();
