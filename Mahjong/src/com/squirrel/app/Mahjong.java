@@ -17,8 +17,14 @@ public class Mahjong
 	public Mur murOuest;
 	public Mur murSud;
 	public Mur murNord;
+	
+	public HandFacade mainEst;
+	public HandFacade mainOuest;
+	public HandFacade mainNord;
+	public HandFacade mainSud;
 
 	public void initialiserUnePartie() {
+		@SuppressWarnings("unused")
 		int joueurCommencant;
 		String murBrechable;
 		int breche;
@@ -77,10 +83,7 @@ public class Mahjong
 		}
 
 		//Création des 4 mains
-		HandFacade mainEst = new HandFacade();
-		HandFacade mainOuest = new HandFacade();
-		HandFacade mainNord = new HandFacade();
-		HandFacade mainSud = new HandFacade();
+		this.creationDes4Mains();
 
 		//Distribution des tuiles dans les quatre mains selon la distribution du mahjong traditionnel
 		for (int j = 0; j < 3; j++) {
@@ -136,6 +139,14 @@ public class Mahjong
 		this.murOuest = new Mur();
 		this.murSud = new Mur();
 		this.murNord = new Mur();
+
+	}
+	
+	private void creationDes4Mains() {
+		this.mainEst = new HandFacade();
+		this.mainOuest = new HandFacade();
+		this.mainSud = new HandFacade();
+		this.mainNord = new HandFacade();
 
 	}
 }

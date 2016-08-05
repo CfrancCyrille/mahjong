@@ -1,5 +1,6 @@
 package com.squirrel.model;
 
+
 public class HandFacade {
 	private Hand hand;
 	   //private ??? combi;
@@ -36,6 +37,10 @@ public Hand piocheDefausse(Tuile t){
 	//isCombi=fnction de test qui renvoi isCombi
 	hand.pickDefausse(t,isCombi);
 	return hand;
+}
+
+public int handSize() {
+	return this.hand.tuilesListOfHand.size();
 }
 
 
