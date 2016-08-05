@@ -4,7 +4,9 @@ public interface Valuable {
 
 	public int getValue();
 	public String getName();
-	
+	public int ordinal();
+	/**
+	 * 	
 	public enum NumTuile implements Valuable{
 		UN("un"),DEU("deux"),TRO("trois"),QUA("quatre"),CIN("cinq"),SIX("six"),SEP("sept"),HUI("huit"),NEU("neuf");
 		String nomNum;
@@ -84,4 +86,6 @@ public interface Valuable {
 			return nomNum;
 		}
 	}
+	 */
+	
 }

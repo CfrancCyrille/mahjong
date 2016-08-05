@@ -3,9 +3,10 @@ package com.squirrel.model;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
-import com.squirrel.model.TuileFactory.TypeTuile;
 
 public class testMur {
 
@@ -14,12 +15,16 @@ public class testMur {
 		Mur leMur=new Mur();
 		//test le remplissage des 36 cases
 		for (int i = 0; i < 36; i++) {
-			Tuile tuile=new Tuile(TypeTuile.BAMB, Valuable.NumTuile.UN);
+			ArrayList<Tuile> liste=new ArrayList<Tuile>();
+			FacadeTuile facade=new FacadeTuile();
+			Tuile tuile=facade.getNextTuile(liste);
 			boolean actualRes=leMur.ajouterTuile(tuile);
 			assertTrue(actualRes);
 		}
 		//Cas où on essaie de mettre une 37ème tuile dans le mur
-		Tuile tuile=new Tuile(TypeTuile.BAMB, Valuable.NumTuile.UN);
+		ArrayList<Tuile> liste=new ArrayList<Tuile>();
+		FacadeTuile facade=new FacadeTuile();
+		Tuile tuile=facade.getNextTuile(liste);
 		boolean actualRes=leMur.ajouterTuile(tuile);
 		assertFalse(actualRes);
 	}
@@ -29,7 +34,9 @@ public class testMur {
 		//Génération d'un mur de 36 tuiles identiques
 		Mur leMur=new Mur();
 		for (int i = 0; i < 36; i++) {
-			Tuile tuile=new Tuile(TypeTuile.BAMB, Valuable.NumTuile.UN);
+			ArrayList<Tuile> liste=new ArrayList<Tuile>();
+			FacadeTuile facade=new FacadeTuile();
+			Tuile tuile=facade.getNextTuile(liste);
 			leMur.ajouterTuile(tuile);
 
 		}
@@ -38,7 +45,9 @@ public class testMur {
 		//On pioche une tuile et on vérifie que la brèche s'est déplacée et que la case du mur est vide
 		leMur.piocherTuile();
 		assertEquals(32, leMur.breche);
-		Tuile d = new Tuile(TypeTuile.BAMB, Valuable.NumTuile.UN);
+		ArrayList<Tuile> liste=new ArrayList<Tuile>();
+		FacadeTuile facade=new FacadeTuile();
+		Tuile d=facade.getNextTuile(liste);
 		d = leMur.getTuilesDuMur()[33];
 		assertEquals(null, d);
 	}
@@ -48,7 +57,9 @@ public class testMur {
 		//Génération d'un mur de 36 tuiles identiques
 		Mur leMur=new Mur();
 		for (int i = 0; i < 36; i++) {
-			Tuile tuile=new Tuile(TypeTuile.BAMB, Valuable.NumTuile.UN);
+			ArrayList<Tuile> liste=new ArrayList<Tuile>();
+			FacadeTuile facade=new FacadeTuile();
+			Tuile tuile=facade.getNextTuile(liste);
 			leMur.ajouterTuile(tuile);
 		}
 		int breche = 36;	
@@ -64,7 +75,9 @@ public class testMur {
 		//Génération d'un mur de 36 tuiles identiques
 		Mur leMur=new Mur();
 		for (int i = 0; i < 36; i++) {
-			Tuile tuile=new Tuile(TypeTuile.BAMB, Valuable.NumTuile.UN);
+			ArrayList<Tuile> liste=new ArrayList<Tuile>();
+			FacadeTuile facade=new FacadeTuile();
+			Tuile tuile=facade.getNextTuile(liste);
 			leMur.ajouterTuile(tuile);
 		}
 		int breche = leMur.breche;
@@ -81,7 +94,9 @@ public class testMur {
 		//Génération d'un mur de 36 tuiles identiques
 		Mur leMur=new Mur();
 		for (int i = 0; i < 36; i++) {
-			Tuile tuile=new Tuile(TypeTuile.BAMB, Valuable.NumTuile.UN);
+			ArrayList<Tuile> liste=new ArrayList<Tuile>();
+			FacadeTuile facade=new FacadeTuile();
+			Tuile tuile=facade.getNextTuile(liste);
 			leMur.ajouterTuile(tuile);
 		}
 		int breche = 35;
@@ -99,7 +114,9 @@ public class testMur {
 		//Génération d'un mur de 36 tuiles identiques
 		Mur leMur=new Mur();
 		for (int i = 0; i < 36; i++) {
-			Tuile tuile=new Tuile(TypeTuile.BAMB, Valuable.NumTuile.UN);
+			ArrayList<Tuile> liste=new ArrayList<Tuile>();
+			FacadeTuile facade=new FacadeTuile();
+			Tuile tuile=facade.getNextTuile(liste);
 			leMur.ajouterTuile(tuile);
 
 		}
@@ -108,7 +125,9 @@ public class testMur {
 		//On pioche une tuile et on vérifie que la brèche s'est déplacée et que la case du mur est vide
 		leMur.retirerTuile();
 		assertEquals(30, leMur.brecheSpeciale);
-		Tuile d = new Tuile(TypeTuile.BAMB, Valuable.NumTuile.UN);
+		ArrayList<Tuile> liste=new ArrayList<Tuile>();
+		FacadeTuile facade=new FacadeTuile();
+		Tuile d=facade.getNextTuile(liste);
 		d = leMur.getTuilesDuMur()[32];
 		assertEquals(null, d);
 	}
@@ -118,7 +137,9 @@ public class testMur {
 		//Génération d'un mur de 36 tuiles identiques
 		Mur leMur=new Mur();
 		for (int i = 0; i < 36; i++) {
-			Tuile tuile=new Tuile(TypeTuile.BAMB, Valuable.NumTuile.UN);
+			ArrayList<Tuile> liste=new ArrayList<Tuile>();
+			FacadeTuile facade=new FacadeTuile();
+			Tuile tuile=facade.getNextTuile(liste);
 			leMur.ajouterTuile(tuile);
 		}
 		int brecheSpeciale = 36;	
@@ -134,7 +155,9 @@ public class testMur {
 		//Génération d'un mur de 36 tuiles identiques
 		Mur leMur=new Mur();
 		for (int i = 0; i < 36; i++) {
-			Tuile tuile=new Tuile(TypeTuile.BAMB, Valuable.NumTuile.UN);
+			ArrayList<Tuile> liste=new ArrayList<Tuile>();
+			FacadeTuile facade=new FacadeTuile();
+			Tuile tuile=facade.getNextTuile(liste);
 			leMur.ajouterTuile(tuile);
 		}
 		int brecheSpeciale = leMur.brecheSpeciale;
@@ -151,7 +174,9 @@ public class testMur {
 		//Génération d'un mur de 36 tuiles identiques
 		Mur leMur=new Mur();
 		for (int i = 0; i < 36; i++) {
-			Tuile tuile=new Tuile(TypeTuile.BAMB, Valuable.NumTuile.UN);
+			ArrayList<Tuile> liste=new ArrayList<Tuile>();
+			FacadeTuile facade=new FacadeTuile();
+			Tuile tuile=facade.getNextTuile(liste);
 			leMur.ajouterTuile(tuile);
 		}
 		int brecheSpeciale = 1;

@@ -1,6 +1,6 @@
 package com.squirrel.model;
 import java.util.ArrayList;
-import com.squirrel.model.TuileFactory.TypeTuile;
+
 
 /**
  * 
@@ -16,14 +16,7 @@ public class FacadeTuile {
 		if(tuilesList.isEmpty()==true){
 			TuileFactory.initialize(tuilesList);
 		}
-		if(i>tuilesList.size()-1){
-			//TODO Gerer l'exception "plus de tuile"
-			Tuile fausseTuile=new Tuile(TypeTuile.DRAG,Valuable.SaiTuile.ETE);
-			return fausseTuile;
-		}else{
-			tuile=tuilesList.get(i);
-		}
-		
+		tuile=tuilesList.get(i);
 		i++;
 		return tuile;
 	}

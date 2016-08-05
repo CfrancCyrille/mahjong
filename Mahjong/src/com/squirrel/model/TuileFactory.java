@@ -31,85 +31,98 @@ import static com.squirrel.Valuable.FleTuile.PRU;
 import static com.squirrel.Valuable.FleTuile.ORC;
 import static com.squirrel.Valuable.FleTuile.CHR;
 import static com.squirrel.Valuable.FleTuile.BAM;
-**/
+ **/
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class TuileFactory {
-	//int numero;
-	//String famille;		//indice pour differencier les 4 exemplaires identiques
-	
-	//private static TypeTuile[] tabType=new TypeTuile[144];
-	//private static NumTuile[] tabNum=new NumTuile[144];
-	
-	static ArrayList<Tuile> tuilesList;
-	
+	public Tuile createTuile(TypeTuile type, int i){
+		if(i<=type.num.length){
+			if(type==BAMB||type==ROND||type==CARA){
+				return new TuileNum(type,i);
+			}else if(type==VENT){
+				return new TuileVen(type,i);
+			}else if(type==DRAG){
+				return new TuileDra(type,i);
+			}else if(type==SAIS){
+				return new TuileSai(type,i);
+			}else if(type==FLEU){
+				return new TuileFle(type,i);
+			}else {
+				return null;
+			}
+		}else {
+			throw new IllegalArgumentException("Pas de "+type.getName()+"au dela de "+type.num.length);
+		}
+	}
+
+
+
+
+
+	ArrayList<Tuile> tuilesList;
+
 	public static void initialize(ArrayList<Tuile> tuilesList){
-		 
-		for (int i = 0; i < 4; i++) {
-			for (Valuable.NumTuile Num : Valuable.NumTuile.values() ) {
-				Tuile tuile=new Tuile(BAMB, Num);
-				tuilesList.add(tuile);
-				Tuile tuile2=new Tuile(CARA, Num);
+		TuileFactory tf=new TuileFactory(); 
+		for (TypeTuile type: TypeTuile.values()){
+			if(type==SAIS||type==FLEU){
+				for(Valuable valeur : type.num ){
+					Tuile tuile=tf.createTuile(type,valeur.ordinal());
+					tuilesList.add(tuile);
+				}
+			}else{
+				for (int i = 0; i<4; i++){
+					for(Valuable valeur : type.num ){
+						Tuile tuile=tf.createTuile(type,valeur.ordinal());
+						tuilesList.add(tuile);
+					}
+				}
+			}
+		}
+		for (int i = 0; i<4; i++){
+			for(TuileNum.NumTuile n : TuileNum.NumTuile.values() ){
+				Tuile tuile0=tf.createTuile(BAMB,n.ordinal());
+				tuilesList.add(tuile0);
+				Tuile tuile1=tf.createTuile(CARA,n.ordinal());
+				tuilesList.add(tuile1);
+				Tuile tuile2=tf.createTuile(ROND,n.ordinal());
 				tuilesList.add(tuile2);
-				Tuile tuile3=new Tuile(ROND, Num);
-				tuilesList.add(tuile3);
 			}
-			for (Valuable.VenTuile Num : Valuable.VenTuile.values() ) {
-				Tuile tuile=new Tuile(VENT, Num);
+			for (TuileVen.VenTuile n : TuileVen.VenTuile.values()) {
+				Tuile tuile=tf.createTuile(VENT,n.ordinal());
 				tuilesList.add(tuile);
 			}
-			for (Valuable.DraTuile Num : Valuable.DraTuile.values() ) {
-				Tuile tuile=new Tuile(DRAG, Num);
+			for (TuileDra.DraTuile n : TuileDra.DraTuile.values()) {
+				Tuile tuile=tf.createTuile(DRAG,n.ordinal());
 				tuilesList.add(tuile);
 			}
-			
 		}
-		for (Valuable.SaiTuile Num : Valuable.SaiTuile.values() ) {
-			Tuile tuile=new Tuile(SAIS,Num);
-			tuilesList.add(tuile);
-		}
-		for (Valuable.FleTuile Num : Valuable.FleTuile.values() ) {		
-			Tuile tuile=new Tuile(FLEU, Num);
-			tuilesList.add(tuile);
-		}
-		Collections.shuffle(tuilesList);
-		TuileFactory.tuilesList=tuilesList;
-	}
-	
-	
 
-	public static void main(String[] args) {
-		
-		System.out.println("Gros Stress oulala");
-		initialize(tuilesList);
-		System.out.println(tuilesList);
-		
-		for (int i = 0; i < 144; i++) {
-			System.out.println(tuilesList.get(i).getType().getName()+" "+tuilesList.get(i).getValeur().getName());
-		}
 		Collections.shuffle(tuilesList);
-
+		tf.tuilesList=tuilesList;
 	}
-	
-	
-	
+
+
 	public enum TypeTuile{
-		BAMB("bambou"),ROND("rond"),CARA("caractère"),VENT("vent"),DRAG("dragon"),SAIS("saison"),FLEU("fleur");
-		
+		BAMB("bambou",TuileNum.NumTuile.values()),
+		ROND("rond",TuileNum.NumTuile.values()),
+		CARA("caractère",TuileNum.NumTuile.values()),
+		VENT("vent",TuileVen.VenTuile.values()),
+		DRAG("dragon",TuileDra.DraTuile.values()),
+		SAIS("saison",TuileSai.SaiTuile.values()),
+		FLEU("fleur",TuileFle.FleTuile.values());
+
 		String nomType;
-		
-		private TypeTuile(String nomType){
+		Valuable[] num;
+
+		private TypeTuile(String nomType, Valuable[] num){
 			this.nomType=nomType;
+			this.num=num;
 		}
 		public String getName(){
 			return nomType;
 		}
-		
 	}
-	
-	
 
-	
 }

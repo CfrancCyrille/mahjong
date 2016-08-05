@@ -20,7 +20,7 @@ public class TestFacadeTuile extends FacadeTuile{
 		for (int i = 0; i < 146; i++) {
 			Tuile tuile = getNextTuile(tuilesList);
 			if (i>143) {
-				Tuile resultat =new Tuile(TypeTuile.DRAG,Valuable.SaiTuile.ETE);
+				Tuile resultat =null;
 				assertEquals(tuile.getType(),resultat.getType());
 				assertEquals(tuile.getValeur(),resultat.getValeur());
 			}
@@ -31,7 +31,7 @@ public class TestFacadeTuile extends FacadeTuile{
 	public void testTuileList() {
 		ArrayList<Tuile> tuilesList = new ArrayList<Tuile>();
 		getTuilesList(tuilesList);
-		assertEquals(tuilesList.isEmpty(),false);
+		assertEquals(144,tuilesList.size());
 	}
 	
 	@Test
