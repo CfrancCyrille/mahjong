@@ -94,45 +94,58 @@ public class Hand {
 	// TODO identification des combinaisons parmis les groupes
 	// TODO : test
 	public List<List<Tuile>> findCombinaisons(List<Tuile>tuilesListOfHand){
+		//on crée une liste de liste pour contenir les combinaisons trouvées
 		List<List<Tuile>> res=new ArrayList<List<Tuile>>();
+		//liste des tuiles seules
 		List<Tuile> seules=new ArrayList<Tuile>();
-		List<Tuile> listclone = new ArrayList<Tuile>();
-		listclone.addAll(tuilesListOfHand);
-
+		//on "clone" la liste des tuiles de notre main, afin de ne pas modifier la composition de la main
+		List<Tuile> listClone = new ArrayList<Tuile>();
+		listClone.addAll(tuilesListOfHand);
+		
+		
+		//Le but est de transférer les tuiles vers une combi dans res ou "seules", donc tant que listclone n'est pas vide, c'est qu'on ne les a pas toutes comparées
+		while(!listClone.isEmpty()){
+		
+		//listCompteur est une liste intermédiaire qui récupère les groupes quand on en trouve
 		List<Tuile> listCompteur = new ArrayList<Tuile>();
 
-		for (int j = 1; j< listclone.size(); j++) {
-			if((listclone.get(0).getValeur().equals(listclone.get(j).getValeur())) && ((listclone.get(0).getType().equals(listclone.get(j).getType())))){
+		//Parcours du tableau, on compare par rapport à la première tuile et si elle a des jumelles, on les groupe dans listCompteur
+		for (int j = 1; j< listClone.size(); j++) {
+			if((listClone.get(0).getValeur().equals(listClone.get(j).getValeur())) && ((listClone.get(0).getType().equals(listClone.get(j).getType())))){
 
-				listCompteur.add(listclone.get(j));
+				listCompteur.add(listClone.get(j));
 
 			}
 		}
 
+		//lorsqu'on a fini un groupe:
+		//si listCompteur est vide c'est que la tuile est seule, on la met dans "seules"
+		//sinon on remplit res, notre liste de combinaisons
+		//une fois transférée on efface la tuile de listClone, on peut reprendre la comparaison par rapport à la premeière tuile
 		if(!listCompteur.isEmpty()){
-			listCompteur.add(listclone.get(0));	
+			listCompteur.add(listClone.get(0));	
 			
 			switch(listCompteur.size()){
 			case 4 : 
 				res.add(listCompteur);
-				listclone.removeAll(listCompteur);
+				listClone.removeAll(listCompteur);
 				break;
 			case 3 : res.add(listCompteur);
-			listclone.removeAll(listCompteur);
+			listClone.removeAll(listCompteur);
 			break;
 			case 2 : res.add(listCompteur);
-			listclone.removeAll(listCompteur);
+			listClone.removeAll(listCompteur);
 			break;
 
 			}
 		}
 		else{
-			seules.add(listclone.get(0));
-			listclone.remove(listclone.get(0));
+			seules.add(listClone.get(0));
+			listClone.remove(listClone.get(0));
 		}
 
 
-
+		}
 
 
 
