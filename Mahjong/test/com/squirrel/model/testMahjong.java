@@ -4,13 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.squirrel.app.Mahjong;
+import com.squirrel.app.MahjongInitialisation;
 
 public class testMahjong {
 
 	@Test
 	public void testDistributionMain() {
-		Mahjong mahjong=new Mahjong();
+		MahjongInitialisation mahjong=new MahjongInitialisation();
 		mahjong.initialiserUnePartie();
 		
 		assertEquals(14, mahjong.mainEst.handSize());

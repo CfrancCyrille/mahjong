@@ -10,7 +10,7 @@ import com.squirrel.model.MurException;
 import com.squirrel.model.Tuile;
 
 
-public class Mahjong 
+public class MahjongInitialisation 
 
 {
 	public Mur murEst;
@@ -129,7 +129,7 @@ public class Mahjong
 		return murPioche;
 	}
 
-	private static Mur[] tousLesMurs(Mahjong mahjong) {
+	private static Mur[] tousLesMurs(MahjongInitialisation mahjong) {
 		return new Mur[]{mahjong.murNord, mahjong.murOuest, mahjong.murSud, mahjong.murEst};
 	}
 	

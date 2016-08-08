@@ -5,7 +5,7 @@ public class MahjongApp {
 	public static void main(String[] args) 
 	{
 		// Creation d'une partie
-		Mahjong mahjong=new Mahjong();
+		MahjongInitialisation mahjong=new MahjongInitialisation();
 
 		mahjong.initialiserUnePartie();
 	}
