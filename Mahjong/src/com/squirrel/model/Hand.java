@@ -14,7 +14,6 @@ public class Hand {
 
 	//constructeur
 	public Hand(){
-
 		this.tuilesListOfHand = new ArrayList<Tuile>();
 	}
 
@@ -50,7 +49,7 @@ public class Hand {
 	}
 	// TODO : test :  on peut ajouter des tuiles / on ne peut pas ajouter une 15eme tuile  / si pas de combi, on ne peut pas la prendre
 
-	//triTuiles(hand) tri les tuiles selon leur type puis leurs valeurs
+	//triTuiles(hand) trie les tuiles selon leur type puis leur valeur
 	public Collection<Tuile> triTuiles(List<Tuile> hand){
 		//Range les tuiles par orde alphabetique selon le type
 		//Dans une famille, range par valeur
@@ -60,40 +59,10 @@ public class Hand {
 	}
 
 
-	// TODO : parcourt de la liste si besoin à définir
-	/*Iterator itr = al.iterator();
-    while(itr.hasNext()) {
-       Object element = itr.next();
-       System.out.print(element + " ");
-    }*/
-
-
-
-
-
-	// TODO identification des groupes de tuiles (2,3,4) et suites
-	// TODO : test
-	//	  HashMap<StringBuffer, Object> idGroupe(List<Tuile>tuilesListOfHand){
-	//		int c = 1; 
-	//		HashMap<StringBuffer, Object> groupesTuiles = new HashMap<StringBuffer, Object>();
-	//		for (int i = 0; i <tuilesListOfHand.size() ; i++) {
-	//			while((tuilesListOfHand.get(i).getValeur().equals(tuilesListOfHand.get(i+1).getValeur()))&& ((tuilesListOfHand.get(i).getType().equals(tuilesListOfHand.get(i+1).getType()))));
-	//			c++;
-	//			String type =tuilesListOfHand.get(i).getType().getName();
-	//			String valeur=tuilesListOfHand.get(i).getValeur().getName();
-	//			StringBuffer sb = new StringBuffer();
-	//			sb.append(type).append(",").append(valeur);
-	//			groupesTuiles.put(sb , c);
-	//			groupesTuiles.put(sb , tuilesListOfHand.get(i));
-	//		}
-	//		return  groupesTuiles;
-	//	}
-	//	
-
 
 	// TODO identification des combinaisons parmis les groupes
 	// TODO : test
-	public List<List<Tuile>> findCombinaisons(List<Tuile>tuilesListOfHand){
+	public void findCombinaisons(List<Tuile>tuilesListOfHand){
 		//on crée une liste de liste pour contenir les combinaisons trouvées
 		List<List<Tuile>> res=new ArrayList<List<Tuile>>();
 		//liste des tuiles seules
@@ -101,64 +70,135 @@ public class Hand {
 		//on "clone" la liste des tuiles de notre main, afin de ne pas modifier la composition de la main
 		List<Tuile> listClone = new ArrayList<Tuile>();
 		listClone.addAll(tuilesListOfHand);
-		
-		
+
+		//on cherche des groupes dans listclone
+		//on met les groupes trouvés dans res
+		//on met les tuiles seules dans seules
+		trouveGroupesTuilesIdentiques(res, seules, listClone);
+
+		if (seules.size()!=0){
+			//chercher une recombinaison entre seules
+			recombinaisonSeulesSeules(res, seules);
+		}
+		if (seules.size()!=0){
+			//si ca ne suffit pas : chercher une recombinaison avec les groupes
+			recombinaisonSeulesCombis(res, seules);
+			//on vérifie qu'on a pas laissé de tuile seule dans les combinaisons après recherche
+			petiteVerif(res, seules);
+		}
+		if (seules.size()==0){
+			System.out.println("Mahjong Possible");
+		}
+
+	}
+
+	private void trouveGroupesTuilesIdentiques(List<List<Tuile>> res, List<Tuile> seules,
+			List<Tuile> listClone) {
 		//Le but est de transférer les tuiles vers une combi dans res ou "seules", donc tant que listclone n'est pas vide, c'est qu'on ne les a pas toutes comparées
 		while(!listClone.isEmpty()){
-		
-		//listCompteur est une liste intermédiaire qui récupère les groupes quand on en trouve
-		List<Tuile> listCompteur = new ArrayList<Tuile>();
 
-		//Parcours du tableau, on compare par rapport à la première tuile et si elle a des jumelles, on les groupe dans listCompteur
-		for (int j = 1; j< listClone.size(); j++) {
-			if((listClone.get(0).getValeur().equals(listClone.get(j).getValeur())) && ((listClone.get(0).getType().equals(listClone.get(j).getType())))){
+			//listCompteur est une liste intermédiaire qui récupère les groupes quand on en trouve
+			List<Tuile> listCompteur = new ArrayList<Tuile>();
 
-				listCompteur.add(listClone.get(j));
+			//Parcours du tableau, on compare par rapport à la première tuile et si elle a des jumelles, on les groupe dans listCompteur
+			for (int j = 1; j< listClone.size(); j++) {
+				if((listClone.get(0).getValeur().equals(listClone.get(j).getValeur())) && ((listClone.get(0).getType().equals(listClone.get(j).getType())))){
 
+					listCompteur.add(listClone.get(j));
+
+				}
 			}
-		}
 
-		//lorsqu'on a fini un groupe:
-		//si listCompteur est vide c'est que la tuile est seule, on la met dans "seules"
-		//sinon on remplit res, notre liste de combinaisons
-		//une fois transférée on efface la tuile de listClone, on peut reprendre la comparaison par rapport à la premeière tuile
-		if(!listCompteur.isEmpty()){
-			listCompteur.add(listClone.get(0));	
-			
-			switch(listCompteur.size()){
-			case 4 : 
-				res.add(listCompteur);
+			//lorsqu'on a fini un groupe:
+			//si listCompteur est vide c'est que la tuile est seule, on la met dans "seules"
+			//sinon on remplit res, notre liste de combinaisons
+			//une fois transférée on efface la tuile de listClone, on peut reprendre la comparaison par rapport à la premeière tuile
+			if(!listCompteur.isEmpty()){
+				listCompteur.add(listClone.get(0));	
+
+				switch(listCompteur.size()){
+				case 4 : 
+					res.add(listCompteur);
+					listClone.removeAll(listCompteur);
+					break;
+				case 3 : res.add(listCompteur);
 				listClone.removeAll(listCompteur);
 				break;
-			case 3 : res.add(listCompteur);
-			listClone.removeAll(listCompteur);
-			break;
-			case 2 : res.add(listCompteur);
-			listClone.removeAll(listCompteur);
-			break;
+				case 2 : res.add(listCompteur);
+				listClone.removeAll(listCompteur);
+				break;
+
+				}
+			}
+			else{
+				seules.add(listClone.get(0));
+				listClone.remove(listClone.get(0));
+			}
+
+
+		}
+	}
+
+	private void recombinaisonSeulesCombis(List<List<Tuile>> res, List<Tuile> seules) {
+		//On cherche à recombiner les tuiles seules avec les groupes précédemment formés en formant des suites
+		// i parcourt "seules", j parcours "res"
+		for (int i=0; i<seules.size(); i++){
+			for (int j=0; j<res.size(); j++){
+				//si les types et les valeurs sont égales:
+				if(		(seules.get(i).getType().equals(res.get(j).get(0).getType())) 
+						&& (seules.get(i).getType().equals(res.get(j+1).get(0).getType()))
+						&& (seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()-1))
+						&& (seules.get(i).getValeur().getValue()==(res.get(j+1).get(0).getValeur().getValue()-2))	)
+					//Rempli une liste intermédiare, la rajouter à res, puis effacer les tuiles qui la composent de "res" et "seules"
+				{List<Tuile> listIntermediaire = new ArrayList<Tuile>();		
+				listIntermediaire.add(seules.get(i));
+				listIntermediaire.add(res.get(j).get(0));
+				listIntermediaire.add(res.get(j+1).get(0));
+
+				res.add(listIntermediaire);
+
+				res.remove(seules.get(i));
+				res.remove(res.get(j).get(0));
+				res.remove(res.get(j+1).get(0));
+				}
+			}
+		}
+	}
+
+	private void recombinaisonSeulesSeules(List<List<Tuile>> res, List<Tuile> seules) {
+		for (int i = 0; i < seules.size()-2; i++) {
+
+			//Si on trouve des tuiles égales en type avec des valeurs qui se succèdent
+			if (               (seules.get(i+1).getType().equals(seules.get(i).getType()))
+					&&(seules.get(i+2).getType().equals(seules.get(i).getType()))
+					&&(seules.get(i+1).getValeur().getValue()==(seules.get(i).getValeur().getValue()+1))
+					&&(seules.get(i+2).getValeur().getValue()==(seules.get(i).getValeur().getValue()+2))){
+
+				List<Tuile>listIntermediaire = new ArrayList<Tuile>();
+
+				//Alors on les places dans une liste "intermédiaire" qui est un chow
+				listIntermediaire.add(seules.get(i));
+				listIntermediaire.add(seules.get(i+1));
+				listIntermediaire.add(seules.get(i+2));
+
+				//notre liste de liste de tuiles vient accueillir cette nouvelle liste de chow
+				res.add(listIntermediaire);
+
+				//Puis on efface de la liste seules les tuiles traitées comme chow, et on recommence avec le reste des tuiles de la liste "seules".
+				seules.removeAll(listIntermediaire);
 
 			}
 		}
-		else{
-			seules.add(listClone.get(0));
-			listClone.remove(listClone.get(0));
+	}
+
+	private void petiteVerif(List<List<Tuile>> res, List<Tuile> seules) {
+		//Petite vérification: si il y a des tuiles seules après recombinaison, on les met dans "seules"
+		for (int j=0; j<res.size();j++){
+			if(res.get(j).size()==1){
+				seules.add(res.get(j).get(0));
+				res.remove(res.get(j));
+			}
 		}
-
-
-		}
-
-
-
-
-
-		// Faut qu'on sache combien y en a de chaque
-		{
-			// Compter combien y a de chaque : idGroupe
-			// Identifier les combinaisons formées par les groupes
-			// Rechercher les suites
-		}
-		// Faut qu'on sache combien y a de suites
-		return res;
 	}
 
 }
