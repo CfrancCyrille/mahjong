@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 
-public class testMur {
+public class TestMur {
 
 	@Test
 	public void testAjouterTuile() {

@@ -42,6 +42,8 @@ public Hand piocheDefausse(Tuile t){
 public int handSize() {
 	return this.hand.tuilesListOfHand.size();
 }
-
+public Tuile get(int i){
+	return this.hand.tuilesListOfHand.get(i);
+}
 
 }

@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.squirrel.ctrl.Gestionnaire;
 
-public class testGestionnaire {
+public class TestGestionnaire {
 
 	@Test
 	public void testDes() {

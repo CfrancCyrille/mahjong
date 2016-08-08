@@ -22,7 +22,9 @@ public class MahjongInitialisation
 	public HandFacade mainOuest;
 	public HandFacade mainNord;
 	public HandFacade mainSud;
-
+	
+	ArrayList<Tuile> listeTuiles;
+	
 	public void initialiserUnePartie() {
 		@SuppressWarnings("unused")
 		int joueurCommencant;
@@ -42,7 +44,7 @@ public class MahjongInitialisation
 		Mur murPioche=null;//"Post it" pour designer le mur dans lequel on pioche
 
 		//Génération de la liste de toutes les tuiles
-		ArrayList<Tuile> listeTuiles = new 	ArrayList<Tuile>();
+		listeTuiles = new 	ArrayList<Tuile>();
 		FacadeTuile objFacade = new FacadeTuile();
 		listeTuiles=objFacade.getTuilesList(listeTuiles);
 

@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import com.squirrel.model.Hand;
 
-public class HandTest {
+public class TestHand {
 
 	@Test
 	public void testTri (){
