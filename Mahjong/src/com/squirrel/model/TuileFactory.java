@@ -35,9 +35,21 @@ import static com.squirrel.Valuable.FleTuile.BAM;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
+/**Cette classe permet la création des 144 Tuiles pour une partie de Mah-Jong.
+ * 
+ * @author Kevin
+ *
+ */
 public class TuileFactory {
+	/**Cette méthode permet la création d'une tuile parmi les différents types.
+	 * 
+	 * @param type
+	 * @param i
+	 * @return
+	 */
 	public Tuile createTuile(TypeTuile type, int i){
+		
+		//test si le numéro de la tuile demandée est bien dans la portée de son type (bambou 1->9, vent 1->4,...).
 		if(i<=type.num.length){
 			if(type==BAMB||type==ROND||type==CARA){
 				return new TuileNum(type,i);
@@ -57,20 +69,23 @@ public class TuileFactory {
 		}
 	}
 
-
-
-
-
-	ArrayList<Tuile> tuilesList;
-
+	//ArrayList<Tuile> tuilesList;
+	/**Cette méthode initialize effectue l'ajout des 144 tuiles du jeu à une liste puis la mélange.
+	 * 
+	 * @param tuilesList
+	 * @return tuilesList augmentée de 144 tuiles
+	 */
 	public ArrayList<Tuile> initialize(ArrayList<Tuile> tuilesList){
+		//Itération sur tous les types.
 		for (TypeTuile type: TypeTuile.values()){
+			//Seules les fleurs et saisons ne possèdent pas 4 tuiles identiques.
 			if(type==SAIS||type==FLEU){
 				for(Valuable valeur : type.num ){
 					Tuile tuile=this.createTuile(type,valeur.ordinal());
 					tuilesList.add(tuile);
 				}
 			}else{
+				//4 tuiles identiques pour toutes les autres familles d'ou cette boucle effectuee 4 fois.
 				for (int i = 0; i<4; i++){
 					for(Valuable valeur : type.num ){
 						Tuile tuile=this.createTuile(type,valeur.ordinal());
@@ -84,7 +99,7 @@ public class TuileFactory {
 		return tuilesList;
 	}
 
-
+	// Enuméré des différents types de tuiles permettant la factorisation des méthodes de création des tuiles.
 	public enum TypeTuile{
 		BAMB("bambou",TuileNum.NumTuile.values()),
 		ROND("rond",TuileNum.NumTuile.values()),

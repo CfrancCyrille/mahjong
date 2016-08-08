@@ -2,7 +2,8 @@ package com.squirrel.model;
 import java.util.ArrayList;
 
 
-/**
+/**Cette classe essaie de respecter le design pattern de facade.
+ * Elle a été créée dans le but de faciliter les opération sur les Tuiles relatives à la classe TuileFactory.
  * 
  * @author Kevin
  *

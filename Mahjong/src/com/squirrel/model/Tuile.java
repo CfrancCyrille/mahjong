@@ -3,7 +3,7 @@ import com.squirrel.model.TuileFactory.TypeTuile;
 
 /**Cette Interface est mère des classes TuileNum, TuileFle, TuileSai, TuileVen et TuileDra.
  * 
- * @author active_admin
+ * @author Kevin
  *
  */
 public interface Tuile {

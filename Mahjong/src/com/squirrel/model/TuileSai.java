@@ -1,7 +1,10 @@
 package com.squirrel.model;
-
 import com.squirrel.model.TuileFactory.TypeTuile;
-
+/**Classe des tuiles de type Saison.
+ * 
+ * @author Kevin
+ *
+ */
 public class TuileSai implements Tuile {
 	TuileFactory.TypeTuile type;
 	Valuable valeur;

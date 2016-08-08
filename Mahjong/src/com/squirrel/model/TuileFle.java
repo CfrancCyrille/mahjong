@@ -1,8 +1,10 @@
 package com.squirrel.model;
-
-
 import com.squirrel.model.TuileFactory.TypeTuile;
-
+/**Classe des tuiles de type Fleur.
+ * 
+ * @author Kevin
+ *
+ */
 public class TuileFle implements Tuile {
 	TuileFactory.TypeTuile type;
 	Valuable valeur;
