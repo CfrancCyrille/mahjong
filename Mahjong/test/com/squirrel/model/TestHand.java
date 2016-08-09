@@ -16,6 +16,9 @@ public class TestHand {
 
 	@Test
 	public void testTri (){
+		System.out.println("==========");
+		System.out.println("testTri");
+		System.out.println("==========");
 		/**
 		 *Ce test crée les tuiles du jeu de Mahjong (elles sont mélangées lors de leur création)
 		 *On teste la capacité de notre fonction triTuile() à les ranger par famille et par valeur 
@@ -59,6 +62,9 @@ public class TestHand {
 	 * validé le 04/08/2016 17:30
 	 */
 	public void testRemplissageMain() {
+		System.out.println("==========");
+		System.out.println("testRemplissageMain");
+		System.out.println("==========");
 		//On instancie un objet hand de type Hand qui contient : hand.tuilesListOfHand = new ArrayList<Tuile>();
 		Hand hand = new Hand();
 		//On cree une reference "list" a une liste qui prend pour valeur le "new ArrayList<Tuile>" afin de l'utiliser pour piocher dedans .
@@ -67,6 +73,8 @@ public class TestHand {
 		FacadeTuile facadeTuile = new FacadeTuile();
 		// On applique la méthode de la facade pour remplir la liste "list" précédemment créée
 		facadeTuile.getTuilesList((ArrayList<Tuile>) list);
+
+
 
 		try {
 
@@ -80,11 +88,67 @@ public class TestHand {
 			e.printStackTrace();
 		}finally {
 			for (Tuile t : hand.tuilesListOfHand) {
-				System.out.print(t.getType().getName());
+				System.out.print(t.getType().getName() + " ");
 				System.out.println(t.getValeur().getName()); 
 			}
 
 		}
+
+	}
+	@Test
+	public void testFindCombinaison() {
+		System.out.println("==========");
+		System.out.println("testFindCombinaison");
+		System.out.println("==========");
+		//On instancie un objet hand de type Hand qui contient : hand.tuilesListOfHand = new ArrayList<Tuile>();
+		Hand hand = new Hand();
+		//On cree une reference "list" a une liste qui prend pour valeur le "new ArrayList<Tuile>" afin de l'utiliser pour piocher dedans .
+		ArrayList<Tuile> list = new ArrayList<Tuile>();
+		//On instancie la facade de Kevin. 
+		FacadeTuile facadeTuile = new FacadeTuile();
+		// On applique la méthode de la facade pour remplir la liste "list" précédemment créée
+		facadeTuile.getTuilesList((ArrayList<Tuile>) list);
+		try {
+			for(int i=0; i<14 ; i++){
+				hand.fillHand(facadeTuile.getITuile(i,list));
+			}
+			
+		} catch (MainPleineException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		hand.triTuiles(hand.tuilesListOfHand);
+		System.out.println("Main triée");
+		for (Tuile t : hand.tuilesListOfHand) {
+			System.out.print(t.getType().getName() + " ");
+			System.out.println(t.getValeur().getName()); 
+		}
+		System.out.println("on est la");
+		
+		/////////////////////////////// Trop d'imbrication -> a revoir un test = une fonction
+		List<List<Tuile>> res=new ArrayList<List<Tuile>>();
+		List<Tuile> seules=new ArrayList<Tuile>();
+		
+		res=hand.findCombinaisons(hand.tuilesListOfHand);
+		
+		hand.petiteVerif(res, seules);
+		
+		System.out.print(res);
+		
+		
+		for (Tuile t : seules) {
+			System.out.print(t.getType().getName()+" ");
+			System.out.println(t.getValeur().getName()); 
+		}
+		
+		
+		
+		for (Tuile t : hand.tuilesListOfHand) {
+			System.out.print(t.getType().getName()+" ");
+			System.out.println(t.getValeur().getName()); 
+		}
+
 
 	}
 
