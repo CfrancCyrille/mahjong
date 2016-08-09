@@ -62,7 +62,7 @@ public class Hand {
 
 	// TODO identification des combinaisons parmis les groupes
 	// TODO : test
-	public void findCombinaisons(List<Tuile>tuilesListOfHand){
+	public List<List<Tuile>> findCombinaisons(List<Tuile>tuilesListOfHand){
 		//on crée une liste de liste pour contenir les combinaisons trouvées
 		List<List<Tuile>> res=new ArrayList<List<Tuile>>();
 		//liste des tuiles seules
@@ -89,10 +89,11 @@ public class Hand {
 		if (seules.size()==0){
 			System.out.println("Mahjong Possible");
 		}
+		return res;
 
 	}
 
-	private void trouveGroupesTuilesIdentiques(List<List<Tuile>> res, List<Tuile> seules,
+	void trouveGroupesTuilesIdentiques(List<List<Tuile>> res, List<Tuile> seules,
 			List<Tuile> listClone) {
 		//Le but est de transférer les tuiles vers une combi dans res ou "seules", donc tant que listclone n'est pas vide, c'est qu'on ne les a pas toutes comparées
 		while(!listClone.isEmpty()){
@@ -139,8 +140,9 @@ public class Hand {
 		}
 	}
 
-	private void recombinaisonSeulesCombis(List<List<Tuile>> res, List<Tuile> seules) {
+	void recombinaisonSeulesCombis(List<List<Tuile>> res, List<Tuile> seules) {
 		//On cherche à recombiner les tuiles seules avec les groupes précédemment formés en formant des suites
+		//TODO!! pour une suite, les types possibles sont limités à ronds, caractères et bambous
 		// i parcourt "seules", j parcours "res"
 		for (int i=0; i<seules.size(); i++){
 			for (int j=0; j<res.size(); j++){
@@ -165,7 +167,61 @@ public class Hand {
 		}
 	}
 
-	private void recombinaisonSeulesSeules(List<List<Tuile>> res, List<Tuile> seules) {
+	void recombinaisonSeulesCombisDeux(List<List<Tuile>> res, List<Tuile> seules) {
+		//On cherche à recombiner une tuile seule avec une tuile seule et un groupe
+		//TODO!! pour une suite, les types possibles sont limités à ronds, caractères et bambous
+		// i parcourt "seules", j parcours "res", ki sert à comparer dans "seules"
+		for (int i=0; i<seules.size()-1; i++){
+			//for (int j=0; j<res.size(); j++){
+			for(int ki=i+1; ki<seules.size();)
+
+
+				//on cherche une tuile supérieure en valeur a i de 1 ou 2
+				// Premièrement : si seules contient la tuile de valeur i+1
+				if(		(seules.get(i).getType().equals(seules.get(ki).getType())) 
+						&& (seules.get(i).getValeur().getValue()==(seules.get(ki).getValeur().getValue()-1))){
+					for (int j=0; j<res.size(); j++){
+						if ((seules.get(i).getType().equals(res.get(j).get(0).getType())
+								&& seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()-2))){
+
+							List<Tuile> listIntermediaire = new ArrayList<Tuile>();		
+							listIntermediaire.add(seules.get(i));
+							listIntermediaire.add(seules.get(ki));
+							listIntermediaire.add(res.get(j).get(0));
+
+							res.add(listIntermediaire);
+
+							res.remove(seules.get(i));
+							res.remove(seules.get(ki));
+							res.remove(res.get(j).get(0));
+						}
+					}
+					// Deuxièmement : si seules contient la tuile de valeur i+2
+				} else if(		(seules.get(i).getType().equals(seules.get(ki).getType())) 
+						&& (seules.get(i).getValeur().getValue()==(seules.get(ki).getValeur().getValue()-2))){
+					for (int j=0; j<res.size(); j++){
+						if ((seules.get(i).getType().equals(res.get(j).get(0).getType())
+								&& seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()-1))){
+
+							List<Tuile> listIntermediaire = new ArrayList<Tuile>();		
+							listIntermediaire.add(seules.get(i));
+							listIntermediaire.add(seules.get(ki));
+							listIntermediaire.add(res.get(j).get(0));
+
+							res.add(listIntermediaire);
+
+							res.remove(seules.get(i));
+							res.remove(seules.get(ki));
+							res.remove(res.get(j).get(0));
+						}
+					}
+
+				}
+		}
+	}
+
+	void recombinaisonSeulesSeules(List<List<Tuile>> res, List<Tuile> seules) {
+		//TODO!! pour une suite, les types possibles sont limités à ronds, caractères et bambous
 		for (int i = 0; i < seules.size()-2; i++) {
 
 			//Si on trouve des tuiles égales en type avec des valeurs qui se succèdent
@@ -191,7 +247,7 @@ public class Hand {
 		}
 	}
 
-	private void petiteVerif(List<List<Tuile>> res, List<Tuile> seules) {
+	List<Tuile> petiteVerif(List<List<Tuile>> res, List<Tuile> seules) {
 		//Petite vérification: si il y a des tuiles seules après recombinaison, on les met dans "seules"
 		for (int j=0; j<res.size();j++){
 			if(res.get(j).size()==1){
@@ -199,6 +255,7 @@ public class Hand {
 				res.remove(res.get(j));
 			}
 		}
+		return seules;
 	}
 
 }
