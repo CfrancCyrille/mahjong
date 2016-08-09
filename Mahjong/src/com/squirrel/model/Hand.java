@@ -144,14 +144,20 @@ public class Hand {
 		//On cherche à recombiner les tuiles seules avec les groupes précédemment formés en formant des suites
 		//TODO!! pour une suite, les types possibles sont limités à ronds, caractères et bambous
 		// i parcourt "seules", j parcours "res"
-		for (int i=0; i<seules.size(); i++){
+		
+		
+		//for (int i=0; i<seules.size(); i++){
+			
+			int i = 0;
+			for (i = 0; i < seules.size();i++) {
+			
 			for (int j=0; j<res.size(); j++){
 				//si les types et les valeurs sont égales:
 				if(		(seules.get(i).getType().equals(res.get(j).get(0).getType())) 
 						&& (seules.get(i).getType().equals(res.get(j+1).get(0).getType()))
 						&& (seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()-1))
 						&& (seules.get(i).getValeur().getValue()==(res.get(j+1).get(0).getValeur().getValue()-2))	)
-					//Rempli une liste intermédiare, la rajouter à res, puis effacer les tuiles qui la composent de "res" et "seules"
+					//Remplie une liste intermédiare, la rajouter à res, puis effacer les tuiles qui la composent de "res" et "seules"
 				{List<Tuile> listIntermediaire = new ArrayList<Tuile>();		
 				listIntermediaire.add(seules.get(i));
 				listIntermediaire.add(res.get(j).get(0));
@@ -159,12 +165,12 @@ public class Hand {
 
 				res.add(listIntermediaire);
 
-				res.remove(seules.get(i));
+				seules.remove(seules.get(i));
 				res.remove(res.get(j).get(0));
 				res.remove(res.get(j+1).get(0));
-				}
+				} 
 			}
-		}
+		} 
 	}
 
 	void recombinaisonSeulesCombisDeux(List<List<Tuile>> res, List<Tuile> seules) {
@@ -172,8 +178,8 @@ public class Hand {
 		//TODO!! pour une suite, les types possibles sont limités à ronds, caractères et bambous
 		// i parcourt "seules", j parcours "res", ki sert à comparer dans "seules"
 		for (int i=0; i<seules.size()-1; i++){
-			//for (int j=0; j<res.size(); j++){
-			for(int ki=i+1; ki<seules.size();)
+			
+			for(int ki=i+1; ki<seules.size();ki++)
 
 
 				//on cherche une tuile supérieure en valeur a i de 1 ou 2
@@ -191,8 +197,8 @@ public class Hand {
 
 							res.add(listIntermediaire);
 
-							res.remove(seules.get(i));
-							res.remove(seules.get(ki));
+							seules.remove(seules.get(i));
+							seules.remove(seules.get(ki));
 							res.remove(res.get(j).get(0));
 						}
 					}
@@ -210,8 +216,8 @@ public class Hand {
 
 							res.add(listIntermediaire);
 
-							res.remove(seules.get(i));
-							res.remove(seules.get(ki));
+							seules.remove(seules.get(i));
+							seules.remove(seules.get(ki));
 							res.remove(res.get(j).get(0));
 						}
 					}
@@ -222,7 +228,8 @@ public class Hand {
 
 	void recombinaisonSeulesSeules(List<List<Tuile>> res, List<Tuile> seules) {
 		//TODO!! pour une suite, les types possibles sont limités à ronds, caractères et bambous
-		for (int i = 0; i < seules.size()-2; i++) {
+		int i = 0;
+		while ( i < seules.size()-2) {
 
 			//Si on trouve des tuiles égales en type avec des valeurs qui se succèdent
 			if (               (seules.get(i+1).getType().equals(seules.get(i).getType()))
@@ -241,8 +248,11 @@ public class Hand {
 				res.add(listIntermediaire);
 
 				//Puis on efface de la liste seules les tuiles traitées comme chow, et on recommence avec le reste des tuiles de la liste "seules".
+				//??seules.replaceAll(operator);
 				seules.removeAll(listIntermediaire);
-
+			}
+			else{
+				i++;
 			}
 		}
 	}

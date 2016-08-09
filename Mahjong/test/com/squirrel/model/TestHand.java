@@ -95,7 +95,7 @@ public class TestHand {
 		}
 
 	}
-	@Test
+	/**	@Test
 	public void testFindCombinaison() {
 		System.out.println("==========");
 		System.out.println("testFindCombinaison");
@@ -112,7 +112,7 @@ public class TestHand {
 			for(int i=0; i<14 ; i++){
 				hand.fillHand(facadeTuile.getITuile(i,list));
 			}
-			
+
 		} catch (MainPleineException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -125,25 +125,25 @@ public class TestHand {
 			System.out.println(t.getValeur().getName()); 
 		}
 		System.out.println("on est la");
-		
+
 		/////////////////////////////// Trop d'imbrication -> a revoir un test = une fonction
 		List<List<Tuile>> res=new ArrayList<List<Tuile>>();
 		List<Tuile> seules=new ArrayList<Tuile>();
-		
+
 		res=hand.findCombinaisons(hand.tuilesListOfHand);
-		
+
 		hand.petiteVerif(res, seules);
-		
+
 		System.out.print(res);
-		
-		
+
+
 		for (Tuile t : seules) {
 			System.out.print(t.getType().getName()+" ");
 			System.out.println(t.getValeur().getName()); 
 		}
-		
-		
-		
+
+
+
 		for (Tuile t : hand.tuilesListOfHand) {
 			System.out.print(t.getType().getName()+" ");
 			System.out.println(t.getValeur().getName()); 
@@ -151,8 +151,275 @@ public class TestHand {
 
 
 	}
+	 */
 
+	@Test
+	public void testTrouveGroupesTuilesIdentiques(){
+		System.out.println("==========");
+		System.out.println("testTrouveGroupesTuilesIdentiques");
+		System.out.println("==========");
+		Hand hand = new Hand();
+		ArrayList<Tuile> list = new ArrayList<Tuile>();
+		//On instancie la facade de Kevin. 
+		FacadeTuile facadeTuile = new FacadeTuile();
+		// On applique la méthode de la facade pour remplir la liste "list" précédemment créée
+		facadeTuile.getTuilesList((ArrayList<Tuile>) list);
+
+		try {
+
+			for(int i=0; i<14 ; i++){
+				hand.fillHand(facadeTuile.getITuile(i,list));
+			}
+			hand.fillHand(facadeTuile.getITuile(14,list));
+
+		} catch (MainPleineException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		hand.triTuiles(hand.tuilesListOfHand);
+		System.out.println("Main triée");
+		System.out.println("----------");
+		
+		//on affiche les tuiles triées
+		for (Tuile t : hand.tuilesListOfHand) {
+			System.out.print(t.getType().getName() + " ");
+			System.out.println(t.getValeur().getName()); 
+		}
+		
+		
+		//On instancie la liste res
+		List<List<Tuile>> res;
+		res=new ArrayList<List<Tuile>>();
+		List<Tuile> seules;
+		seules=new ArrayList<Tuile>();
+		List<Tuile> listClone;
+		listClone=new ArrayList<Tuile>();
+		listClone.addAll(hand.tuilesListOfHand);
+		
+		
+		System.out.println("Groupes formés");
+		System.out.println("----------");
+		hand.trouveGroupesTuilesIdentiques(res,seules, listClone);
+		
+		//Affichage des listes trouvées (la main, les groupes identifiés et les tuiles seules)
+		System.out.println("-listClone--------");
+		System.out.println("----------");
+		System.out.println(listClone);
+		
+		System.out.println("-res--------");
+		System.out.println("----------");
+		for (int j=0;j<res.size();j++){
+			for (Tuile t : res.get(j)) {
+				System.out.print(t.getType().getName()+" ");
+				System.out.println(t.getValeur().getName()); 
+			}
+		}
+		
+		System.out.println("---seules------");
+		System.out.println("----------");
+		for (Tuile t : seules) {
+			System.out.print(t.getType().getName()+" ");
+			System.out.println(t.getValeur().getName()); 
+		}
+		
+		
+	}
+	
+	@Test
+	public void recombinaisonSeulesSeules(){
+		System.out.println("==========");
+		System.out.println("recombinaisonSeulesSeules");
+		System.out.println("==========");
+		Hand hand = new Hand();
+		ArrayList<Tuile> list = new ArrayList<Tuile>();
+		//On instancie la facade de Kevin. 
+		FacadeTuile facadeTuile = new FacadeTuile();
+		// On applique la méthode de la facade pour remplir la liste "list" précédemment créée
+		facadeTuile.getTuilesList((ArrayList<Tuile>) list);
+
+		try {
+
+			for(int i=0; i<14 ; i++){
+				hand.fillHand(facadeTuile.getITuile(i,list));
+			}
+			hand.fillHand(facadeTuile.getITuile(14,list));
+
+		} catch (MainPleineException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		hand.triTuiles(hand.tuilesListOfHand);
+		System.out.println("Main triée");
+		System.out.println("----------");
+		
+		//on affiche les tuiles triées
+		for (Tuile t : hand.tuilesListOfHand) {
+			System.out.print(t.getType().getName() + " ");
+			System.out.println(t.getValeur().getName()); 
+		}
+		
+		
+		//On instancie la liste res
+		List<List<Tuile>> res;
+		res=new ArrayList<List<Tuile>>();
+		List<Tuile> seules;
+		seules=new ArrayList<Tuile>();
+		List<Tuile> listClone;
+		listClone=new ArrayList<Tuile>();
+		listClone.addAll(hand.tuilesListOfHand);
+		
+		
+		System.out.println("Groupes formés");
+		System.out.println("----------");
+		hand.trouveGroupesTuilesIdentiques(res,seules, listClone);
+		
+		
+		//Affichage des listes trouvées (avant recombinaison)
+		System.out.println("-listClone--avant recombinaison------");
+		System.out.println("----------");		
+		System.out.println(listClone);
+				
+				System.out.println("-res---avant recombinaison-----");
+				System.out.println("----------");
+				for (int j=0;j<res.size();j++){
+					for (Tuile t : res.get(j)) {
+						System.out.print(t.getType().getName()+" ");
+						System.out.println(t.getValeur().getName()); 
+					}
+				}
+				
+				System.out.println("---seules--avant recombinaison----");
+				System.out.println("----------");
+				for (Tuile t : seules) {
+					System.out.print(t.getType().getName()+" ");
+					System.out.println(t.getValeur().getName()); 
+				}
+		
+		
+		hand.recombinaisonSeulesSeules(res, seules);
+		
+		//Affichage des listes trouvées (après recombinaison)
+		System.out.println("-listClone--après recombinaison------");
+		System.out.println("----------");
+		System.out.println(listClone);
+		
+		System.out.println("-res--après recombinaison------");
+		System.out.println("----------");
+		for (int j=0;j<res.size();j++){
+			for (Tuile t : res.get(j)) {
+				System.out.print(t.getType().getName()+" ");
+				System.out.println(t.getValeur().getName()); 
+			}
+		}
+		
+		System.out.println("---seules--après recombinaison----");
+		System.out.println("----------");
+		for (Tuile t : seules) {
+			System.out.print(t.getType().getName()+" ");
+			System.out.println(t.getValeur().getName()); 
+		}
+		
+		
+	}
+	
+	@Test
+	public void testRecombinaisonSeulesCombisDeux(){
+		System.out.println("==========");
+		System.out.println("testRecombinaisonSeulesCombisDeux");
+		System.out.println("==========");
+		Hand hand = new Hand();
+		ArrayList<Tuile> list = new ArrayList<Tuile>();
+		//On instancie la facade de Kevin. 
+		FacadeTuile facadeTuile = new FacadeTuile();
+		// On applique la méthode de la facade pour remplir la liste "list" précédemment créée
+		facadeTuile.getTuilesList((ArrayList<Tuile>) list);
+
+		try {
+
+			for(int i=0; i<14 ; i++){
+				hand.fillHand(facadeTuile.getITuile(i,list));
+			}
+			hand.fillHand(facadeTuile.getITuile(14,list));
+
+		} catch (MainPleineException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		hand.triTuiles(hand.tuilesListOfHand);
+		System.out.println("Main triée");
+		System.out.println("----------");
+		
+		//on affiche les tuiles triées
+		for (Tuile t : hand.tuilesListOfHand) {
+			System.out.print(t.getType().getName() + " ");
+			System.out.println(t.getValeur().getName()); 
+		}
+		
+		
+		//On instancie la liste res
+		List<List<Tuile>> res;
+		res=new ArrayList<List<Tuile>>();
+		List<Tuile> seules;
+		seules=new ArrayList<Tuile>();
+		List<Tuile> listClone;
+		listClone=new ArrayList<Tuile>();
+		listClone.addAll(hand.tuilesListOfHand);
+		
+		
+		System.out.println("Groupes formés");
+		System.out.println("----------");
+		hand.trouveGroupesTuilesIdentiques(res,seules, listClone);
+		
+		hand.recombinaisonSeulesSeules(res, seules);
+		//Affichage des listes trouvées (avec  recombinaison SeulesSeules)
+		System.out.println("-listClone--avec  recombinaison SeulesSeules------");
+		System.out.println("----------");		
+		System.out.println(listClone);
+				
+				System.out.println("-res---avec  recombinaison SeulesSeules-----");
+				System.out.println("----------");
+				for (int j=0;j<res.size();j++){
+					for (Tuile t : res.get(j)) {
+						System.out.print(t.getType().getName()+" ");
+						System.out.println(t.getValeur().getName()); 
+					}
+				}
+				
+				System.out.println("---seules--avec  recombinaison SeulesSeules----");
+				System.out.println("----------");
+				for (Tuile t : seules) {
+					System.out.print(t.getType().getName()+" ");
+					System.out.println(t.getValeur().getName()); 
+				}
+		
+		
+		
+		
+		hand.recombinaisonSeulesCombisDeux( res, seules);
+		
+		//Affichage des listes trouvées (après recombinaison)
+		System.out.println("-listClone--après recombinaison--SeulesCombisDeux----");
+		System.out.println("----------");
+		System.out.println(listClone);
+		
+		System.out.println("-res--après recombinaison-SeulesCombisDeux-----");
+		System.out.println("----------");
+		for (int j=0;j<res.size();j++){
+			for (Tuile t : res.get(j)) {
+				System.out.print(t.getType().getName()+" ");
+				System.out.println(t.getValeur().getName()); 
+			}
+		}
+		
+		System.out.println("---seules--après recombinaison-SeulesCombisDeux---");
+		System.out.println("----------");
+		for (Tuile t : seules) {
+			System.out.print(t.getType().getName()+" ");
+			System.out.println(t.getValeur().getName()); 
+		}
+		
+		
+	}
 }
-
 
 
