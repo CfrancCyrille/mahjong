@@ -25,10 +25,10 @@ public class MahjongInitialisation
 	public HandFacade mainNord;
 	public HandFacade mainSud;
 	
-	List bonusEst = new ArrayList();
-	List bonusOuest = new ArrayList();
-	List bonusSud = new ArrayList();
-	List bonusNord = new ArrayList();
+	List<Tuile> bonusEst = new ArrayList<Tuile>();
+	List<Tuile> bonusOuest = new ArrayList<Tuile>();
+	List<Tuile> bonusSud = new ArrayList<Tuile>();
+	List<Tuile> bonusNord = new ArrayList<Tuile>();
 	
 	ArrayList<Tuile> listeTuiles;
 	public Mur murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile;
@@ -122,6 +122,7 @@ public class MahjongInitialisation
 		murPioche = this.uneTuileDansLaMain(murPioche, mainNord);
 		murPioche = this.uneTuileDansLaMain(murPioche, mainEst);
 		
+		//On vérifie chacune des mains pour retirer les fleurs et saisons et on les remplace par des tuiles venant du "mur spécial"
 		murSpecial = verifFleursEtSaisons(murSpecial, mainEst, bonusEst);
 		murSpecial = verifFleursEtSaisons(murSpecial, mainSud, bonusSud);
 		murSpecial = verifFleursEtSaisons(murSpecial, mainOuest, bonusOuest);
@@ -131,7 +132,16 @@ public class MahjongInitialisation
 		murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile=murPioche;
 	}
 
-	private Mur verifFleursEtSaisons(Mur murSpecial, HandFacade currentHand, List currentbonus) {
+	/**
+	 * Méthode permettant de vérifier s'il y a des tuiles fleurs ou des tuiles saisons dans la main, de les retirer s'il y en a, 
+	 * de les mettre dans une ArrayList bonus, et de piocher une nouvelle tuile, elle même vérifiée, dans le sens contraire de la
+	 * pioche classique
+	 * @param murSpecial = mur dans lequel on pioche dans le sens contraire
+	 * @param currentHand = main dans laquelle on véfifie
+	 * @param currentbonus = liste où l'on place les tuiles retirées de la main
+	 * @return
+	 */
+	private Mur verifFleursEtSaisons(Mur murSpecial, HandFacade currentHand, List<Tuile> currentbonus) {
 		int i = 0;
 		while ( i < currentHand.handSize()) {
 			Tuile tuile1=currentHand.get(i);
@@ -168,6 +178,13 @@ public class MahjongInitialisation
 		return murPioche;
 	}
 	
+	/**
+	 * Methode permettant de prendre une tuile dans le mur spécial pour la donner à la main choisie 
+	 * et de changer le mur spécial si ce dernier est completement vidé de ses tuiles
+	 * @param murSpecial
+	 * @param mainCourrante
+	 * @return
+	 */
 	private Mur uneTuileSpecialeDansLaMain(Mur murSpecial, HandFacade mainCourrante) {
 		try {
 			Tuile tuilePiochee = murSpecial.retirerTuile();
