@@ -46,4 +46,7 @@ public Tuile get(int i){
 	return this.hand.tuilesListOfHand.get(i);
 }
 
+public void remove(Tuile t){
+	this.hand.tuilesListOfHand.remove(t);
+}
 }

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.squirrel.app.MahjongInitialisation;
 import com.squirrel.model.Tuile;
+import com.squirrel.model.TuileFactory.TypeTuile;
 
 public class TestMahjongInitialisation {
 
@@ -20,6 +21,34 @@ public class TestMahjongInitialisation {
 		assertEquals(13, mahjong.mainOuest.handSize());
 		assertEquals(13, mahjong.mainNord.handSize());
 		assertEquals(13, mahjong.mainSud.handSize());
+		
+		boolean bol = true;
+		for (int i = 0; i < mahjong.mainEst.handSize(); i++) {
+			if (mahjong.mainEst.get(i).getType().equals(TypeTuile.FLEU) || mahjong.mainEst.get(i).getType().equals(TypeTuile.SAIS)){
+				bol = false;
+			}
+		}
+		for (int i = 0; i < mahjong.mainOuest.handSize(); i++) {
+			if (mahjong.mainOuest.get(i).getType().equals(TypeTuile.FLEU) || mahjong.mainOuest.get(i).getType().equals(TypeTuile.SAIS)){
+				bol = false;
+			}
+		}
+		for (int i = 0; i < mahjong.mainNord.handSize(); i++) {
+			if (mahjong.mainNord.get(i).getType().equals(TypeTuile.FLEU) || mahjong.mainNord.get(i).getType().equals(TypeTuile.SAIS)){
+				bol = false;
+			}
+		}
+		for (int i = 0; i < mahjong.mainSud.handSize(); i++) {
+			if (mahjong.mainSud.get(i).getType().equals(TypeTuile.FLEU) || mahjong.mainSud.get(i).getType().equals(TypeTuile.SAIS)){
+				bol = false;
+			}
+		}
+		assertTrue(bol);
+		
+		System.out.println(mahjong.bonusEst.size());
+		System.out.println(mahjong.bonusOuest.size());
+		System.out.println(mahjong.bonusNord.size());
+		System.out.println(mahjong.bonusSud.size());
 
 	}
 

@@ -1,6 +1,7 @@
 package com.squirrel.app;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.squirrel.ctrl.Gestionnaire;
 import com.squirrel.model.FacadeTuile;
@@ -8,6 +9,7 @@ import com.squirrel.model.HandFacade;
 import com.squirrel.model.Mur;
 import com.squirrel.model.MurException;
 import com.squirrel.model.Tuile;
+import com.squirrel.model.TuileFactory.TypeTuile;
 
 
 public class MahjongInitialisation 
@@ -22,6 +24,11 @@ public class MahjongInitialisation
 	public HandFacade mainOuest;
 	public HandFacade mainNord;
 	public HandFacade mainSud;
+	
+	List bonusEst = new ArrayList();
+	List bonusOuest = new ArrayList();
+	List bonusSud = new ArrayList();
+	List bonusNord = new ArrayList();
 	
 	ArrayList<Tuile> listeTuiles;
 	public Mur murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile;
@@ -43,6 +50,7 @@ public class MahjongInitialisation
 		this.creationDes4Murs();
 
 		Mur murPioche=null;//"Post it" pour designer le mur dans lequel on pioche
+		Mur murSpecial=null;
 
 		//Génération de la liste de toutes les tuiles
 		listeTuiles = new 	ArrayList<Tuile>();
@@ -60,15 +68,19 @@ public class MahjongInitialisation
 		//Determination du mur brechable en fonction du calcul du gestionnaire
 		if (murBrechable.equals("Nord")) {
 			murPioche = this.murNord;
+			murSpecial = this.murNord;
 		}
 		else if (murBrechable.equals("Sud")) {
 			murPioche = this.murSud;
+			murSpecial = this.murSud;
 		}
 		else if (murBrechable.equals("Ouest")) {
 			murPioche = this.murOuest;
+			murSpecial = this.murOuest;
 		}
 		else if (murBrechable.equals("Est")) {
 			murPioche = this.murEst;
+			murSpecial = this.murEst;
 		}
 
 		//Placement de la breche sur le mur à piocher
@@ -110,8 +122,29 @@ public class MahjongInitialisation
 		murPioche = this.uneTuileDansLaMain(murPioche, mainNord);
 		murPioche = this.uneTuileDansLaMain(murPioche, mainEst);
 		
+		murSpecial = verifFleursEtSaisons(murSpecial, mainEst, bonusEst);
+		murSpecial = verifFleursEtSaisons(murSpecial, mainSud, bonusSud);
+		murSpecial = verifFleursEtSaisons(murSpecial, mainOuest, bonusOuest);
+		murSpecial = verifFleursEtSaisons(murSpecial, mainNord, bonusNord);
+		
 		//La c'est pour que partie sache ou piocher
 		murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile=murPioche;
+	}
+
+	private Mur verifFleursEtSaisons(Mur murSpecial, HandFacade currentHand, List currentbonus) {
+		int i = 0;
+		while ( i < currentHand.handSize()) {
+			Tuile tuile1=currentHand.get(i);
+			if (tuile1.getType().equals(TypeTuile.FLEU) || tuile1.getType().equals(TypeTuile.SAIS)){
+				currentbonus.add(tuile1);
+				currentHand.remove(tuile1);
+				murSpecial = this.uneTuileSpecialeDansLaMain(murSpecial, currentHand);
+			}
+			else {
+				i++;
+			}
+		}
+		return murSpecial;
 	}
 	
 	/**
@@ -133,6 +166,20 @@ public class MahjongInitialisation
 			e.printStackTrace();
 		}
 		return murPioche;
+	}
+	
+	private Mur uneTuileSpecialeDansLaMain(Mur murSpecial, HandFacade mainCourrante) {
+		try {
+			Tuile tuilePiochee = murSpecial.retirerTuile();
+			int breche1 = murSpecial.getBrecheSpeciale();
+			mainCourrante.remplirMain(tuilePiochee);
+			if(breche1==-1){
+				murSpecial = murSpecial.prevMur(murSpecial, tousLesMurs(this));
+			}
+		} catch (MurException e) {
+			e.printStackTrace();
+		}
+		return murSpecial;
 	}
 
 	private static Mur[] tousLesMurs(MahjongInitialisation mahjong) {
