@@ -1,7 +1,6 @@
 package com.squirrel.app;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.squirrel.ctrl.Gestionnaire;
 import com.squirrel.model.FacadeTuile;
@@ -43,7 +42,6 @@ public class MahjongInitialisation
 		this.creationDes4Murs();
 
 		Mur murPioche=null;//"Post it" pour designer le mur dans lequel on pioche
-		Mur murSpecial=null; //"Post it" pour designer le mur dans lequel on récupère une tuile en échange d'une fleur...
 
 		//Génération de la liste de toutes les tuiles
 		listeTuiles = new 	ArrayList<Tuile>();
@@ -61,19 +59,15 @@ public class MahjongInitialisation
 		//Determination du mur brechable en fonction du calcul du gestionnaire
 		if (murBrechable.equals("Nord")) {
 			murPioche = this.murNord;
-			murSpecial = this.murNord;
 		}
 		else if (murBrechable.equals("Sud")) {
 			murPioche = this.murSud;
-			murSpecial = this.murSud;
 		}
 		else if (murBrechable.equals("Ouest")) {
 			murPioche = this.murOuest;
-			murSpecial = this.murOuest;
 		}
 		else if (murBrechable.equals("Est")) {
 			murPioche = this.murEst;
-			murSpecial = this.murEst;
 		}
 
 		//Placement de la breche sur le mur à piocher
@@ -85,7 +79,7 @@ public class MahjongInitialisation
 
 		//Placement de la brèche spéciale
 		try {
-			murSpecial.setBrecheSpeciale(breche);
+			murPioche.setBrecheSpeciale(breche);
 		} catch (MurException e1) {
 			e1.printStackTrace();
 		}
@@ -96,59 +90,45 @@ public class MahjongInitialisation
 		//Distribution des tuiles dans les quatre mains selon la distribution du mahjong traditionnel
 		for (int j = 0; j < 3; j++) {
 			for (int i = 0; i < 4; i++) {
-				this.uneTuileDansLaMain(murPioche, murSpecial, mainEst);
+				murPioche = this.uneTuileDansLaMain(murPioche, mainEst);
 			}
 			for (int i = 0; i < 4; i++) {
-				this.uneTuileDansLaMain(murPioche, murSpecial, mainSud);
+				murPioche = this.uneTuileDansLaMain(murPioche, mainSud);
 			}
 			for (int i = 0; i < 4; i++) {
-				this.uneTuileDansLaMain(murPioche, murSpecial, mainOuest);
+				murPioche = this.uneTuileDansLaMain(murPioche, mainOuest);
 			}
 			for (int i = 0; i < 4; i++) {
-				this.uneTuileDansLaMain(murPioche, murSpecial, mainNord);
+				murPioche = this.uneTuileDansLaMain(murPioche, mainNord);
 			}
 		}
 		//Distribution d'une tuiles dans les mains pour terminer la distribution
-		this.uneTuileDansLaMain(murPioche, murSpecial, mainEst);
-		this.uneTuileDansLaMain(murPioche, murSpecial, mainSud);
-		this.uneTuileDansLaMain(murPioche, murSpecial, mainOuest);
-		this.uneTuileDansLaMain(murPioche, murSpecial, mainNord);
-		this.uneTuileDansLaMain(murPioche, murSpecial, mainEst);
+		murPioche = this.uneTuileDansLaMain(murPioche, mainEst);
+		murPioche = this.uneTuileDansLaMain(murPioche, mainSud);
+		murPioche = this.uneTuileDansLaMain(murPioche, mainOuest);
+		murPioche = this.uneTuileDansLaMain(murPioche, mainNord);
+		murPioche = this.uneTuileDansLaMain(murPioche, mainEst);
 	}
 	
 	/**
 	 * Methode permettant de prendre une tuile dans le mur de pioche pour la donner à la main choisie 
 	 * et de changer le mur de pioche si ce dernier est completement vidé de ses tuiles
-	 * @param murPioche et murSpecial vont automatiquement être mis à jour
-	 * @param 
+	 * @param murPioche
+	 * @param mainEst
 	 * @return
 	 */
-	private void uneTuileDansLaMain(Mur murPioche, Mur murSpecial, HandFacade mainCourrante) {
+	private Mur uneTuileDansLaMain(Mur murPioche, HandFacade mainEst) {
 		try {
 			Tuile tuilePiochee = murPioche.piocherTuile();
-			//Vérif tuile piochée n'est ni saison ni fleur et la met de coté tant que la tuile piochée est de ce type
-			while ((tuilePiochee.getType().getName()).equals("FLEU") || (tuilePiochee.getType().getName()).equals("SAIS")){				
-				//On place la fleur ou la saison dans une liste appelée bonus
-				List<Tuile> bonus = new ArrayList<Tuile>();
-				bonus.add(tuilePiochee);
-				//Tirage d'une nouvelle tuile dans le sens contraire à la pioche "classique"
-				tuilePiochee = murSpecial.retirerTuile();
-				int brecheSpe = murSpecial.getBrecheSpeciale();
-				//Si on arrive au bout du mur, on change de mur
-				if (brecheSpe==-2){
-					murSpecial = murSpecial.prevMur(murSpecial, tousLesMurs(this));
-				}		
-			}
-			//On arrive ici si la tuile piochée n'est ni une fleure ni une saison
 			int breche1 = murPioche.getBreche();
-			mainCourrante.remplirMain(tuilePiochee);
-			//Si on arrive au bout du mur, on change de mur
+			mainEst.remplirMain(tuilePiochee);
 			if(breche1==34){
 				murPioche = murPioche.nextMur(murPioche, tousLesMurs(this));
 			}
 		} catch (MurException e) {
 			e.printStackTrace();
 		}
+		return murPioche;
 	}
 
 	private static Mur[] tousLesMurs(MahjongInitialisation mahjong) {
