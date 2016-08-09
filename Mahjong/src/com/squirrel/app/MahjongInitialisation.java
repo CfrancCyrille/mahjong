@@ -24,6 +24,7 @@ public class MahjongInitialisation
 	public HandFacade mainSud;
 	
 	ArrayList<Tuile> listeTuiles;
+	public Mur murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile;
 	
 	public void initialiserUnePartie() {
 		@SuppressWarnings("unused")
@@ -108,6 +109,9 @@ public class MahjongInitialisation
 		murPioche = this.uneTuileDansLaMain(murPioche, mainOuest);
 		murPioche = this.uneTuileDansLaMain(murPioche, mainNord);
 		murPioche = this.uneTuileDansLaMain(murPioche, mainEst);
+		
+		//La c'est pour que partie sache ou piocher
+		murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile=murPioche;
 	}
 	
 	/**
