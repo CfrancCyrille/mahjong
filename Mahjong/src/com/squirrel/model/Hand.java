@@ -142,21 +142,25 @@ public class Hand {
 
 	void recombinaisonSeulesCombis(List<List<Tuile>> res, List<Tuile> seules) {
 		//On cherche à recombiner les tuiles seules avec les groupes précédemment formés en formant des suites
+		//Ici on a une tuile seule qui cherche deux tuiles dans res
 		//TODO!! pour une suite, les types possibles sont limités à ronds, caractères et bambous
 		// i parcourt "seules", j parcours "res"
-		
-		
-		//for (int i=0; i<seules.size(); i++){
-			
-			int i = 0;
-			for (i = 0; i < seules.size();i++) {
-			
+
+
+
+
+
+		for (int i = seules.size(); i>=0 ;i--) {
+
 			for (int j=0; j<res.size(); j++){
 				//si les types et les valeurs sont égales:
-				if(		(seules.get(i).getType().equals(res.get(j).get(0).getType())) 
+				  
+				if(		
+						//si la tuile seule est la plus grande de la suite 
+						(seules.get(i).getType().equals(res.get(j).get(0).getType())) 
 						&& (seules.get(i).getType().equals(res.get(j+1).get(0).getType()))
-						&& (seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()-1))
-						&& (seules.get(i).getValeur().getValue()==(res.get(j+1).get(0).getValeur().getValue()-2))	)
+						&& (seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()+2))
+						&& (seules.get(i).getValeur().getValue()==(res.get(j+1).get(0).getValeur().getValue()+1)))
 					//Remplie une liste intermédiare, la rajouter à res, puis effacer les tuiles qui la composent de "res" et "seules"
 				{List<Tuile> listIntermediaire = new ArrayList<Tuile>();		
 				listIntermediaire.add(seules.get(i));
@@ -168,70 +172,148 @@ public class Hand {
 				seules.remove(seules.get(i));
 				res.remove(res.get(j).get(0));
 				res.remove(res.get(j+1).get(0));
-				} 
+
+
+				} else if(		
+						//si la tuile seule est la plus petite de la suite 
+						(seules.get(i).getType().equals(res.get(j).get(0).getType())) 
+						&& (seules.get(i).getType().equals(res.get(j+1).get(0).getType()))
+						&& (seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()-1))
+						&& (seules.get(i).getValeur().getValue()==(res.get(j+1).get(0).getValeur().getValue()-2)))
+					//Remplie une liste intermédiare, la rajouter à res, puis effacer les tuiles qui la composent de "res" et "seules"
+				{List<Tuile> listIntermediaire = new ArrayList<Tuile>();		
+				listIntermediaire.add(seules.get(i));
+				listIntermediaire.add(res.get(j).get(0));
+				listIntermediaire.add(res.get(j+1).get(0));
+
+				res.add(listIntermediaire);
+
+				seules.remove(seules.get(i));
+				res.remove(res.get(j).get(0));
+				res.remove(res.get(j+1).get(0));
+
+
+				} else if(		
+						//si la tuile seule est le milieu de la suite
+						(seules.get(i).getType().equals(res.get(j).get(0).getType())) 
+						&& (seules.get(i).getType().equals(res.get(j+1).get(0).getType()))
+						&& (seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()-1))
+						&& (seules.get(i).getValeur().getValue()==(res.get(j+1).get(0).getValeur().getValue()+1)))
+					//Remplie une liste intermédiare, la rajouter à res, puis effacer les tuiles qui la composent de "res" et "seules"
+				{List<Tuile> listIntermediaire = new ArrayList<Tuile>();		
+				listIntermediaire.add(seules.get(i));
+				listIntermediaire.add(res.get(j).get(0));
+				listIntermediaire.add(res.get(j+1).get(0));
+
+				res.add(listIntermediaire);
+
+				seules.remove(seules.get(i));
+				res.remove(res.get(j).get(0));
+				res.remove(res.get(j+1).get(0));
+				}
 			}
 		} 
 	}
 
 	void recombinaisonSeulesCombisDeux(List<List<Tuile>> res, List<Tuile> seules) {
-		//On cherche à recombiner une tuile seule avec une tuile seule et un groupe
+		//On cherche à recombiner deux tuiles seules avec une tuile  de res
 		//TODO!! pour une suite, les types possibles sont limités à ronds, caractères et bambous
-		// i parcourt "seules", j parcours "res", ki sert à comparer dans "seules"
-		for (int i=0; i<seules.size()-1; i++){
+		// i parcourt "seules", j parcours "res"
+		int i=0;
+		while (i<seules.size()-1){
+
 			
-			for(int ki=i+1; ki<seules.size();ki++)
+			//Lorsqu'on forme une suite ici, passe à true
+			boolean isNewSuite=false;
+
+			//on cherche une tuile supérieure en valeur a i de 1 ou 2
+			
+			
+			// Premièrement : si seules contient deux tuiles qui se suivent
+			if(		(seules.get(i).getType().equals(seules.get(i+1).getType())) 
+					&& (seules.get(i).getValeur().getValue()==(seules.get(i+1).getValeur().getValue()-1))){
 
 
-				//on cherche une tuile supérieure en valeur a i de 1 ou 2
-				// Premièrement : si seules contient la tuile de valeur i+1
-				if(		(seules.get(i).getType().equals(seules.get(ki).getType())) 
-						&& (seules.get(i).getValeur().getValue()==(seules.get(ki).getValeur().getValue()-1))){
-					for (int j=0; j<res.size(); j++){
-						if ((seules.get(i).getType().equals(res.get(j).get(0).getType())
-								&& seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()-2))){
+				for (int j=0; j<res.size(); j++){
+					if (
+							//Les deux tuiles seules se suivent, on cherche une tuile avant i ou apres i+1
+							(seules.get(i).getType().equals(res.get(j).get(0).getType()))
+							&& (seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()-2)
+							|| (seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()+1)))){
 
-							List<Tuile> listIntermediaire = new ArrayList<Tuile>();		
-							listIntermediaire.add(seules.get(i));
-							listIntermediaire.add(seules.get(ki));
-							listIntermediaire.add(res.get(j).get(0));
+						List<Tuile> listIntermediaire = new ArrayList<Tuile>();		
+						listIntermediaire.add(seules.get(i));
+						listIntermediaire.add(seules.get(i+1));
+						listIntermediaire.add(res.get(j).get(0));
 
-							res.add(listIntermediaire);
+						res.add(listIntermediaire);
 
-							seules.remove(seules.get(i));
-							seules.remove(seules.get(ki));
-							res.remove(res.get(j).get(0));
-						}
+						seules.remove(seules.get(i));
+						seules.remove(seules.get(i+1));
+						res.remove(res.get(j).get(0));
+						isNewSuite=true;
+						break;
 					}
-					// Deuxièmement : si seules contient la tuile de valeur i+2
-				} else if(		(seules.get(i).getType().equals(seules.get(ki).getType())) 
-						&& (seules.get(i).getValeur().getValue()==(seules.get(ki).getValeur().getValue()-2))){
-					for (int j=0; j<res.size(); j++){
-						if ((seules.get(i).getType().equals(res.get(j).get(0).getType())
-								&& seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()-1))){
-
-							List<Tuile> listIntermediaire = new ArrayList<Tuile>();		
-							listIntermediaire.add(seules.get(i));
-							listIntermediaire.add(seules.get(ki));
-							listIntermediaire.add(res.get(j).get(0));
-
-							res.add(listIntermediaire);
-
-							seules.remove(seules.get(i));
-							seules.remove(seules.get(ki));
-							res.remove(res.get(j).get(0));
-						}
-					}
-
 				}
+
+				if(isNewSuite){
+					i=i;
+				}
+				else{
+					i++;
+				}					
+			} 
+			// Deuxièmement : si seules contient deux tuiles avec un d'écart (ex: 1 et 3)
+			
+			else if(		(seules.get(i).getType().equals(seules.get(i+1).getType())) 
+					&& (seules.get(i).getValeur().getValue()==(seules.get(i+1).getValeur().getValue()-2))){
+				// on cherche dans res, une tuile pour completer
+				for (int j=0; j<res.size(); j++){
+					if ((seules.get(i).getType().equals(res.get(j).get(0).getType())
+							&& seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()-1))){
+
+						List<Tuile> listIntermediaire = new ArrayList<Tuile>();		
+						listIntermediaire.add(seules.get(i));
+						listIntermediaire.add(seules.get(i+1));
+						listIntermediaire.add(res.get(j).get(0));
+
+						res.add(listIntermediaire);
+
+						seules.remove(seules.get(i));
+						seules.remove(seules.get(i+1));
+						res.remove(res.get(j).get(0));
+
+						isNewSuite=true;
+						break;
+					}
+				}
+
+				if(isNewSuite){
+					i=i;
+				}
+				else{
+					i++;
+				}
+			}
+			// seules ne contient pas deux tuiles pouvant former une suite à cet index
+			else{
+				// On passe a la paire de tuiles seules suivante
+				i++;
+			}
+
+			//				if(isNewSuite==false){
+			//					i++;
+			//				}
 		}
 	}
 
 	void recombinaisonSeulesSeules(List<List<Tuile>> res, List<Tuile> seules) {
 		//TODO!! pour une suite, les types possibles sont limités à ronds, caractères et bambous
+		// On cherche à fabriquer une suite
 		int i = 0;
 		while ( i < seules.size()-2) {
 
-			//Si on trouve des tuiles égales en type avec des valeurs qui se succèdent
+			//Si on trouve des tuiles égales en type avec des valeurs qui se succèdent -> suite
 			if (               (seules.get(i+1).getType().equals(seules.get(i).getType()))
 					&&(seules.get(i+2).getType().equals(seules.get(i).getType()))
 					&&(seules.get(i+1).getValeur().getValue()==(seules.get(i).getValeur().getValue()+1))
@@ -248,7 +330,7 @@ public class Hand {
 				res.add(listIntermediaire);
 
 				//Puis on efface de la liste seules les tuiles traitées comme chow, et on recommence avec le reste des tuiles de la liste "seules".
-				//??seules.replaceAll(operator);
+				
 				seules.removeAll(listIntermediaire);
 			}
 			else{
