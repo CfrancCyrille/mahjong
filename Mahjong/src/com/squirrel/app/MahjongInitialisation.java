@@ -44,7 +44,7 @@ public class MahjongInitialisation
 		joueurCommencant=Gestionnaire.premierTirage();
 		somme=score1+score2+Gestionnaire.lancerDes()+Gestionnaire.lancerDes();
 		murBrechable=Gestionnaire.murBrechable(somme, Gestionnaire.muraDetruire(score1, score2));
-		breche=Gestionnaire.breche(somme);
+		breche=Gestionnaire.breche(somme);		
 
 		//Creation des 4 murs
 		this.creationDes4Murs();
