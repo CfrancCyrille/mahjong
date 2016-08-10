@@ -1,6 +1,6 @@
 package com.squirrel.model;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.squirrel.model.TuileVen.VenTuile;
 
@@ -11,21 +11,20 @@ public class Joueur {
 	VenTuile vent;
 	boolean appel=false;
 	int penalite =0;
-	List<Tuile> bonus;
+	ArrayList<Tuile> bonus;
 	
 	public void incremPenalite() {
 		this.penalite ++;
 	}
 
-	public Joueur(String name, HandFacade hand,VenTuile vent, List<Tuile> bonus){
+	public Joueur(String name, HandFacade hand,VenTuile vent){
 		 super();
 		 this.name=name;
 		 this.hand=hand;
 		 this.vent=vent;
-		 this.bonus=bonus;
 	}
 	
-	public List<Tuile> getBonus() {
+	public ArrayList<Tuile> getBonus() {
 		return bonus;
 	}
 
@@ -33,7 +32,7 @@ public class Joueur {
 		this.hand = hand;
 	}
 
-	public void setBonus(List<Tuile> bonus) {
+	public void setBonus(ArrayList<Tuile> bonus) {
 		this.bonus = bonus;
 	}
 
