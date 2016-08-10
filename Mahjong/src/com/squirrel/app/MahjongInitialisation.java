@@ -144,7 +144,7 @@ public class MahjongInitialisation
 	 * @param currentbonus = liste où l'on place les tuiles retirées de la main
 	 * @return
 	 */
-	protected Mur verifFleursEtSaisons(Mur murSpecial, HandFacade currentHand, List<Tuile> currentbonus) {
+	Mur verifFleursEtSaisons(Mur murSpecial, HandFacade currentHand, List<Tuile> currentbonus) {
 		int i = 0;
 		while ( i < currentHand.handSize()) {
 			Tuile tuile1=currentHand.get(i);
@@ -167,7 +167,7 @@ public class MahjongInitialisation
 	 * @param mainEst
 	 * @return
 	 */
-	private Mur uneTuileDansLaMain(Mur murPioche, HandFacade mainEst) {
+	Mur uneTuileDansLaMain(Mur murPioche, HandFacade mainEst) {
 		try {
 			Tuile tuilePiochee = murPioche.piocherTuile();
 			int breche1 = murPioche.getBreche();
