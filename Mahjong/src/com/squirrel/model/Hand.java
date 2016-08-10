@@ -1,6 +1,7 @@
 package com.squirrel.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -11,15 +12,17 @@ public class Hand {
 
 	public List<Tuile> tuilesListOfHand;
 	final int TAILLE_MAIN=14; // constante taille de la main (maximum)
+	public boolean mahjongPossible = false;
 
 	//constructeur
 	public Hand(){
 		this.tuilesListOfHand = new ArrayList<Tuile>();
 	}
 
-	//fillHand() permet d'ajouter une tuile t à la liste tuilesListOfHand 
-	// Dans le jeu la tuile vient du Mur
+	
 	Collection<Tuile> fillHand(Tuile t) throws MainPleineException{
+		//fillHand() permet d'ajouter une tuile t à la liste tuilesListOfHand 
+		// Dans le jeu la tuile vient du Mur
 		if(tuilesListOfHand.size()<TAILLE_MAIN){
 			this.tuilesListOfHand.add(t);
 		}else{
@@ -31,15 +34,17 @@ public class Hand {
 
 	}
 
-	//Affichage
+	
 	@Override
 	public String toString() {
+		//Affichage
 		return   tuilesListOfHand.toString() ;
 	}
 
-	// pickDefausse() permet d'ajouter une tuile t à la liste tuilesListOfHand depuis la défausse 
-	// Seulement si la tuile de la défausse forme une combinaison avec celles dans tuilesListOfHand (isCombi)
+	
 	Collection<Tuile> pickDefausse(Tuile t, boolean isCombi){
+		// pickDefausse() permet d'ajouter une tuile t à la liste tuilesListOfHand depuis la défausse 
+		// Seulement si la tuile de la défausse forme une combinaison avec celles dans tuilesListOfHand (isCombi)
 		if (isCombi == true && tuilesListOfHand.size()<TAILLE_MAIN){
 			this.tuilesListOfHand.add(t);
 		}else{ System.out.println("Vous ne pouvez pas prendre cette tuile");
@@ -49,8 +54,9 @@ public class Hand {
 	}
 	// TODO : test :  on peut ajouter des tuiles / on ne peut pas ajouter une 15eme tuile  / si pas de combi, on ne peut pas la prendre
 
-	//triTuiles(hand) trie les tuiles selon leur type puis leur valeur
+	
 	public Collection<Tuile> triTuiles(List<Tuile> hand){
+		//triTuiles(hand) trie les tuiles selon leur type puis leur valeur
 		//Range les tuiles par orde alphabetique selon le type
 		//Dans une famille, range par valeur
 		Collections.sort(hand, new TuileComparatorVal());
@@ -60,8 +66,7 @@ public class Hand {
 
 
 
-	// TODO identification des combinaisons parmis les groupes
-	// TODO : test
+	
 	public List<List<Tuile>> findCombinaisons(List<Tuile>tuilesListOfHand){
 		//on crée une liste de liste pour contenir les combinaisons trouvées
 		List<List<Tuile>> res=new ArrayList<List<Tuile>>();
@@ -71,6 +76,9 @@ public class Hand {
 		List<Tuile> listClone = new ArrayList<Tuile>();
 		listClone.addAll(tuilesListOfHand);
 
+		
+		triTuiles(listClone);
+		
 		//on cherche des groupes dans listclone
 		//on met les groupes trouvés dans res
 		//on met les tuiles seules dans seules
@@ -81,14 +89,16 @@ public class Hand {
 			recombinaisonSeulesSeules(res, seules);
 		}
 		if (seules.size()!=0){
-			//si ca ne suffit pas : chercher une recombinaison avec les groupes
+			//si ca ne suffit pas : chercher a associer deux tuiles seules à une tuile de res
+			recombinaisonSeulesCombisDeux(res, seules);
+			//si ca ne suffit pas : chercher a associer une tuile seule à deux tuiles de res
 			recombinaisonSeulesCombis(res, seules);
 			//on vérifie qu'on a pas laissé de tuile seule dans les combinaisons après recherche
 			petiteVerif(res, seules);
 		}
-		if (seules.size()==0){
-			System.out.println("Mahjong Possible");
-		}
+		
+		mahjongPossible  = verifMahjong(res);
+		
 		return res;
 
 	}
@@ -150,9 +160,9 @@ public class Hand {
 
 
 
-		for (int i = seules.size(); i>=0 ;i--) {
+		for (int i = seules.size()-1; i>-1 ;i--) {
 
-			for (int j=0; j<res.size(); j++){
+			for (int j=0; j<res.size()-1; j++){
 				//si les types et les valeurs sont égales:
 				  
 				if(		
@@ -171,8 +181,8 @@ public class Hand {
 				res.add(listIntermediaire);
 
 				seules.remove(seules.get(i));
-				res.remove(res.get(j).get(0));
-				res.remove(res.get(j+1).get(0));
+				res.get(j).remove(res.get(j).get(0));
+				res.get(j+1).remove(res.get(j+1).get(0));
 
 
 				} else if(		
@@ -191,8 +201,8 @@ public class Hand {
 				res.add(listIntermediaire);
 
 				seules.remove(seules.get(i));
-				res.remove(res.get(j).get(0));
-				res.remove(res.get(j+1).get(0));
+				res.get(j).remove(res.get(j).get(0));
+				res.get(j+1).remove(res.get(j+1).get(0));
 
 
 				} else if(		
@@ -211,8 +221,8 @@ public class Hand {
 				res.add(listIntermediaire);
 
 				seules.remove(seules.get(i));
-				res.remove(res.get(j).get(0));
-				res.remove(res.get(j+1).get(0));
+				res.get(j).remove(res.get(j).get(0));
+				res.get(j+1).remove(res.get(j+1).get(0));
 				}
 			}
 		} 
@@ -246,15 +256,16 @@ public class Hand {
 							|| (seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()+1)))){
 
 						List<Tuile> listIntermediaire = new ArrayList<Tuile>();		
+						
 						listIntermediaire.add(seules.get(i));
 						listIntermediaire.add(seules.get(i+1));
 						listIntermediaire.add(res.get(j).get(0));
 
 						res.add(listIntermediaire);
-
-						seules.remove(seules.get(i));
+						
 						seules.remove(seules.get(i+1));
-						res.remove(res.get(j).get(0));
+						seules.remove(seules.get(i));
+						res.get(j).remove(res.get(j).get(0));
 						isNewSuite=true;
 						break;
 					}
@@ -284,9 +295,9 @@ public class Hand {
 
 						res.add(listIntermediaire);
 
-						seules.remove(seules.get(i));
 						seules.remove(seules.get(i+1));
-						res.remove(res.get(j).get(0));
+						seules.remove(seules.get(i));
+						res.get(j).remove(res.get(j).get(0));
 
 						isNewSuite=true;
 						break;
@@ -354,6 +365,24 @@ public class Hand {
 			}
 		}
 		return seules;
+	}
+	
+	boolean verifMahjong(List<List<Tuile>> res) {
+		
+		int nb;
+		
+		ArrayList<Integer> tableauTaille = new ArrayList<Integer>();
+		List<Integer> mahjong = Arrays.asList(3,3,3,3,2);
+		for(int j=0; j<res.size();j++){
+			nb = res.get(j).size();
+			tableauTaille.add(nb);
+		}
+		if (tableauTaille.containsAll(mahjong)){
+			this.mahjongPossible = true;
+		}
+		
+		
+		return mahjongPossible;
 	}
 
 }
