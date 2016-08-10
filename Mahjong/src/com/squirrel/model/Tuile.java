@@ -1,4 +1,6 @@
 package com.squirrel.model;
+import java.io.Serializable;
+
 import com.squirrel.model.TuileFactory.TypeTuile;
 
 /**Cette Interface est mère des classes TuileNum, TuileFle, TuileSai, TuileVen et TuileDra.
@@ -6,7 +8,7 @@ import com.squirrel.model.TuileFactory.TypeTuile;
  * @author Kevin
  *
  */
-public interface Tuile {
+public interface Tuile extends Serializable{
 	public TypeTuile getType();
 	public Valuable getValeur();
 	

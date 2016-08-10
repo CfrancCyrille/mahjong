@@ -1,6 +1,8 @@
 package com.squirrel.model;
 
-public interface Valuable {
+import java.io.Serializable;
+
+public interface Valuable extends Serializable {
 
 	public int getValue();
 	public String getName();
