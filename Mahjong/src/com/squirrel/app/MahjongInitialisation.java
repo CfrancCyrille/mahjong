@@ -32,6 +32,7 @@ public class MahjongInitialisation
 	
 	ArrayList<Tuile> listeTuiles;
 	public Mur murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile;
+	public Mur murSpe;
 	
 	public void initialiserUnePartie() {
 		@SuppressWarnings("unused")
@@ -130,6 +131,8 @@ public class MahjongInitialisation
 		
 		//La c'est pour que partie sache ou piocher
 		murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile=murPioche;
+		murSpe=murSpecial;
+		
 	}
 
 	/**
