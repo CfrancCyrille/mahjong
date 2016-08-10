@@ -141,7 +141,7 @@ public class MahjongInitialisation
 	 * @param currentbonus = liste où l'on place les tuiles retirées de la main
 	 * @return
 	 */
-	private Mur verifFleursEtSaisons(Mur murSpecial, HandFacade currentHand, List<Tuile> currentbonus) {
+	protected Mur verifFleursEtSaisons(Mur murSpecial, HandFacade currentHand, List<Tuile> currentbonus) {
 		int i = 0;
 		while ( i < currentHand.handSize()) {
 			Tuile tuile1=currentHand.get(i);
