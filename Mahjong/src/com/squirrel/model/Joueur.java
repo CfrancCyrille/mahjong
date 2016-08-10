@@ -8,10 +8,10 @@ public class Joueur {
 	HandFacade hand;
 	VenTuile vent;
 	boolean appel=false;
-
-
-	public boolean isAppel() {
-		return appel;
+	int penalite =0;
+	
+	public void incremPenalite() {
+		this.penalite ++;
 	}
 
 	public Joueur(String name, HandFacade hand,VenTuile vent){
@@ -27,9 +27,7 @@ public class Joueur {
 	public void nAppel(){
 		appel=false;
 	}
-	
-	
-	
+
 	public String getName() {
 		return name;
 	}
@@ -42,11 +40,15 @@ public class Joueur {
 		return hand;
 	}
 	
-
 	public VenTuile getVent() {
 		return vent;
 	}
 
-	
+	public void setAppel(boolean appel) {
+		this.appel = appel;
+	}
 
+	public boolean isAppel() {
+		return appel;
+	}
 }
