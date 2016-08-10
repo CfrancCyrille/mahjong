@@ -1,5 +1,6 @@
 package com.squirrel.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -8,7 +9,7 @@ import java.util.List;
 
 
 
-public class Hand {
+public class Hand implements Serializable {
 
 	public List<Tuile> tuilesListOfHand;
 	final int TAILLE_MAIN=14; // constante taille de la main (maximum)

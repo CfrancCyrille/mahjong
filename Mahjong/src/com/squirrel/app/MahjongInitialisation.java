@@ -1,15 +1,16 @@
 package com.squirrel.app;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.squirrel.ctrl.Gestionnaire;
 import com.squirrel.model.FacadeTuile;
 import com.squirrel.model.HandFacade;
+import com.squirrel.model.Joueur;
 import com.squirrel.model.Mur;
 import com.squirrel.model.MurException;
 import com.squirrel.model.Tuile;
 import com.squirrel.model.TuileFactory.TypeTuile;
+import com.squirrel.model.TuileVen.VenTuile;
 
 
 public class MahjongInitialisation 
@@ -20,18 +21,19 @@ public class MahjongInitialisation
 	public Mur murSud;
 	public Mur murNord;
 	
-	public HandFacade mainEst;
+	/*public HandFacade mainEst;
 	public HandFacade mainOuest;
 	public HandFacade mainNord;
-	public HandFacade mainSud;
+	public HandFacade mainSud;*/
 	
-	List<Tuile> bonusEst = new ArrayList<Tuile>();
-	List<Tuile> bonusOuest = new ArrayList<Tuile>();
-	List<Tuile> bonusSud = new ArrayList<Tuile>();
-	List<Tuile> bonusNord = new ArrayList<Tuile>();
+	Joueur jEst = new Joueur ("Jean-Pierre", VenTuile.EST);
+	Joueur jOuest = new Joueur ("Hervé", VenTuile.OUE);
+	Joueur jSud = new Joueur ("Denis",VenTuile.SUD);
+	Joueur jNord = new Joueur ("Paulette", VenTuile.NOR);
 	
 	ArrayList<Tuile> listeTuiles;
 	public Mur murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile;
+	public Mur murSpe;
 	
 	public void initialiserUnePartie() {
 		@SuppressWarnings("unused")
@@ -44,7 +46,7 @@ public class MahjongInitialisation
 		joueurCommencant=Gestionnaire.premierTirage();
 		somme=score1+score2+Gestionnaire.lancerDes()+Gestionnaire.lancerDes();
 		murBrechable=Gestionnaire.murBrechable(somme, Gestionnaire.muraDetruire(score1, score2));
-		breche=Gestionnaire.breche(somme);
+		breche=Gestionnaire.breche(somme);		
 
 		//Creation des 4 murs
 		this.creationDes4Murs();
@@ -98,38 +100,40 @@ public class MahjongInitialisation
 		}
 
 		//Création des 4 mains
-		this.creationDes4Mains();
+		//this.creationDes4Mains();
 
 		//Distribution des tuiles dans les quatre mains selon la distribution du mahjong traditionnel
 		for (int j = 0; j < 3; j++) {
 			for (int i = 0; i < 4; i++) {
-				murPioche = this.uneTuileDansLaMain(murPioche, mainEst);
+				murPioche = this.uneTuileDansLaMain(murPioche, jEst);
 			}
 			for (int i = 0; i < 4; i++) {
-				murPioche = this.uneTuileDansLaMain(murPioche, mainSud);
+				murPioche = this.uneTuileDansLaMain(murPioche, jSud);
 			}
 			for (int i = 0; i < 4; i++) {
-				murPioche = this.uneTuileDansLaMain(murPioche, mainOuest);
+				murPioche = this.uneTuileDansLaMain(murPioche, jOuest);
 			}
 			for (int i = 0; i < 4; i++) {
-				murPioche = this.uneTuileDansLaMain(murPioche, mainNord);
+				murPioche = this.uneTuileDansLaMain(murPioche, jNord);
 			}
 		}
 		//Distribution d'une tuiles dans les mains pour terminer la distribution
-		murPioche = this.uneTuileDansLaMain(murPioche, mainEst);
-		murPioche = this.uneTuileDansLaMain(murPioche, mainSud);
-		murPioche = this.uneTuileDansLaMain(murPioche, mainOuest);
-		murPioche = this.uneTuileDansLaMain(murPioche, mainNord);
-		murPioche = this.uneTuileDansLaMain(murPioche, mainEst);
+		murPioche = this.uneTuileDansLaMain(murPioche, jEst);
+		murPioche = this.uneTuileDansLaMain(murPioche, jSud);
+		murPioche = this.uneTuileDansLaMain(murPioche, jOuest);
+		murPioche = this.uneTuileDansLaMain(murPioche, jNord);
+		murPioche = this.uneTuileDansLaMain(murPioche, jEst);
 		
 		//On vérifie chacune des mains pour retirer les fleurs et saisons et on les remplace par des tuiles venant du "mur spécial"
-		murSpecial = verifFleursEtSaisons(murSpecial, mainEst, bonusEst);
-		murSpecial = verifFleursEtSaisons(murSpecial, mainSud, bonusSud);
-		murSpecial = verifFleursEtSaisons(murSpecial, mainOuest, bonusOuest);
-		murSpecial = verifFleursEtSaisons(murSpecial, mainNord, bonusNord);
+		murSpecial = verifFleursEtSaisons(murSpecial, jEst);
+		murSpecial = verifFleursEtSaisons(murSpecial, jSud);
+		murSpecial = verifFleursEtSaisons(murSpecial, jOuest);
+		murSpecial = verifFleursEtSaisons(murSpecial, jNord);
 		
 		//La c'est pour que partie sache ou piocher
 		murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile=murPioche;
+		murSpe=murSpecial;
+		
 	}
 
 	/**
@@ -141,14 +145,14 @@ public class MahjongInitialisation
 	 * @param currentbonus = liste où l'on place les tuiles retirées de la main
 	 * @return
 	 */
-	private Mur verifFleursEtSaisons(Mur murSpecial, HandFacade currentHand, List<Tuile> currentbonus) {
+	Mur verifFleursEtSaisons(Mur murSpecial, Joueur currentJoueur) {
 		int i = 0;
-		while ( i < currentHand.handSize()) {
-			Tuile tuile1=currentHand.get(i);
+		while ( i < currentJoueur.getHand().handSize()) {
+			Tuile tuile1=currentJoueur.getHand().get(i);
 			if (tuile1.getType().equals(TypeTuile.FLEU) || tuile1.getType().equals(TypeTuile.SAIS)){
-				currentbonus.add(tuile1);
-				currentHand.remove(tuile1);
-				murSpecial = this.uneTuileSpecialeDansLaMain(murSpecial, currentHand);
+				currentJoueur.getBonus().add(tuile1);
+				currentJoueur.getHand().remove(tuile1);
+				murSpecial = this.uneTuileSpecialeDansLaMain(murSpecial, currentJoueur.getHand());
 			}
 			else {
 				i++;
@@ -164,11 +168,11 @@ public class MahjongInitialisation
 	 * @param mainEst
 	 * @return
 	 */
-	private Mur uneTuileDansLaMain(Mur murPioche, HandFacade mainEst) {
+	Mur uneTuileDansLaMain(Mur murPioche, Joueur curentJoueur) {
 		try {
 			Tuile tuilePiochee = murPioche.piocherTuile();
 			int breche1 = murPioche.getBreche();
-			mainEst.remplirMain(tuilePiochee);
+			curentJoueur.getHand().remplirMain(tuilePiochee);
 			if(breche1==34){
 				murPioche = murPioche.nextMur(murPioche, tousLesMurs(this));
 			}
@@ -212,11 +216,11 @@ public class MahjongInitialisation
 
 	}
 	
-	private void creationDes4Mains() {
+	/*private void creationDes4Mains() {
 		this.mainEst = new HandFacade();
 		this.mainOuest = new HandFacade();
 		this.mainSud = new HandFacade();
 		this.mainNord = new HandFacade();
 
-	}
+	}*/
 }
