@@ -99,8 +99,9 @@ public class MahjongInitialisation
 			e1.printStackTrace();
 		}
 
-		//Création des 4 mains
-		//this.creationDes4Mains();
+		//Création des 4 mains et 4 listes de bonus (fleurs et saisons)
+		this.creationDes4Mains();
+		this.creationDes4ListesBonus();
 
 		//Distribution des tuiles dans les quatre mains selon la distribution du mahjong traditionnel
 		for (int j = 0; j < 3; j++) {
@@ -216,11 +217,19 @@ public class MahjongInitialisation
 
 	}
 	
-	/*private void creationDes4Mains() {
-		this.mainEst = new HandFacade();
-		this.mainOuest = new HandFacade();
-		this.mainSud = new HandFacade();
-		this.mainNord = new HandFacade();
+	private void creationDes4Mains() {
+		this.jEst.setHand (new HandFacade());
+		this.jOuest.setHand (new HandFacade());
+		this.jSud.setHand (new HandFacade());
+		this.jNord.setHand (new HandFacade());
 
-	}*/
+	}
+	
+	private void creationDes4ListesBonus() {
+		this.jEst.setBonus (new ArrayList<Tuile>());
+		this.jOuest.setBonus (new ArrayList<Tuile>());
+		this.jSud.setBonus (new ArrayList<Tuile>());
+		this.jNord.setBonus (new ArrayList<Tuile>());
+
+	}
 }
