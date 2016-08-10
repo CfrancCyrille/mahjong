@@ -17,38 +17,38 @@ public class TestMahjongInitialisation {
 		MahjongInitialisation mahjong=new MahjongInitialisation();
 		mahjong.initialiserUnePartie();
 
-		assertEquals(14, mahjong.mainEst.handSize());
-		assertEquals(13, mahjong.mainOuest.handSize());
-		assertEquals(13, mahjong.mainNord.handSize());
-		assertEquals(13, mahjong.mainSud.handSize());
+		assertEquals(14, mahjong.jEst.getHand().handSize());
+		assertEquals(13, mahjong.jOuest.getHand().handSize());
+		assertEquals(13, mahjong.jNord.getHand().handSize());
+		assertEquals(13, mahjong.jSud.getHand().handSize());
 		
 		boolean bol = true;
-		for (int i = 0; i < mahjong.mainEst.handSize(); i++) {
-			if (mahjong.mainEst.get(i).getType().equals(TypeTuile.FLEU) || mahjong.mainEst.get(i).getType().equals(TypeTuile.SAIS)){
+		for (int i = 0; i < mahjong.jEst.getHand().handSize(); i++) {
+			if (mahjong.jEst.getHand().get(i).getType().equals(TypeTuile.FLEU) || mahjong.jEst.getHand().get(i).getType().equals(TypeTuile.SAIS)){
 				bol = false;
 			}
 		}
-		for (int i = 0; i < mahjong.mainOuest.handSize(); i++) {
-			if (mahjong.mainOuest.get(i).getType().equals(TypeTuile.FLEU) || mahjong.mainOuest.get(i).getType().equals(TypeTuile.SAIS)){
+		for (int i = 0; i < mahjong.jOuest.getHand().handSize(); i++) {
+			if (mahjong.jOuest.getHand().get(i).getType().equals(TypeTuile.FLEU) || mahjong.jOuest.getHand().get(i).getType().equals(TypeTuile.SAIS)){
 				bol = false;
 			}
 		}
-		for (int i = 0; i < mahjong.mainNord.handSize(); i++) {
-			if (mahjong.mainNord.get(i).getType().equals(TypeTuile.FLEU) || mahjong.mainNord.get(i).getType().equals(TypeTuile.SAIS)){
+		for (int i = 0; i < mahjong.jNord.getHand().handSize(); i++) {
+			if (mahjong.jNord.getHand().get(i).getType().equals(TypeTuile.FLEU) || mahjong.jNord.getHand().get(i).getType().equals(TypeTuile.SAIS)){
 				bol = false;
 			}
 		}
-		for (int i = 0; i < mahjong.mainSud.handSize(); i++) {
-			if (mahjong.mainSud.get(i).getType().equals(TypeTuile.FLEU) || mahjong.mainSud.get(i).getType().equals(TypeTuile.SAIS)){
+		for (int i = 0; i < mahjong.jSud.getHand().handSize(); i++) {
+			if (mahjong.jSud.getHand().get(i).getType().equals(TypeTuile.FLEU) || mahjong.jSud.getHand().get(i).getType().equals(TypeTuile.SAIS)){
 				bol = false;
 			}
 		}
 		assertTrue(bol);
 		
-		System.out.println(mahjong.bonusEst.size());
-		System.out.println(mahjong.bonusOuest.size());
-		System.out.println(mahjong.bonusNord.size());
-		System.out.println(mahjong.bonusSud.size());
+		System.out.println(mahjong.jEst.getBonus().size());
+		System.out.println(mahjong.jOuest.getBonus().size());
+		System.out.println(mahjong.jNord.getBonus().size());
+		System.out.println(mahjong.jSud.getBonus().size());
 
 	}
 
@@ -78,16 +78,16 @@ public class TestMahjongInitialisation {
 				}	
 			}
 			for (int i =0;i<13;i++){
-				Tuile tuile1=mahjong.mainEst.get(i);
-				Tuile tuile2=mahjong.mainOuest.get(i);
-				Tuile tuile3=mahjong.mainNord.get(i);
-				Tuile tuile4=mahjong.mainSud.get(i);
+				Tuile tuile1=mahjong.jEst.getHand().get(i);
+				Tuile tuile2=mahjong.jOuest.getHand().get(i);
+				Tuile tuile3=mahjong.jNord.getHand().get(i);
+				Tuile tuile4=mahjong.jSud.getHand().get(i);
 				listeTuiles.add(tuile1);
 				listeTuiles.add(tuile2);
 				listeTuiles.add(tuile3);
 				listeTuiles.add(tuile4);
 			}
-			listeTuiles.add(mahjong.mainEst.get(13));
+			listeTuiles.add(mahjong.jEst.getHand().get(13));
 			assertEquals(144,listeTuiles.size());
 			for (Tuile t : listeTuiles) {
 				assertTrue(mahjong.listeTuiles.contains(t));
