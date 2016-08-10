@@ -156,8 +156,9 @@ public class Hand {
 				//si les types et les valeurs sont égales:
 				  
 				if(		
-						//si la tuile seule est la plus grande de la suite 
-						(seules.get(i).getType().equals(res.get(j).get(0).getType())) 
+						//si la tuile seule est la plus grande de la suite
+						(seules.get(i).getType().getName().equals("caractère")||seules.get(i).getType().getName().equals("bambou")||seules.get(i).getType().getName().equals("rond"))
+						&&(seules.get(i).getType().equals(res.get(j).get(0).getType())) 
 						&& (seules.get(i).getType().equals(res.get(j+1).get(0).getType()))
 						&& (seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()+2))
 						&& (seules.get(i).getValeur().getValue()==(res.get(j+1).get(0).getValeur().getValue()+1)))
@@ -176,7 +177,8 @@ public class Hand {
 
 				} else if(		
 						//si la tuile seule est la plus petite de la suite 
-						(seules.get(i).getType().equals(res.get(j).get(0).getType())) 
+						(seules.get(i).getType().getName().equals("caractère")||seules.get(i).getType().getName().equals("bambou")||seules.get(i).getType().getName().equals("rond"))
+						&&(seules.get(i).getType().equals(res.get(j).get(0).getType())) 
 						&& (seules.get(i).getType().equals(res.get(j+1).get(0).getType()))
 						&& (seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()-1))
 						&& (seules.get(i).getValeur().getValue()==(res.get(j+1).get(0).getValeur().getValue()-2)))
@@ -195,7 +197,8 @@ public class Hand {
 
 				} else if(		
 						//si la tuile seule est le milieu de la suite
-						(seules.get(i).getType().equals(res.get(j).get(0).getType())) 
+						(seules.get(i).getType().getName().equals("caractère")||seules.get(i).getType().getName().equals("bambou")||seules.get(i).getType().getName().equals("rond"))
+						&&(seules.get(i).getType().equals(res.get(j).get(0).getType())) 
 						&& (seules.get(i).getType().equals(res.get(j+1).get(0).getType()))
 						&& (seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()-1))
 						&& (seules.get(i).getValeur().getValue()==(res.get(j+1).get(0).getValeur().getValue()+1)))
@@ -230,7 +233,8 @@ public class Hand {
 			
 			
 			// Premièrement : si seules contient deux tuiles qui se suivent
-			if(		(seules.get(i).getType().equals(seules.get(i+1).getType())) 
+			if(		(seules.get(i).getType().getName().equals("caractère")||seules.get(i).getType().getName().equals("bambou")||seules.get(i).getType().getName().equals("rond"))
+					&&(seules.get(i).getType().equals(seules.get(i+1).getType())) 
 					&& (seules.get(i).getValeur().getValue()==(seules.get(i+1).getValeur().getValue()-1))){
 
 
@@ -265,7 +269,8 @@ public class Hand {
 			} 
 			// Deuxièmement : si seules contient deux tuiles avec un d'écart (ex: 1 et 3)
 			
-			else if(		(seules.get(i).getType().equals(seules.get(i+1).getType())) 
+			else if(		(seules.get(i).getType().getName().equals("caractère")||seules.get(i).getType().getName().equals("bambou")||seules.get(i).getType().getName().equals("rond"))
+					&&(seules.get(i).getType().equals(seules.get(i+1).getType())) 
 					&& (seules.get(i).getValeur().getValue()==(seules.get(i+1).getValeur().getValue()-2))){
 				// on cherche dans res, une tuile pour completer
 				for (int j=0; j<res.size(); j++){
@@ -314,7 +319,8 @@ public class Hand {
 		while ( i < seules.size()-2) {
 
 			//Si on trouve des tuiles égales en type avec des valeurs qui se succèdent -> suite
-			if (               (seules.get(i+1).getType().equals(seules.get(i).getType()))
+			if (              (seules.get(i).getType().getName().equals("caractère")||seules.get(i).getType().getName().equals("bambou")||seules.get(i).getType().getName().equals("rond"))
+					&& (seules.get(i+1).getType().equals(seules.get(i).getType()))
 					&&(seules.get(i+2).getType().equals(seules.get(i).getType()))
 					&&(seules.get(i+1).getValeur().getValue()==(seules.get(i).getValeur().getValue()+1))
 					&&(seules.get(i+2).getValeur().getValue()==(seules.get(i).getValeur().getValue()+2))){
