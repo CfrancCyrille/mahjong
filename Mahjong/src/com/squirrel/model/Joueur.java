@@ -17,10 +17,9 @@ public class Joueur {
 		this.penalite ++;
 	}
 
-	public Joueur(String name, HandFacade hand,VenTuile vent){
+	public Joueur(String name, VenTuile vent){
 		 super();
 		 this.name=name;
-		 this.hand=hand;
 		 this.vent=vent;
 	}
 	
