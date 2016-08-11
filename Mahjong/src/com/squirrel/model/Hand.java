@@ -20,7 +20,7 @@ public class Hand implements Serializable {
 		this.tuilesListOfHand = new ArrayList<Tuile>();
 	}
 
-	
+
 	Collection<Tuile> fillHand(Tuile t) throws MainPleineException{
 		//fillHand() permet d'ajouter une tuile t à la liste tuilesListOfHand 
 		// Dans le jeu la tuile vient du Mur
@@ -35,14 +35,14 @@ public class Hand implements Serializable {
 
 	}
 
-	
+
 	@Override
 	public String toString() {
 		//Affichage
 		return   tuilesListOfHand.toString() ;
 	}
 
-	
+
 	Collection<Tuile> pickDefausse(Tuile t, boolean isCombi){
 		// pickDefausse() permet d'ajouter une tuile t à la liste tuilesListOfHand depuis la défausse 
 		// Seulement si la tuile de la défausse forme une combinaison avec celles dans tuilesListOfHand (isCombi)
@@ -55,7 +55,7 @@ public class Hand implements Serializable {
 	}
 	// TODO : test :  on peut ajouter des tuiles / on ne peut pas ajouter une 15eme tuile  / si pas de combi, on ne peut pas la prendre
 
-	
+
 	public Collection<Tuile> triTuiles(List<Tuile> hand){
 		//triTuiles(hand) trie les tuiles selon leur type puis leur valeur
 		//Range les tuiles par orde alphabetique selon le type
@@ -67,7 +67,7 @@ public class Hand implements Serializable {
 
 
 
-	
+
 	public List<List<Tuile>> findCombinaisons(List<Tuile>tuilesListOfHand){
 		//on crée une liste de liste pour contenir les combinaisons trouvées
 		List<List<Tuile>> res=new ArrayList<List<Tuile>>();
@@ -77,9 +77,9 @@ public class Hand implements Serializable {
 		List<Tuile> listClone = new ArrayList<Tuile>();
 		listClone.addAll(tuilesListOfHand);
 
-		
+
 		triTuiles(listClone);
-		
+
 		//on cherche des groupes dans listclone
 		//on met les groupes trouvés dans res
 		//on met les tuiles seules dans seules
@@ -97,9 +97,9 @@ public class Hand implements Serializable {
 			//on vérifie qu'on a pas laissé de tuile seule dans les combinaisons après recherche
 			petiteVerif(res, seules);
 		}
-		
+
 		mahjongPossible  = verifMahjong(res);
-		
+
 		return res;
 
 	}
@@ -165,7 +165,7 @@ public class Hand implements Serializable {
 
 			for (int j=0; j<res.size()-1; j++){
 				//si les types et les valeurs sont égales:
-				  
+
 				if(		
 						//si la tuile seule est la plus grande de la suite
 						(seules.get(i).getType().getName().equals("caractère")||seules.get(i).getType().getName().equals("bambou")||seules.get(i).getType().getName().equals("rond"))
@@ -236,13 +236,13 @@ public class Hand implements Serializable {
 		int i=0;
 		while (i<seules.size()-1){
 
-			
+
 			//Lorsqu'on forme une suite ici, passe à true
 			boolean isNewSuite=false;
 
 			//on cherche une tuile supérieure en valeur a i de 1 ou 2
-			
-			
+
+
 			// Premièrement : si seules contient deux tuiles qui se suivent
 			if(		(seules.get(i).getType().getName().equals("caractère")||seules.get(i).getType().getName().equals("bambou")||seules.get(i).getType().getName().equals("rond"))
 					&&(seules.get(i).getType().equals(seules.get(i+1).getType())) 
@@ -257,13 +257,13 @@ public class Hand implements Serializable {
 							|| (seules.get(i).getValeur().getValue()==(res.get(j).get(0).getValeur().getValue()+1)))){
 
 						List<Tuile> listIntermediaire = new ArrayList<Tuile>();		
-						
+
 						listIntermediaire.add(seules.get(i));
 						listIntermediaire.add(seules.get(i+1));
 						listIntermediaire.add(res.get(j).get(0));
 
 						res.add(listIntermediaire);
-						
+
 						seules.remove(seules.get(i+1));
 						seules.remove(seules.get(i));
 						res.get(j).remove(res.get(j).get(0));
@@ -280,7 +280,7 @@ public class Hand implements Serializable {
 				}					
 			} 
 			// Deuxièmement : si seules contient deux tuiles avec un d'écart (ex: 1 et 3)
-			
+
 			else if(		(seules.get(i).getType().getName().equals("caractère")||seules.get(i).getType().getName().equals("bambou")||seules.get(i).getType().getName().equals("rond"))
 					&&(seules.get(i).getType().equals(seules.get(i+1).getType())) 
 					&& (seules.get(i).getValeur().getValue()==(seules.get(i+1).getValeur().getValue()-2))){
@@ -348,7 +348,7 @@ public class Hand implements Serializable {
 				res.add(listIntermediaire);
 
 				//Puis on efface de la liste seules les tuiles traitées comme chow, et on recommence avec le reste des tuiles de la liste "seules".
-				
+
 				seules.removeAll(listIntermediaire);
 			}
 			else{
@@ -358,20 +358,25 @@ public class Hand implements Serializable {
 	}
 
 	List<Tuile> petiteVerif(List<List<Tuile>> res, List<Tuile> seules) {
-		//Petite vérification: si il y a des tuiles seules après recombinaison, on les met dans "seules"
+		//Petite vérification: si il y a des tuiles seules après recombinaison, on les met dans "seules"     
 		for (int j=0; j<res.size();j++){
 			if(res.get(j).size()==1){
 				seules.add(res.get(j).get(0));
 				res.remove(res.get(j));
-			}
-		}
-		return seules;
+			} else if (res.get(j).size()==2 && (res.get(j).get(0).getValeur().getValue()!=res.get(j).get(1).getValeur().getValue())){
+				seules.add(res.get(j).get(0));     
+				seules.add(res.get(j).get(1));         
+				res.remove(res.get(j));    
+			}       
+		}       
+		return seules;  
 	}
-	
+
+
 	boolean verifMahjong(List<List<Tuile>> res) {
-		
+
 		int nb;
-		
+
 		ArrayList<Integer> tableauTaille = new ArrayList<Integer>();
 		List<Integer> mahjong = Arrays.asList(3,3,3,3,2);
 		for(int j=0; j<res.size();j++){
@@ -381,8 +386,8 @@ public class Hand implements Serializable {
 		if (tableauTaille.containsAll(mahjong)){
 			this.mahjongPossible = true;
 		}
-		
-		
+
+
 		return mahjongPossible;
 	}
 
