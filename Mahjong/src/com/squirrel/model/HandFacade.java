@@ -71,4 +71,11 @@ public class HandFacade {
 	public void remove(Tuile t){
 		this.hand.tuilesListOfHand.remove(t);
 	}
+	/**
+	 * Fonction permettant de renvoyer la iste de tuiles dans la main
+	 * @return 
+	 */
+	public List<Tuile> renvoyerMain(Hand main){
+		return main.tuilesListOfHand;
+	}
 }
