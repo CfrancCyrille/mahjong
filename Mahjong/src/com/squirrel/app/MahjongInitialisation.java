@@ -21,17 +21,16 @@ public class MahjongInitialisation
 	public Mur murSud;
 	public Mur murNord;
 	
-	/*public HandFacade mainEst;
-	public HandFacade mainOuest;
-	public HandFacade mainNord;
-	public HandFacade mainSud;*/
-	
+	//Création des 4 joueurs
+	//TODO faire en sorte que l'utilisateur puisse choisir son nom
 	Joueur jEst = new Joueur ("Jean-Pierre", VenTuile.EST);
 	Joueur jOuest = new Joueur ("Hervé", VenTuile.OUE);
 	Joueur jSud = new Joueur ("Denis",VenTuile.SUD);
 	Joueur jNord = new Joueur ("Paulette", VenTuile.NOR);
 	
 	ArrayList<Tuile> listeTuiles;
+	
+	//Pour que la classe MahjongPartie puisse récupérer les valeurs des murs où piocher après l'initialisation
 	public Mur murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile;
 	public Mur murSpe;
 	
@@ -43,6 +42,7 @@ public class MahjongInitialisation
 		int score1=Gestionnaire.lancerDes();
 		int score2=Gestionnaire.lancerDes();
 		int somme;
+		//TODO Comment utiliser la fonction de Ben pour choisir le joueur qui sera associer à Est?
 		joueurCommencant=Gestionnaire.premierTirage();
 		somme=score1+score2+Gestionnaire.lancerDes()+Gestionnaire.lancerDes();
 		murBrechable=Gestionnaire.murBrechable(somme, Gestionnaire.muraDetruire(score1, score2));
@@ -204,6 +204,7 @@ public class MahjongInitialisation
 		return murSpecial;
 	}
 
+	//Pour passer d'un mur à un autre dans le sens du déroulement du jeu
 	private static Mur[] tousLesMurs(MahjongInitialisation mahjong) {
 		return new Mur[]{mahjong.murNord, mahjong.murOuest, mahjong.murSud, mahjong.murEst};
 	}
