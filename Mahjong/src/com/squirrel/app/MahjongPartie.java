@@ -14,7 +14,7 @@ import com.squirrel.model.TempoThread;
 
 
 public class MahjongPartie implements Runnable {
-	MahjongInitialisation mah;
+	MahjongInitialisation mah=new MahjongInitialisation();
 
 	/*Joueur jEst=new Joueur("jean-pierre", mah.mainEst,EST);
 	Joueur jNord=new Joueur("hervé",mah.mainNord,NOR);
@@ -26,7 +26,6 @@ public class MahjongPartie implements Runnable {
 
 	public void lancerPartie(){
 		// Creation d'une partie
-		mah=new MahjongInitialisation();
 		mah.initialiserUnePartie();
 
 
@@ -45,6 +44,7 @@ public class MahjongPartie implements Runnable {
 		TempoThread tempo = new TempoThread();
 		Tuile tuile = null;
 		int joueur=0;
+		
 		switch(etat){
 		case TROPTUILE:
 
