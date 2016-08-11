@@ -3,6 +3,7 @@ package com.squirrel.app;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -131,7 +132,59 @@ public class TestMahjongInitialisation {
 		}
 		assertTrue(bol);
 	}
-
+	@Test
+	public void rechercheDeCombinaisonsDansMain() {
+		MahjongInitialisation mahjong=new MahjongInitialisation();
+		mahjong.initialiserUnePartie();
+		
+		
+		try{
+			
+			
+			List<List<Tuile>> resE = mahjong.jEst.getHand().getCombinaison();
+			List<List<Tuile>> resW = mahjong.jOuest.getHand().getCombinaison();
+			List<List<Tuile>> resN = mahjong.jNord.getHand().getCombinaison();
+			List<List<Tuile>> resS = mahjong.jSud.getHand().getCombinaison();
+			
+			System.out.println("-resS--------");
+			System.out.println("----------");
+			for (int j=0;j<resS.size();j++){
+				for (Tuile t : resS.get(j)) {
+					System.out.print(t.getType().getName()+" ");
+					System.out.println(t.getValeur().getName()); 
+				}
+			}
+			System.out.println("-resE--------");
+			System.out.println("----------");
+			for (int j=0;j<resE.size();j++){
+				for (Tuile t : resE.get(j)) {
+					System.out.print(t.getType().getName()+" ");
+					System.out.println(t.getValeur().getName()); 
+				}
+			}
+			System.out.println("-resW--------");
+			System.out.println("----------");
+			for (int j=0;j<resW.size();j++){
+				for (Tuile t : resW.get(j)) {
+					System.out.print(t.getType().getName()+" ");
+					System.out.println(t.getValeur().getName()); 
+				}
+			}
+			System.out.println("-resN--------");
+			System.out.println("----------");
+			for (int j=0;j<resN.size();j++){
+				for (Tuile t : resN.get(j)) {
+					System.out.print(t.getType().getName()+" ");
+					System.out.println(t.getValeur().getName()); 
+				}
+			}
+			
+		}
+		catch(Exception e){
+		}
+		
+	}
 }
+
 
 
