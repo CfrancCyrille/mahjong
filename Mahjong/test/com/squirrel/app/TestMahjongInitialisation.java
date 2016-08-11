@@ -97,9 +97,40 @@ public class TestMahjongInitialisation {
 			
 		}
 		catch(Exception e){
+			//Exception muette !!!
 		}
 	}
-
+	
+	@Test
+	public void testAddJoueur() {
+		MahjongInitialisation mahjong=new MahjongInitialisation();
+		try {
+			mahjong.addJoueur("crac");
+			mahjong.addJoueur("hiita");
+		} catch (MahjongInitialisationException e) {
+			e.printStackTrace();
+		}
+		assertEquals(2, mahjong.player.size());
+	}
+	
+	@Test
+	public void testQuelEstMonVent() {
+		MahjongInitialisation mahjong=new MahjongInitialisation();
+		try {
+			mahjong.addJoueur("crac");
+			mahjong.addJoueur("hiita");
+			mahjong.addJoueur("timbrimy");
+			mahjong.addJoueur("Guest4681");
+		} catch (MahjongInitialisationException e) {
+			e.printStackTrace();
+		}
+		String vent = mahjong.quelEstMonVent("crac");
+		boolean bol = false;
+		if (vent.equals("Est") || vent.equals("Ouest") || vent.equals("Sud") || vent.equals("Nord")){
+			bol = true;
+		}
+		assertTrue(bol);
+	}
 
 }
 

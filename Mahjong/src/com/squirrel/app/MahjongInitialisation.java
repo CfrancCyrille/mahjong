@@ -1,6 +1,7 @@
 package com.squirrel.app;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import com.squirrel.ctrl.Gestionnaire;
 import com.squirrel.model.FacadeTuile;
@@ -22,11 +23,10 @@ public class MahjongInitialisation
 	public Mur murNord;
 	
 	//Création des 4 joueurs
-	//TODO faire en sorte que l'utilisateur puisse choisir son nom
-	Joueur jEst = new Joueur ("Jean-Pierre", VenTuile.EST);
-	Joueur jOuest = new Joueur ("Hervé", VenTuile.OUE);
-	Joueur jSud = new Joueur ("Denis",VenTuile.SUD);
-	Joueur jNord = new Joueur ("Paulette", VenTuile.NOR);
+	Joueur jEst = new Joueur (VenTuile.EST);
+	Joueur jOuest = new Joueur (VenTuile.OUE);
+	Joueur jSud = new Joueur (VenTuile.SUD);
+	Joueur jNord = new Joueur (VenTuile.NOR);
 	
 	ArrayList<Tuile> listeTuiles;
 	
@@ -34,16 +34,17 @@ public class MahjongInitialisation
 	public Mur murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile;
 	public Mur murSpe;
 	
+	//Création d'une table de hashage pour associer le pseudo d'un joueur à un ordre de jeu
+	Hashtable<String, Integer> player = new Hashtable<String, Integer>();
+	
 	public void initialiserUnePartie() {
-		@SuppressWarnings("unused")
-		int joueurCommencant;
+		
 		String murBrechable;
 		int breche;
 		int score1=Gestionnaire.lancerDes();
 		int score2=Gestionnaire.lancerDes();
 		int somme;
-		//TODO Comment utiliser la fonction de Ben pour choisir le joueur qui sera associer à Est?
-		joueurCommencant=Gestionnaire.premierTirage();
+		
 		somme=score1+score2+Gestionnaire.lancerDes()+Gestionnaire.lancerDes();
 		murBrechable=Gestionnaire.murBrechable(somme, Gestionnaire.muraDetruire(score1, score2));
 		breche=Gestionnaire.breche(somme);		
@@ -232,5 +233,36 @@ public class MahjongInitialisation
 		this.jSud.setBonus (new ArrayList<Tuile>());
 		this.jNord.setBonus (new ArrayList<Tuile>());
 
+	}
+	
+	//On rentre le pseudo du joueur dans la hashtable et on l'associe à un numéro allant de 1 à 4
+	int nbPlayer = 0;
+	public void addJoueur (String pseudo) throws MahjongInitialisationException{
+		nbPlayer ++;
+		if (nbPlayer < 5){
+			player.put(pseudo, nbPlayer);
+		}
+		else {
+			throw new MahjongInitialisationException("Attention, il n'est pas possible de jouer avec plus de 4 joueurs");
+		}
+	}
+	
+	//A partir du pseudo du joueur, on renvoit le vent qui lui correspond
+	public String quelEstMonVent (String pseudo){
+		//On choisit aléatoirement un nb entre 1 et 4 qui correspond au joueur qui va commencer
+		int joueurCommencant;
+		joueurCommencant=Gestionnaire.premierTirage();
+		//A partir du pseudo, on récupère le numéro attribué au joueur avec la méthode addJoueur
+		int numPseudo = player.get(pseudo);
+		//On cherche le vent qui lui corespond et on le renvoit
+		if (joueurCommencant == numPseudo){
+			return "Est";
+		} else if (numPseudo == joueurCommencant +1 || (joueurCommencant==4 && numPseudo==1)){
+			return "Sud";
+		} else if (numPseudo == joueurCommencant +2 || (joueurCommencant==3 && numPseudo==1)|| (joueurCommencant==4 && numPseudo==2)){
+			return "Ouest";
+		}
+		return "Nord";
+			
 	}
 }

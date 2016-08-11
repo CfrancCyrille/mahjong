@@ -6,7 +6,6 @@ import com.squirrel.model.TuileVen.VenTuile;
 
 public class Joueur {
 	
-	String name;
 	HandFacade hand;
 	VenTuile vent;
 	boolean appel=false;
@@ -17,9 +16,8 @@ public class Joueur {
 		this.penalite ++;
 	}
 
-	public Joueur(String name, VenTuile vent){
+	public Joueur(VenTuile vent){
 		 super();
-		 this.name=name;
 		 this.vent=vent;
 	}
 	
@@ -40,14 +38,6 @@ public class Joueur {
 	}
 	public void nAppel(){
 		appel=false;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public HandFacade getHand() {
