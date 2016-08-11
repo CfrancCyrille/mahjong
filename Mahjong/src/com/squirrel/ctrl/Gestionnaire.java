@@ -60,12 +60,12 @@ public class Gestionnaire
 		{
 			scoreDes[i]=lancerDes();
 		}
-		//on les affiche
-		for (int i = 0; i < 4; i++) 
-		{
-			System.out.println("score du joueur : " + i + " : " + scoreDes[i]);
-		}
-		System.out.println("-----------------------------");
+//		//on les affiche
+//		for (int i = 0; i < 4; i++) 
+//		{
+//			System.out.println("score du joueur : " + i + " : " + scoreDes[i]);
+//		}
+//		System.out.println("-----------------------------");
 		//on garde le score maximum des lancers de dés
 		for (int i = 0; i < 4; i++) 
 		{
@@ -91,12 +91,12 @@ public class Gestionnaire
 			{
 				scoreDes[relance.get(i)]=lancerDes();
 			}
-			//On affiche les nouveaux scores de ces lancers
-			for (int i = 0; i < relance.size(); i++) 
-			{
-				System.out.println("score du joueur : " + relance.get(i) + " : " + scoreDes[relance.get(i)]);
-			}
-			System.out.println("-----------------------------");
+//			//On affiche les nouveaux scores de ces lancers
+//			for (int i = 0; i < relance.size(); i++) 
+//			{
+//				System.out.println("score du joueur : " + relance.get(i) + " : " + scoreDes[relance.get(i)]);
+//			}
+//			System.out.println("-----------------------------");
 			//On remplace la nouvelle valeur max des nouveaux lancers
 			for (int i = 0; i < relance.size(); i++) 
 			{

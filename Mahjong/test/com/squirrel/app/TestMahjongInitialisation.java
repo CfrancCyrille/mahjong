@@ -45,10 +45,12 @@ public class TestMahjongInitialisation {
 		}
 		assertTrue(bol);
 		
-		System.out.println(mahjong.jEst.getBonus().size());
+		//Pemettait de vérifier qu'on avait bien des fleurs et saisons lors de la distribution des mains et
+		//qu'elles étaient bien parties dans la liste bonus
+		/*System.out.println(mahjong.jEst.getBonus().size());
 		System.out.println(mahjong.jOuest.getBonus().size());
 		System.out.println(mahjong.jNord.getBonus().size());
-		System.out.println(mahjong.jSud.getBonus().size());
+		System.out.println(mahjong.jSud.getBonus().size());*/
 
 	}
 
