@@ -1,5 +1,9 @@
 package com.squirrel.app;
 
+import static com.squirrel.app.MahjongPartie.EtatPartie.JOUEURAPPELLE;
+import static com.squirrel.app.MahjongPartie.EtatPartie.TROPTUILE;
+import static com.squirrel.app.MahjongPartie.EtatPartie.TUILEATTEND;
+
 import java.util.ArrayList;
 
 import com.squirrel.model.HandFacade;
@@ -36,11 +40,11 @@ public class MahjongPartie implements Runnable {
 		Mur murSpe=mah.murSpe;
 
 
-		EtatPartie etat=EtatPartie.TROPTUILE;
+		EtatPartie etat=TROPTUILE;
 		boolean mahjong=false;
 		TempoThread tempo = new TempoThread();
 		Tuile tuile = null;
-
+		int joueur=0;
 		switch(etat){
 		case TROPTUILE:
 
@@ -50,33 +54,38 @@ public class MahjongPartie implements Runnable {
 			//informe que c'est au joueur courant de selectionner une tuile
 			tuile=selectionne();
 			jetteTuile(jCourant, tuile);
+			etat = TUILEATTEND;
+
 		case TUILEATTEND:
 			tempo.start();
 			for(int i=1;i<4;i++){
 				if(liste.get(i).isAppel()){
-					if(tuile!=null){
-						if(isCombinaisonValid(tuile,liste.get(i).getHand())){
-							liste.get(i).getHand().remplirMain(tuile);
-							liste.get(i).setAppel(false);
-							liste=ordreJoueurs(liste.get(i));
-						}
-						else{
-							liste.get(i).incremPenalite();
-						}
-					}
-
+					joueur=i;
+					etat=JOUEURAPPELLE;
 				}else if (tempo.terminated){
 					mah.uneTuileDansLaMain(murPioche,jSuivant);
 					mah.verifFleursEtSaisons(murSpe,jSuivant);
 					liste=ordreJoueurs(jSuivant);
+					etat=TROPTUILE;
 				}
 
 			}
 
 
 		case JOUEURAPPELLE:
-
-
+			int i =joueur;
+			if(tuile!=null){
+				if(isCombinaisonValid(tuile,liste.get(i).getHand())){
+					liste.get(i).getHand().remplirMain(tuile);
+					liste.get(i).setAppel(false);
+					liste=ordreJoueurs(liste.get(i));
+					etat=TROPTUILE;
+				}
+				else{
+					liste.get(i).incremPenalite();
+					etat=TUILEATTEND;
+				}
+			}
 
 		default:
 			break;
@@ -124,7 +133,8 @@ public class MahjongPartie implements Runnable {
 
 
 	private boolean isCombinaisonValid(Tuile tuile, HandFacade hand) {
-		// TODO Changer la condition du prochain if sur savoir si la combinaison est valable
+		// TODO savoir si la combinaison est valable a coder
+
 		return false;
 	}
 
