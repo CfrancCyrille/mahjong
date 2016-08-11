@@ -3,7 +3,10 @@ package com.squirrel.app;
 import static com.squirrel.app.MahjongPartie.EtatPartie.JOUEURAPPELLE;
 import static com.squirrel.app.MahjongPartie.EtatPartie.TROPTUILE;
 import static com.squirrel.app.MahjongPartie.EtatPartie.TUILEATTEND;
-
+import static com.squirrel.app.MahjongPartie.Combinaison.PUNG;
+import static com.squirrel.app.MahjongPartie.Combinaison.CHOW;
+import static com.squirrel.app.MahjongPartie.Combinaison.KONG;
+import static com.squirrel.app.MahjongPartie.Combinaison.MAHJONG;
 import java.util.ArrayList;
 
 import com.squirrel.model.HandFacade;
@@ -52,7 +55,8 @@ public class MahjongPartie implements Runnable {
 				break;
 			}
 			//informe que c'est au joueur courant de selectionner une tuile
-			tuile=selectionne();
+			reqSelection(jCourant);
+			tuile=repSelection();
 			jetteTuile(jCourant, tuile);
 			etat = TUILEATTEND;
 
@@ -75,7 +79,7 @@ public class MahjongPartie implements Runnable {
 		case JOUEURAPPELLE:
 			int i =joueur;
 			if(tuile!=null){
-				if(isCombinaisonValid(tuile,liste.get(i).getHand())){
+				if(isCombinaisonValid(tuile,liste.get(i).getHand(),KONG)) {
 					liste.get(i).getHand().remplirMain(tuile);
 					liste.get(i).setAppel(false);
 					liste=ordreJoueurs(liste.get(i));
@@ -90,49 +94,26 @@ public class MahjongPartie implements Runnable {
 		default:
 			break;
 		}
-		/*boolean jPioche = true;
-		//ici debut de while arret sur mhjong ou plus de tuiles dans mur
-		Tuile tuile = null; 	//=selec ion ne(jCourant);
-		jetteTuile(jCourant, tuile);
-
-		boolean tuilePiochee=false;
-
-		// Tant que le joueur suivant ne pioche pas et qu'il y a une tuile dans le tas qui n'est pas appelee
-		while(!jPioche || !tuilePiochee){
-			for(int i=1;i<4;i++){
-				if(liste.get(i).isAppel()){
-					// Changer la condition du prochain if sur savoir si la combinaison est valable
-					if(isCombinaisonValid(tuilePiochee,liste.get(i).getHand())){
-						liste.get(i).getHand().remplirMain(tuile);
-						liste.get(i).setAppel(false);
-						liste=ordreJoueurs(liste.get(i));
-						tuilePiochee=true;
-					}
-				    else{
-				    	liste.get(i).incremPenalite();
-				    }
-				}
-			}
-		}
-		if(!tuilePiochee){
-			mah.uneTuileDansLaMain(murPioche,jSuivant.getHand());
-			liste=ordreJoueurs(jSuivant);
-		}
-
-		//ici fin de while global*/
+		
 
 	}
 
 
-	private Tuile selectionne() {
+	private Tuile repSelection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	private void reqSelection(Joueur j) {
 		// TODO Obtenir la tuile selectionnee par le joueur
 
-		//TODO ligne suivante à modifier pour donner la bonne tuile
-		return mah.jEst.getHand().get(0);
+		
+		
 	}
 
-
-	private boolean isCombinaisonValid(Tuile tuile, HandFacade hand) {
+	// Cette méthode permet de savoir si la combinaison d'un joueur essaie de faire
+	private boolean isCombinaisonValid(Tuile tuile, HandFacade hand, Combinaison combi) {
 		// TODO savoir si la combinaison est valable a coder
 
 		return false;
@@ -203,5 +184,21 @@ public class MahjongPartie implements Runnable {
 		public String getName(){
 			return nomEtat;
 		}
+	}
+	public enum Combinaison{
+		CHOW("chow"),PUNG("pung"),KONG("kong"),MAHJONG("mah jong");
+		String nomCombi;
+		int value;
+		private Combinaison(String nomCombi){
+			this.nomCombi=nomCombi;
+			this.value=this.ordinal();
+		}
+		public int getValue(){
+			return this.value;
+		}
+		public String getName(){
+			return nomCombi;
+		}
+		
 	}
 }
