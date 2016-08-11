@@ -13,10 +13,12 @@ import com.squirrel.model.HandFacade;
 import com.squirrel.model.Joueur;
 import com.squirrel.model.Mur;
 import com.squirrel.model.Tuile;
-import com.squirrel.model.TempoThread;
+
 
 
 public class MahjongPartie implements Runnable {
+	private static final int ENTRETOURS = 20;	//définir le nombre passages par sleeptime lors de l'attente d'un appel (exemple sleep 500ms, ENTRETOURS=20 alors on attend 10 secondes :D )
+
 	MahjongInitialisation mah=new MahjongInitialisation();
 
 	/*Joueur jEst=new Joueur("jean-pierre", mah.mainEst,EST);
@@ -44,72 +46,106 @@ public class MahjongPartie implements Runnable {
 
 		EtatPartie etat=TROPTUILE;
 		boolean mahjong=false;
-		TempoThread tempo = new TempoThread();
 		Tuile tuile = null;
-		int joueur=0;
+		int tuilesRestantes=144;
+		int sleepTime_ms=500;
+		int nbPassage=0;
+		int nbAttente=0;
 		
-		switch(etat){
-		case TROPTUILE:
+		while(!mahjong && tuilesRestantes>14){
 
-			if(mahjong){
-				break;
-			}
-			//informe que c'est au joueur courant de selectionner une tuile
-			reqSelection(jCourant);
-			tuile=repSelection();
-			jetteTuile(jCourant, tuile);
-			etat = TUILEATTEND;
 
-		case TUILEATTEND:
-			tempo.start();
-			for(int i=1;i<4;i++){
-				if(liste.get(i).isAppel()){
-					joueur=i;
+			switch(etat){
+			case TROPTUILE:
+
+				if(mahjong){
+					break;
+				}
+				//informe que c'est au joueur courant de selectionner une tuile
+				reqSelection();
+				tuile=repSelectionTuile;
+
+				jetteTuile(jCourant, tuile);
+				etat = TUILEATTEND;
+
+			case TUILEATTEND:
+				reqAfficheTuile(tuile);
+				nbAttente++;
+				
+				if(repAppelJoueur.isAppel()){
 					etat=JOUEURAPPELLE;
-				}else if (tempo.terminated){
+
+				}else if (nbAttente>ENTRETOURS){
+					nbAttente=0;
 					mah.uneTuileDansLaMain(murPioche,jSuivant);
 					mah.verifFleursEtSaisons(murSpe,jSuivant);
 					liste=ordreJoueurs(jSuivant);
 					etat=TROPTUILE;
 				}
 
+
+
+
+			case JOUEURAPPELLE:
+				if(tuile!=null){
+					if(isCombinaisonValid(tuile,repAppelJoueur.getHand(),KONG)) {
+						repAppelJoueur.getHand().remplirMain(tuile);
+						repAppelJoueur.setAppel(false);
+						liste=ordreJoueurs(repAppelJoueur);
+						etat=TROPTUILE;
+					}
+					else{
+						repAppelJoueur.incremPenalite();
+						etat=TUILEATTEND;
+					}
+				}
+
+			default:
+				break;
+			}
+			nbPassage++;
+			try {
+				Thread.sleep(sleepTime_ms);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 
 
-		case JOUEURAPPELLE:
-			int i =joueur;
-			if(tuile!=null){
-				if(isCombinaisonValid(tuile,liste.get(i).getHand(),KONG)) {
-					liste.get(i).getHand().remplirMain(tuile);
-					liste.get(i).setAppel(false);
-					liste=ordreJoueurs(liste.get(i));
-					etat=TROPTUILE;
-				}
-				else{
-					liste.get(i).incremPenalite();
-					etat=TUILEATTEND;
-				}
-			}
-
-		default:
-			break;
 		}
-		
-
 	}
 
 
-	private Tuile repSelection() {
-		// TODO Auto-generated method stub
-		return null;
+
+
+
+	public void reqAfficheTuile(Tuile tuile) {
+		// TODO donne a tous les joueurs la tuile en attente
+
+	}
+
+	volatile Joueur repAppelJoueur;
+	volatile Combinaison repAppelCombi;
+	public void repAppel(Joueur j, Combinaison combi){
+		// TODO Si un des joueurs à appelé une combinaison
+		j.setAppel(true);
+		if(combi==null){
+			combi=CHOW;
+		}
+		repAppelJoueur=j;
+		repAppelCombi=combi;
 	}
 
 
-	private void reqSelection(Joueur j) {
-		// TODO Obtenir la tuile selectionnee par le joueur
+	volatile Joueur joueurRequete;
 
-		
-		
+	public void reqSelection() {
+		// TODO demande au joueur j de selectionner une tuile	
+	}
+
+	volatile Tuile repSelectionTuile;
+	public void repSelection(Tuile tuile) {
+		// TODO attend la reponse de selection du joueur
+		repSelectionTuile=tuile;
 	}
 
 	// Cette méthode permet de savoir si la combinaison d'un joueur essaie de faire
@@ -199,6 +235,6 @@ public class MahjongPartie implements Runnable {
 		public String getName(){
 			return nomCombi;
 		}
-		
+
 	}
 }
