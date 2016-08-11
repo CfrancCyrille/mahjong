@@ -146,6 +146,11 @@ public class TestMahjongInitialisation {
 			List<List<Tuile>> resN = mahjong.jNord.getHand().getCombinaison();
 			List<List<Tuile>> resS = mahjong.jSud.getHand().getCombinaison();
 			
+			mahjong.jEst.getHand().res = resE;
+			mahjong.jOuest.getHand().res = resW;
+			mahjong.jNord.getHand().res = resN;
+			mahjong.jSud.getHand().res = resS;
+			
 			System.out.println("-resS--------");
 			System.out.println("----------");
 			for (int j=0;j<resS.size();j++){

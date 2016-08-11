@@ -5,9 +5,9 @@ import java.util.List;
 
 public class HandFacade {
 
-	private Hand hand;
+	public Hand hand;
 	boolean mahjongPossible=false;
-	List<List<Tuile>> res;
+	public List<List<Tuile>> res;
 
 /**
  * Constructeur de la facade
