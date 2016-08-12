@@ -66,6 +66,36 @@ public class Hand implements Serializable {
 		}
 		
 		
+		
+	}
+	
+	
+	public void toStringHashMap(HashMap<Combinaison, List<List<Tuile>>> hashMapAffichable){
+		//Affichage
+		for (Combinaison mapKey : hashMapAffichable.keySet()) {
+
+			List<List<Tuile>> currentCombinaisonList = hashMapAffichable.get(mapKey);
+
+			System.out.println("------------------");
+			System.out.println(mapKey.getName()+" ");
+			System.out.println("------------------");
+
+			int i=1;
+			for (List<Tuile> elementCurrentCombi : currentCombinaisonList) {
+				
+				System.out.println("N°"+i);
+				i++;
+				for (Tuile tuile : elementCurrentCombi) {
+					System.out.print(tuile.getType().getName()+" ");
+					System.out.println(tuile.getValeur().getName()+" ");
+				}
+
+
+			}
+
+		}
+		
+		
 	}
 	
 	boolean isCombi(Tuile t){
