@@ -107,7 +107,7 @@ public class Mur {
 	 * @throws MurException 
 	 */
 	public Tuile retirerTuile () throws MurException{
-		if(brecheSpeciale<1){
+		if(brecheSpeciale<-1){
 			throw new MurException("Attention, la brèche n'est pas définie");
 		}
 		else{
