@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+
+import com.squirrel.app.MahjongPartie.Combinaison;
 
 
 
@@ -391,6 +394,69 @@ public class Hand implements Serializable {
 		return mahjongPossible;
 	}
 
+
+	HashMap<Combinaison, List<List<Tuile>>> identificationCombi(List<List<Tuile>>resCombi){
+		//Création d'une liste qui contiendra les 3 précédentes. (chow, pung, kong)
+		HashMap<Combinaison, List<List<Tuile>>> combinaisons = new HashMap<Combinaison, List<List<Tuile>>>();
+		
+		//Fonction qui retourne la liste des chows, pungs, kungs trouvés dans res après findCombinaisons
+		
+		//Création d'une liste de chows
+		List<List<Tuile>> chow =new ArrayList <List<Tuile>>();
+		
+		//Création d'une liste de pungs
+		List<List<Tuile>> pung = new ArrayList <List<Tuile>>();
+		
+		//Création d'une liste de kong
+		List<List<Tuile>> kong = new ArrayList <List<Tuile>>();
+
+		
+		//On parcourt le res déterminé au préalable par la fonction findCombinaisons
+		for (int j=0;j<resCombi.size();j++){
+			int taille = resCombi.get(j).size();
+			
+			//et on associe une variable "combinaison" qui prend pour valeur le nombre de tuiles par groupe de res
+			int combinaison = taille;
+
+			
+			switch (combinaison){
+			//si groupe de 3 trouvé :
+			case 3 :
+				if(resCombi.get(j).get(0).getValeur().getValue()==resCombi.get(j).get(1).getValeur().getValue()){
+					//on le met dans la liste pung si tuiles identiques
+					pung.add(resCombi.get(j));
+
+			
+				}else
+					//sinon c'est un chow alors on le place dans la liste chow
+				{
+					chow.add(resCombi.get(j));
+
+				}
+				break;
+				
+				//si groupe de 4 trouvé
+			case 4 :
+				//c'est forcément un kong, donc on le met dans la liste kong
+				if(resCombi.get(j).get(0).getValeur().getValue()==resCombi.get(j).get(1).getValeur().getValue()){
+					kong.add(resCombi.get(j));
+
+					//TODO : traitement du kong
+					
+					break;
+
+				}
+
+			}
+		}
+		//on remplit notre liste contenant les listes de combinaisons trouvées et on retourne le résultat à la fonction
+		combinaisons.put(Combinaison.PUNG, pung);
+		combinaisons.put(Combinaison.KONG, kong);
+		combinaisons.put(Combinaison.CHOW, chow);
+		return combinaisons;
+		
+
+	}
 }
 
 
