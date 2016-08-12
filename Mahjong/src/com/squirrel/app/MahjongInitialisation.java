@@ -69,6 +69,7 @@ public class MahjongInitialisation
 		}
 
 		//Determination du mur brechable en fonction du calcul du gestionnaire
+		//Cas particulier si la somme des 4 dés est égale à 18 : les deux brèches ne sont pas dans le même mur !
 		if (somme == 18){
 			if (murBrechable.equals("Nord")) {
 				murPioche = this.murNord;

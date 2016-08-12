@@ -60,12 +60,6 @@ public class Gestionnaire
 		{
 			scoreDes[i]=lancerDes();
 		}
-//		//on les affiche
-//		for (int i = 0; i < 4; i++) 
-//		{
-//			System.out.println("score du joueur : " + i + " : " + scoreDes[i]);
-//		}
-//		System.out.println("-----------------------------");
 		//on garde le score maximum des lancers de dés
 		for (int i = 0; i < 4; i++) 
 		{
@@ -91,12 +85,6 @@ public class Gestionnaire
 			{
 				scoreDes[relance.get(i)]=lancerDes();
 			}
-//			//On affiche les nouveaux scores de ces lancers
-//			for (int i = 0; i < relance.size(); i++) 
-//			{
-//				System.out.println("score du joueur : " + relance.get(i) + " : " + scoreDes[relance.get(i)]);
-//			}
-//			System.out.println("-----------------------------");
 			//On remplace la nouvelle valeur max des nouveaux lancers
 			for (int i = 0; i < relance.size(); i++) 
 			{
@@ -150,6 +138,7 @@ public class Gestionnaire
 	public static int breche(int sommeDe)
 	{
 		//condition si on ne depasse pas la capacite d'un mur, la position sera la tuile du dessus de la colonne
+		//Pour le cas où sommeDe = 18, on piochera dans le mur suivant, donc on fait notre calcul pour positionner la blèche en amont du mur suivant
 		if(sommeDe<18)
 		{
 			return sommeDe = (sommeDe-1)*2;
