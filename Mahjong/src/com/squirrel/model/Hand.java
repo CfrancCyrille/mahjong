@@ -75,6 +75,7 @@ public class Hand implements Serializable {
 		boolean isCombi = false;
 		
 		List<Tuile> listTestee = this.tuilesListOfHand;	
+		listTestee.add(t);
 		List<List<Tuile>> res = findCombinaisons(listTestee);
 				for(int j=0; j<res.size();j++){
 					if (res.get(j).contains(t)){

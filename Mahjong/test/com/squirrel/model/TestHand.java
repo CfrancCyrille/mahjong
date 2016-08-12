@@ -776,6 +776,48 @@ public class TestHand {
 
 
 	}
+	
+	@Test
+	/**
+	 *on teste l'identification de nos combinaisons présentes dans la main (pung, kong, chow) après que les groupes furent formés par findCombinaisons.
+	 *Test validé le 12.08.2016
+	 **/
+
+	public void testPiocheDefausseIsCombi(){
+		System.out.println("==========");
+		System.out.println("testPiocheDefausseIsCombi");
+		System.out.println("==========");
+		Hand hand = new Hand();
+		ArrayList<Tuile> list = new ArrayList<Tuile>();
+		FacadeTuile facadeTuile = genererJeuDeTuilesMelangees(list);
+		remplissageDeMain(hand, list, facadeTuile);
+		
+
+		//on crée une main factice à 13 tuiles
+		System.out.println("==========");
+		System.out.println("main qui veut récupérer la tuile défaussée");
+		System.out.println("==========");
+		hand.tuilesListOfHand.remove(0);
+		hand.toStringList(hand.tuilesListOfHand);
+		System.out.println(hand.tuilesListOfHand.size() + "tuiles");
+		
+		//on vérifie le nombre de tuiles
+		int actual = hand.tuilesListOfHand.size();
+		int expected = 13;
+		assertEquals(expected, actual);
+		
+		System.out.println("==========");
+		System.out.println("tuile défaussée");
+		System.out.println("==========");
+		boolean isCombi = hand.isCombi(list.get(50));
+		System.out.print(list.get(50).getType().getName()+" ");
+		System.out.println(list.get(50).getValeur().getName()+" ");
+		
+		System.out.println("==========");
+		System.out.println("booléen : true si on peut faire une combinaison");
+		System.out.println("==========");
+		System.out.println(isCombi);
+	}
 
 }
 
