@@ -61,7 +61,7 @@ public class HandFacade {
 	 */
 	public Hand piocheDefausse(Tuile t){
 		boolean isCombi = false;
-		//TODOisCombi=fnction de test qui renvoi isCombi
+		isCombi = hand.isCombi(t);
 		hand.pickDefausse(t,isCombi);
 		return hand;
 	}
