@@ -21,30 +21,30 @@ public class MahjongInitialisation
 	public Mur murOuest;
 	public Mur murSud;
 	public Mur murNord;
-	
+
 	//Création des 4 joueurs
 	Joueur jEst = new Joueur (VenTuile.EST);
 	Joueur jOuest = new Joueur (VenTuile.OUE);
 	Joueur jSud = new Joueur (VenTuile.SUD);
 	Joueur jNord = new Joueur (VenTuile.NOR);
-	
+
 	ArrayList<Tuile> listeTuiles;
-	
+
 	//Pour que la classe MahjongPartie puisse récupérer les valeurs des murs où piocher après l'initialisation
 	public Mur murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile;
 	public Mur murSpe;
-	
+
 	//Création d'une table de hashage pour associer le pseudo d'un joueur à un ordre de jeu
 	Hashtable<String, Integer> player = new Hashtable<String, Integer>();
-	
+
 	public void initialiserUnePartie() {
-		
+
 		String murBrechable;
 		int breche;
 		int score1=Gestionnaire.lancerDes();
 		int score2=Gestionnaire.lancerDes();
 		int somme;
-		
+
 		somme=score1+score2+Gestionnaire.lancerDes()+Gestionnaire.lancerDes();
 		murBrechable=Gestionnaire.murBrechable(somme, Gestionnaire.muraDetruire(score1, score2));
 		breche=Gestionnaire.breche(somme);		
@@ -69,22 +69,43 @@ public class MahjongInitialisation
 		}
 
 		//Determination du mur brechable en fonction du calcul du gestionnaire
-		if (murBrechable.equals("Nord")) {
-			murPioche = this.murNord;
-			murSpecial = this.murNord;
+		if (somme == 18){
+			if (murBrechable.equals("Nord")) {
+				murPioche = this.murNord;
+				murSpecial = this.murEst;
+			}
+			else if (murBrechable.equals("Sud")) {
+				murPioche = this.murSud;
+				murSpecial = this.murOuest;
+			}
+			else if (murBrechable.equals("Ouest")) {
+				murPioche = this.murOuest;
+				murSpecial = this.murNord;
+			}
+			else if (murBrechable.equals("Est")) {
+				murPioche = this.murEst;
+				murSpecial = this.murSud;
+			}
 		}
-		else if (murBrechable.equals("Sud")) {
-			murPioche = this.murSud;
-			murSpecial = this.murSud;
+		else {
+			if (murBrechable.equals("Nord")) {
+				murPioche = this.murNord;
+				murSpecial = this.murNord;
+			}
+			else if (murBrechable.equals("Sud")) {
+				murPioche = this.murSud;
+				murSpecial = this.murSud;
+			}
+			else if (murBrechable.equals("Ouest")) {
+				murPioche = this.murOuest;
+				murSpecial = this.murOuest;
+			}
+			else if (murBrechable.equals("Est")) {
+				murPioche = this.murEst;
+				murSpecial = this.murEst;
+			}
 		}
-		else if (murBrechable.equals("Ouest")) {
-			murPioche = this.murOuest;
-			murSpecial = this.murOuest;
-		}
-		else if (murBrechable.equals("Est")) {
-			murPioche = this.murEst;
-			murSpecial = this.murEst;
-		}
+
 
 		//Placement de la breche sur le mur à piocher
 		try {
@@ -95,7 +116,12 @@ public class MahjongInitialisation
 
 		//Placement de la brèche spéciale
 		try {
-			murPioche.setBrecheSpeciale(breche);
+			if (somme == 18){
+				murSpecial.setBrecheSpeciale(34);
+			}
+			else {
+				murSpecial.setBrecheSpeciale(breche);
+			}
 		} catch (MurException e1) {
 			e1.printStackTrace();
 		}
@@ -125,17 +151,17 @@ public class MahjongInitialisation
 		murPioche = this.uneTuileDansLaMain(murPioche, jOuest);
 		murPioche = this.uneTuileDansLaMain(murPioche, jNord);
 		murPioche = this.uneTuileDansLaMain(murPioche, jEst);
-		
+
 		//On vérifie chacune des mains pour retirer les fleurs et saisons et on les remplace par des tuiles venant du "mur spécial"
 		murSpecial = verifFleursEtSaisons(murSpecial, jEst);
 		murSpecial = verifFleursEtSaisons(murSpecial, jSud);
 		murSpecial = verifFleursEtSaisons(murSpecial, jOuest);
 		murSpecial = verifFleursEtSaisons(murSpecial, jNord);
-		
+
 		//La c'est pour que partie sache ou piocher
 		murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile=murPioche;
 		murSpe=murSpecial;
-		
+
 	}
 
 	/**
@@ -162,7 +188,7 @@ public class MahjongInitialisation
 		}
 		return murSpecial;
 	}
-	
+
 	/**
 	 * Methode permettant de prendre une tuile dans le mur de pioche pour la donner à la main choisie 
 	 * et de changer le mur de pioche si ce dernier est completement vidé de ses tuiles
@@ -183,7 +209,7 @@ public class MahjongInitialisation
 		}
 		return murPioche;
 	}
-	
+
 	/**
 	 * Methode permettant de prendre une tuile dans le mur spécial pour la donner à la main choisie 
 	 * et de changer le mur spécial si ce dernier est completement vidé de ses tuiles
@@ -209,7 +235,7 @@ public class MahjongInitialisation
 	private static Mur[] tousLesMurs(MahjongInitialisation mahjong) {
 		return new Mur[]{mahjong.murNord, mahjong.murOuest, mahjong.murSud, mahjong.murEst};
 	}
-	
+
 
 	private void creationDes4Murs() {
 		this.murEst = new Mur();
@@ -218,7 +244,7 @@ public class MahjongInitialisation
 		this.murNord = new Mur();
 
 	}
-	
+
 	private void creationDes4Mains() {
 		this.jEst.setHand (new HandFacade());
 		this.jOuest.setHand (new HandFacade());
@@ -226,7 +252,7 @@ public class MahjongInitialisation
 		this.jNord.setHand (new HandFacade());
 
 	}
-	
+
 	private void creationDes4ListesBonus() {
 		this.jEst.setBonus (new ArrayList<Tuile>());
 		this.jOuest.setBonus (new ArrayList<Tuile>());
@@ -234,7 +260,7 @@ public class MahjongInitialisation
 		this.jNord.setBonus (new ArrayList<Tuile>());
 
 	}
-	
+
 	//On rentre le pseudo du joueur dans la hashtable et on l'associe à un numéro allant de 1 à 4
 	int nbPlayer = 0;
 	public void addJoueur (String pseudo) throws MahjongInitialisationException{
@@ -246,7 +272,7 @@ public class MahjongInitialisation
 			throw new MahjongInitialisationException("Attention, il n'est pas possible de jouer avec plus de 4 joueurs");
 		}
 	}
-	
+
 	//A partir du pseudo du joueur, on renvoit le vent qui lui correspond
 	public String quelEstMonVent (String pseudo){
 		//On choisit aléatoirement un nb entre 1 et 4 qui correspond au joueur qui va commencer
@@ -263,6 +289,6 @@ public class MahjongInitialisation
 			return "Ouest";
 		}
 		return "Nord";
-			
+
 	}
 }

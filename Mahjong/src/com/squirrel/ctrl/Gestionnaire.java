@@ -126,7 +126,7 @@ public class Gestionnaire
 	public static String murBrechable(int sommeDe, String nomMur)
 	{
 		//condition si on ne depasse pas la capacite d'un mur
-		if(sommeDe<19)
+		if(sommeDe<18)
 		{
 		}
 		else
@@ -150,14 +150,14 @@ public class Gestionnaire
 	public static int breche(int sommeDe)
 	{
 		//condition si on ne depasse pas la capacite d'un mur, la position sera la tuile du dessus de la colonne
-		if(sommeDe<19)
+		if(sommeDe<18)
 		{
-			return sommeDe = sommeDe*2-4;
+			return sommeDe = (sommeDe-1)*2;
 		}
 		//sinon la tuile sera la tuile du dessus de la colonne mais sur un autre mur
 		else
 		{
-			return sommeDe = ((sommeDe-18)*2)-4;
+			return sommeDe = (sommeDe-19)*2;
 		}
 	}
 
