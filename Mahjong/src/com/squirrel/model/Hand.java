@@ -101,7 +101,7 @@ public class Hand implements Serializable {
 	
 	boolean isCombi(Tuile t){
 		//isCombi vérifie si la tuile défaussée demandée forme une combinaison avec la main
-		//pour cela on utilise findCombinaisons et on regarde si la tuile défaussée est dans res
+		//pour cela on utilise findCombinaisons et on regarde si la tuile défaussée est dans res (une combianson est forcément supérieure à deux tuiles)
 		//si la tuile défaussée a une jumelle dans la main et qu'une seule se retrouve dans res on considère que c'est celle défaussée et récupéerée
 		boolean isCombi = false;
 		
@@ -109,7 +109,7 @@ public class Hand implements Serializable {
 		listTestee.add(t);
 		List<List<Tuile>> res = findCombinaisons(listTestee);
 				for(int j=0; j<res.size();j++){
-					if (res.get(j).contains(t)){
+					if (res.get(j).size()>2 && res.get(j).contains(t)){
 						isCombi=true;
 					}
 				}

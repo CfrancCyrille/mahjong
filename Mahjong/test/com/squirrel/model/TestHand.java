@@ -818,6 +818,77 @@ public class TestHand {
 		System.out.println("==========");
 		System.out.println(isCombi);
 	}
+	
+	@Test
+	/**
+	 *on teste l'identification de nos combinaisons présentes dans la main (pung, kong, chow) après que les groupes furent formés par findCombinaisons.
+	 *Test validé le 12.08.2016
+	 **/
+
+	public void testPiocheDefaussePickDefausse(){
+		System.out.println("==========");
+		System.out.println("testPiocheDefaussePickDefausse");
+		System.out.println("==========");
+		Hand hand = new Hand();
+		ArrayList<Tuile> list = new ArrayList<Tuile>();
+		FacadeTuile facadeTuile = genererJeuDeTuilesMelangees(list);
+		remplissageDeMain(hand, list, facadeTuile);
+		
+
+		//on crée une main factice à 13 tuiles
+		hand.tuilesListOfHand.remove(0);
+		System.out.println("main de  " + hand.tuilesListOfHand.size() + " tuiles");
+		
+		//on vérifie le nombre de tuiles
+		int actual = hand.tuilesListOfHand.size();
+		int expected = 13;
+		assertEquals(expected, actual);
+		
+		//on affiche la main 
+				hand.toStringList(hand.tuilesListOfHand);
+		
+		System.out.println("==========");
+		System.out.println("tuile défaussée");
+		boolean isCombi = hand.isCombi(list.get(50));
+		System.out.println(list.get(50).getType().getName()+" "+list.get(50).getValeur().getName()+" ");
+
+		System.out.println("booléen : " +isCombi);
+		
+		hand.pickDefausse(list.get(50), isCombi); //ici tuileListOfHand.size() = 14
+		
+		//on affiche la main 
+		hand.toStringList(hand.tuilesListOfHand);
+		
+		
+		
+		
+		
+//		//on crée une main factice à 14 tuiles -> elle ne doit pas pouvoir piocher!
+//		//on vérifie le nombre de tuiles
+//		Hand hand2 = new Hand();
+//		ArrayList<Tuile> list2 = new ArrayList<Tuile>();
+//		FacadeTuile facadeTuile2 = genererJeuDeTuilesMelangees(list2);
+//		remplissageDeMain(hand2, list2, facadeTuile2);
+//		
+//		System.out.println(hand2.tuilesListOfHand.size() + "tuiles");
+//				int actual2 = hand2.tuilesListOfHand.size();
+//				int expected2 = 14;
+//				assertEquals(expected, actual);
+//				
+//				System.out.print("==========");
+//				System.out.print("tuile défaussée");
+//				System.out.println("==========");
+//				boolean isCombi2 = hand2.isCombi(list2.get(50));
+//				System.out.println(list2.get(50).getType().getName()+" "+list2.get(50).getValeur().getName()+" ");
+//
+//				System.out.println("booléen : " +isCombi2);
+//				
+//				hand2.pickDefausse(list2.get(50), isCombi2);
+//				
+//				//on affiche la main 
+//				hand2.toStringList(hand2.tuilesListOfHand);
+	}
+
 
 }
 
