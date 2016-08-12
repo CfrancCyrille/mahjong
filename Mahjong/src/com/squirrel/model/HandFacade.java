@@ -16,7 +16,19 @@ public class HandFacade {
 		this.hand = new Hand();
 		this.res=new ArrayList<List<Tuile>>();
 	}
-
+	/**
+	 * Fonction permettant d'afficher les tuiles dans une liste de tuiles
+	 */
+	public void toStringList(List<Tuile> l){
+		hand.toStringList(l);
+	}	
+	/**
+	 * Fonction permettant d'afficher les tuiles dans une liste de liste de tuiles
+	 */
+	public void toStringListList(List<List<Tuile>> l){
+		hand.toStringListList(l);
+	}	
+	
 	/**
 	 * Fonction permettant de trier les tuiles dans une liste de tuiles
 	 * Triées par familles (ordre alphabetique) puis par valeur

@@ -153,36 +153,21 @@ public class TestMahjongInitialisation {
 			
 			System.out.println("-resS--------");
 			System.out.println("----------");
-			for (int j=0;j<resS.size();j++){
-				for (Tuile t : resS.get(j)) {
-					System.out.print(t.getType().getName()+" ");
-					System.out.println(t.getValeur().getName()); 
-				}
-			}
+			mahjong.jEst.getHand().toStringListList(resS);
+			
+			
 			System.out.println("-resE--------");
 			System.out.println("----------");
-			for (int j=0;j<resE.size();j++){
-				for (Tuile t : resE.get(j)) {
-					System.out.print(t.getType().getName()+" ");
-					System.out.println(t.getValeur().getName()); 
-				}
-			}
+			mahjong.jEst.getHand().toStringListList(resE);
+			
 			System.out.println("-resW--------");
 			System.out.println("----------");
-			for (int j=0;j<resW.size();j++){
-				for (Tuile t : resW.get(j)) {
-					System.out.print(t.getType().getName()+" ");
-					System.out.println(t.getValeur().getName()); 
-				}
-			}
+			mahjong.jEst.getHand().toStringListList(resW);
+			
+		
 			System.out.println("-resN--------");
 			System.out.println("----------");
-			for (int j=0;j<resN.size();j++){
-				for (Tuile t : resN.get(j)) {
-					System.out.print(t.getType().getName()+" ");
-					System.out.println(t.getValeur().getName()); 
-				}
-			}
+			mahjong.jEst.getHand().toStringListList(resN);
 			
 		}
 		catch(Exception e){

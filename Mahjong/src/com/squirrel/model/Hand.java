@@ -36,10 +36,32 @@ public class Hand implements Serializable {
 	}
 
 
-	@Override
-	public String toString() {
+	
+	public void toStringList(List<Tuile> listAffichable) {
 		//Affichage
-		return   tuilesListOfHand.toString() ;
+		
+		
+			for (Tuile t : listAffichable) {
+				System.out.print(t.getType().getName()+" ");
+				System.out.println(t.getValeur().getName()); 
+
+			}	
+		
+		
+	}
+	
+	public void toStringListList(List<List<Tuile>> listListAffichable) {
+		//Affichage
+		
+		for (int j=0;j<listListAffichable.size();j++){
+			for (Tuile t : listListAffichable.get(j)) {
+				System.out.print(t.getType().getName()+" ");
+				System.out.println(t.getValeur().getName()); 
+			}
+			System.out.println(" ");
+		}
+		
+		
 	}
 
 
