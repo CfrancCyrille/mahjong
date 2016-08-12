@@ -14,6 +14,7 @@ public class Hand implements Serializable {
 	public List<Tuile> tuilesListOfHand;
 	final int TAILLE_MAIN=14; // constante taille de la main (maximum)
 	public boolean mahjongPossible = false;
+	
 
 	//constructeur
 	public Hand(){
@@ -63,7 +64,24 @@ public class Hand implements Serializable {
 		
 		
 	}
-
+	
+	boolean isCombi(Tuile t){
+		//isCombi vérifie si la tuile défaussée demandée forme une combinaison avec la main
+		//pour cela on utilise findCombinaisons et on regarde si la tuile défaussée est dans res
+		//si la tuile défaussée a une jumelle dans la main et qu'une seule se retrouve dans res on considère que c'est celle défaussée et récupéerée
+		boolean isCombi = false;
+		
+		List<Tuile> listTestee = this.tuilesListOfHand;	
+		List<List<Tuile>> res = findCombinaisons(listTestee);
+				for(int j=0; j<res.size();j++){
+					if (res.get(j).contains(t)){
+						isCombi=true;
+					}
+				}
+		
+		return isCombi;
+		
+	}
 
 	Collection<Tuile> pickDefausse(Tuile t, boolean isCombi){
 		// pickDefausse() permet d'ajouter une tuile t à la liste tuilesListOfHand depuis la défausse 
@@ -90,7 +108,7 @@ public class Hand implements Serializable {
 
 
 
-	public List<List<Tuile>> findCombinaisons(List<Tuile>tuilesListOfHand){
+	public List<List<Tuile>> findCombinaisons(List<Tuile> tuilesListOfHand){
 		//on crée une liste de liste pour contenir les combinaisons trouvées
 		List<List<Tuile>> res=new ArrayList<List<Tuile>>();
 		//liste des tuiles seules
