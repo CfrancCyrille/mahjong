@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import com.squirrel.app.MahjongInitialisation;
 import com.squirrel.app.MahjongPartie.Combinaison;
 
 
@@ -529,14 +530,8 @@ public class Hand implements Serializable {
 
 	}
 	
-	public void traitementKong (HashMap<Combinaison, List<List<Tuile>>> res, Joueur jCourant){
-		//ajouter les listes présentes dans la HashMap avec mot clé kong dans la liste bonus du joueur
-		/*while (jCourant.getHand().getCombinaison().get(res). ){
-			
-		}*/
-		//sortir ces tuiles de la hashmap (remove)
-		//ajouter une tuile dans la main du joueur avec la méthode retirer tuile
-	}
+	
+	
 }
 
 
