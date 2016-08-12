@@ -1,13 +1,17 @@
 package com.squirrel.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import com.squirrel.app.MahjongPartie.Combinaison;
 
 public class HandFacade {
 
 	public Hand hand;
 	boolean mahjongPossible=false;
 	public List<List<Tuile>> res;
+	public HashMap<Combinaison, List<List<Tuile>>> combinaisons = new HashMap<Combinaison, List<List<Tuile>>>();
 
 /**
  * Constructeur de la facade
@@ -27,7 +31,11 @@ public class HandFacade {
 	 */
 	public void toStringListList(List<List<Tuile>> l){
 		hand.toStringListList(l);
-	}	
+	}
+	
+	public void toStringHashMap(HashMap<Combinaison, List<List<Tuile>>> hash){
+		hand.toStringHashMap(hash);
+	}
 	
 	/**
 	 * Fonction permettant de trier les tuiles dans une liste de tuiles
@@ -43,6 +51,14 @@ public class HandFacade {
 	 */
 	public List<List<Tuile>> getCombinaison(){
 		return res = hand.findCombinaisons(hand.tuilesListOfHand);
+	}
+	
+	/**
+	 * Fonction permettant d'identifier à partir des combinaisons trouvées lesquelles sont des pung, lesquelles sont des kong, lesquelles sont des chow
+	 * Renvoie une hashMap qui associe a chaque liste de combinaisons une clé (pung ou kong ou chow)
+	 */
+	public HashMap<Combinaison, List<List<Tuile>>> getIdentificationCombi(){
+		return combinaisons = hand.identificationCombi(res);
 	}
 	/**
 	 * Fonction permettant de remplir de tuiles un objet de type main

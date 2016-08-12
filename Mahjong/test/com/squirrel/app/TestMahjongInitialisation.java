@@ -3,11 +3,13 @@ package com.squirrel.app;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Test;
 
 import com.squirrel.app.MahjongInitialisation;
+import com.squirrel.app.MahjongPartie.Combinaison;
 import com.squirrel.model.Tuile;
 import com.squirrel.model.TuileFactory.TypeTuile;
 
@@ -168,6 +170,68 @@ public class TestMahjongInitialisation {
 			System.out.println("-resN--------");
 			System.out.println("----------");
 			mahjong.jEst.getHand().toStringListList(resN);
+			
+		}
+		catch(Exception e){
+		}
+		
+	}
+	@Test
+	public void identificationDeCombinaisonsDansMain() {
+		MahjongInitialisation mahjong=new MahjongInitialisation();
+		mahjong.initialiserUnePartie();
+		
+		
+		try{
+			
+			List<List<Tuile>> resE = mahjong.jEst.getHand().getCombinaison();
+			List<List<Tuile>> resW = mahjong.jOuest.getHand().getCombinaison();
+			List<List<Tuile>> resN = mahjong.jNord.getHand().getCombinaison();
+			List<List<Tuile>> resS = mahjong.jSud.getHand().getCombinaison();
+			
+			mahjong.jEst.getHand().res = resE;
+			mahjong.jOuest.getHand().res = resW;
+			mahjong.jNord.getHand().res = resN;
+			mahjong.jSud.getHand().res = resS;
+			
+			HashMap<Combinaison, List<List<Tuile>>> Ecombinaisons = mahjong.jEst.getHand().getIdentificationCombi();
+			HashMap<Combinaison, List<List<Tuile>>> Wcombinaisons = mahjong.jOuest.getHand().getIdentificationCombi(); 
+			HashMap<Combinaison, List<List<Tuile>>> Ncombinaisons = mahjong.jNord.getHand().getIdentificationCombi();
+			HashMap<Combinaison, List<List<Tuile>>> Scombinaisons = mahjong.jSud.getHand().getIdentificationCombi();
+			
+			mahjong.jEst.getHand().combinaisons = Ecombinaisons;
+			mahjong.jOuest.getHand().combinaisons = Wcombinaisons;
+			mahjong.jOuest.getHand().combinaisons = Ncombinaisons;
+			mahjong.jOuest.getHand().combinaisons = Scombinaisons;
+			
+			System.out.println("-resS--------");
+			System.out.println("----------");
+			mahjong.jEst.getHand().toStringListList(resS);
+			
+			System.out.println("combinaisons identifiées joueurS :");
+			mahjong.jEst.getHand().toStringHashMap(Scombinaisons);
+			
+		
+			System.out.println("-resE--------");
+			System.out.println("----------");
+			mahjong.jEst.getHand().toStringListList(resE);
+			
+			System.out.println("combinaisons identifiées joueurE :");
+			mahjong.jEst.getHand().toStringHashMap(Ecombinaisons);
+			
+			System.out.println("-resW--------");
+			System.out.println("----------");
+			mahjong.jEst.getHand().toStringListList(resW);
+			
+			System.out.println("combinaisons identifiées joueurW :");
+			mahjong.jEst.getHand().toStringHashMap(Wcombinaisons);
+			
+			System.out.println("-resN--------");
+			System.out.println("----------");
+			mahjong.jEst.getHand().toStringListList(resN);
+			
+			System.out.println("combinaisons identifiées joueurN :");
+			mahjong.jEst.getHand().toStringHashMap(Ncombinaisons);
 			
 		}
 		catch(Exception e){
