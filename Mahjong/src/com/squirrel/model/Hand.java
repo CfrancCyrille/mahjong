@@ -105,14 +105,20 @@ public class Hand implements Serializable {
 		//si la tuile défaussée a une jumelle dans la main et qu'une seule se retrouve dans res on considère que c'est celle défaussée et récupéerée
 		boolean isCombi = false;
 		
-		List<Tuile> listTestee = this.tuilesListOfHand;	
+		List<Tuile> listTestee = new ArrayList<Tuile>();
+		listTestee.addAll(tuilesListOfHand);	
 		listTestee.add(t);
 		List<List<Tuile>> res = findCombinaisons(listTestee);
+		
+		if(mahjongPossible==true){
+			isCombi=true;
+		}else{
 				for(int j=0; j<res.size();j++){
-					if (res.get(j).size()>2 && res.get(j).contains(t)){
+					if (res.get(j).size()==3 && res.get(j).contains(t)){
 						isCombi=true;
 					}
 				}
+		}
 		
 		return isCombi;
 		
@@ -121,8 +127,13 @@ public class Hand implements Serializable {
 	Collection<Tuile> pickDefausse(Tuile t, boolean isCombi){
 		// pickDefausse() permet d'ajouter une tuile t à la liste tuilesListOfHand depuis la défausse 
 		// Seulement si la tuile de la défausse forme une combinaison avec celles dans tuilesListOfHand (isCombi)
-		if (isCombi == true && tuilesListOfHand.size()<TAILLE_MAIN){
-			this.tuilesListOfHand.add(t);
+		if (isCombi == true){
+			try {
+				fillHand( t);
+			} catch (MainPleineException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}else{ System.out.println("Vous ne pouvez pas prendre cette tuile");
 		//TODO Ajout une pénalité au score du joueur
 		}

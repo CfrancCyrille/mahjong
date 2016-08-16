@@ -851,12 +851,15 @@ public class TestHand {
 		System.out.println("tuile défaussée");
 		boolean isCombi = hand.isCombi(list.get(50));
 		System.out.println(list.get(50).getType().getName()+" "+list.get(50).getValeur().getName()+" ");
+		System.out.println("==========");
 
 		System.out.println("booléen : " +isCombi);
+		
 		
 		hand.pickDefausse(list.get(50), isCombi); //ici tuileListOfHand.size() = 14
 		
 		//on affiche la main 
+		System.out.println("==========");
 		hand.toStringList(hand.tuilesListOfHand);
 		
 		
