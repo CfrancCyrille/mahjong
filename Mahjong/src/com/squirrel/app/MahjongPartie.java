@@ -14,10 +14,8 @@ import com.squirrel.model.Joueur;
 import com.squirrel.model.Mur;
 import com.squirrel.model.Tuile;
 
-
-
 public class MahjongPartie implements Runnable {
-	private static final int ENTRETOURS = 20;	//définir le nombre passages par sleeptime lors de l'attente d'un appel (exemple sleep 500ms, ENTRETOURS=20 alors on attend 10 secondes :D )
+	static final int ENTRETOURS = 20;	//définir le nombre passages par sleeptime lors de l'attente d'un appel (exemple sleep 500ms, ENTRETOURS=20 alors on attend 10 secondes :D )
 
 	MahjongInitialisation mah=new MahjongInitialisation();
 
@@ -27,12 +25,15 @@ public class MahjongPartie implements Runnable {
 	Joueur jSud=new Joueur("paulette",mah.mainSud,SUD);
 	 */
 	ArrayList<Tuile> defausse=new ArrayList<Tuile>();
-
-
+	EtatPartie etat=TROPTUILE;
+	boolean mahjong=false;
+	boolean repRecue=false;
+	int sleepTime_ms=500;
+	boolean penalite=false;
+	
 	public void lancerPartie(){
 		// Creation d'une partie
 		mah.initialiserUnePartie();
-
 
 		ArrayList<Joueur> liste=new ArrayList<Joueur>();
 		Joueur jCourant;
@@ -43,48 +44,60 @@ public class MahjongPartie implements Runnable {
 		Mur murPioche=mah.murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile;
 		Mur murSpe=mah.murSpe;
 
-
-		EtatPartie etat=TROPTUILE;
-		boolean mahjong=false;
+		
 		Tuile tuile = null;
 		int tuilesRestantes=144;
-		int sleepTime_ms=500;
+		
 		int nbPassage=0;
 		int nbAttente=0;
+		boolean reqEnvoyee = false;
+		
 		
 		while(!mahjong && tuilesRestantes>14){
 
-
 			switch(etat){
 			case TROPTUILE:
-
-				if(mahjong){
-					break;
-				}
+				
+				if(!reqEnvoyee){
 				//informe que c'est au joueur courant de selectionner une tuile
 				reqSelection();
-				tuile=repSelectionTuile;
-
-				jetteTuile(jCourant, tuile);
-				etat = TUILEATTEND;
-
-			case TUILEATTEND:
-				reqAfficheTuile(tuile);
-				nbAttente++;
+				reqEnvoyee = true;
+				}
 				
+				if(mahjong){
+					break;
+				}else if(repRecue){
+					tuile=repSelectionTuile;
+					jetteTuile(jCourant, tuile);
+					etat = TUILEATTEND;
+					repRecue=false;
+					reqEnvoyee = false;
+				}
+				
+				break;
+			
+			case TUILEATTEND:
+				if(!reqEnvoyee){
+					//informe tous les joueurs de la tuile qui attend
+					reqAfficheTuile(tuile);
+					reqEnvoyee = true;
+					}
+					
+				nbAttente++;
+
 				if(repAppelJoueur.isAppel()){
 					etat=JOUEURAPPELLE;
+					reqEnvoyee = false;
 
 				}else if (nbAttente>ENTRETOURS){
 					nbAttente=0;
-					mah.uneTuileDansLaMain(murPioche,jSuivant);
+					murPioche = mah.uneTuileDansLaMain(murPioche,jSuivant);
 					mah.verifFleursEtSaisons(murSpe,jSuivant);
 					liste=ordreJoueurs(jSuivant);
 					etat=TROPTUILE;
+					reqEnvoyee = false;
 				}
-
-
-
+				break;
 
 			case JOUEURAPPELLE:
 				if(tuile!=null){
@@ -94,14 +107,14 @@ public class MahjongPartie implements Runnable {
 						liste=ordreJoueurs(repAppelJoueur);
 						etat=TROPTUILE;
 					}
-					else{
+					else if(penalite){
 						repAppelJoueur.incremPenalite();
 						etat=TUILEATTEND;
 					}
 				}
-
-			default:
 				break;
+			default:
+				
 			}
 			nbPassage++;
 			try {
@@ -109,18 +122,11 @@ public class MahjongPartie implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
-
 		}
 	}
 
-
-
-
-
 	public void reqAfficheTuile(Tuile tuile) {
 		// TODO donne a tous les joueurs la tuile en attente
-
 	}
 
 	volatile Joueur repAppelJoueur;
@@ -135,7 +141,6 @@ public class MahjongPartie implements Runnable {
 		repAppelCombi=combi;
 	}
 
-
 	volatile Joueur joueurRequete;
 
 	public void reqSelection() {
@@ -145,6 +150,7 @@ public class MahjongPartie implements Runnable {
 	volatile Tuile repSelectionTuile;
 	public void repSelection(Tuile tuile) {
 		// TODO attend la reponse de selection du joueur
+		repRecue=true;
 		repSelectionTuile=tuile;
 	}
 
@@ -155,15 +161,11 @@ public class MahjongPartie implements Runnable {
 		return false;
 	}
 
-
 	// Méthode de défausse d'une tuile. On rempli la liste de défausse associée a la partie.
 	public void jetteTuile(Joueur joueur, Tuile tuile){
 		defausse.add(tuile);
 		joueur.getHand().remove(tuile);
 	}
-
-
-
 
 	//Méthode renvoyant une liste des joueurs dans l'ordre suivant: courant suivant appellant appelant.
 	public ArrayList<Joueur> ordreJoueurs(Joueur j){
@@ -235,6 +237,5 @@ public class MahjongPartie implements Runnable {
 		public String getName(){
 			return nomCombi;
 		}
-
 	}
 }
