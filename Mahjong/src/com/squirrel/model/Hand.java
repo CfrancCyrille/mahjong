@@ -537,6 +537,15 @@ public class Hand implements Serializable {
 		
 
 	}
+	//dans une liste de listes , retire la l-ième liste 
+	 void removeAll(int l){
+		//ex   List<List>.removeAll(1) retire la 1ere liste 
+		 List<List<Tuile>> testee = new  ArrayList<List<Tuile>>();
+		 
+		 testee.removeAll(testee.get(l));
+		
+	}
+	
 	
 	
 	

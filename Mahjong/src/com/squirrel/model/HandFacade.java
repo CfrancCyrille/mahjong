@@ -105,4 +105,10 @@ public class HandFacade {
 	public List<Tuile> renvoyerMain(Hand main){
 		return main.tuilesListOfHand;
 	}
+	/**
+	 * Fonction permettant la suppression de la l-ième liste dans une liste de listes
+	 */
+	public void removeAll(int l){
+		hand.removeAll(l);
+	}
 }

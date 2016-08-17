@@ -1,6 +1,7 @@
 package com.squirrel.app;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,8 +9,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.squirrel.app.MahjongInitialisation;
 import com.squirrel.app.MahjongPartie.Combinaison;
+import com.squirrel.model.FacadeTuile;
+import com.squirrel.model.Hand;
+import com.squirrel.model.HandFacade;
 import com.squirrel.model.Tuile;
 import com.squirrel.model.TuileFactory.TypeTuile;
 
@@ -235,6 +238,77 @@ public class TestMahjongInitialisation {
 			
 		}
 		catch(Exception e){
+		}
+		
+	}
+	
+	
+	@Test
+	public void testTraitementKong() {
+		MahjongInitialisation mahjong=new MahjongInitialisation();
+		mahjong.initialiserUnePartie();
+		
+
+		FacadeTuile facadeTuile = new FacadeTuile();
+		
+		// Creation d'une main specifique au test
+		HandFacade handFacade=new HandFacade();
+		ArrayList<Tuile> tuilesList=new ArrayList<Tuile>();
+		facadeTuile.getTuilesList(tuilesList);
+		handFacade.triLesTuiles(tuilesList);
+		List<Tuile> c=new ArrayList<Tuile>();
+		
+		
+		
+		Hand temp = mahjong.jEst.getHand().hand;
+
+		System.out.println("main plein : ");
+		System.out.println(temp.tuilesListOfHand.size());
+		
+		for (int i=temp.tuilesListOfHand.size() ; i>0;i--){
+			temp.tuilesListOfHand.remove(0);
+			//temp.tuilesListOfHand.remove(1);
+		}
+		System.out.println("main vide : ");
+		System.out.println(temp.tuilesListOfHand.size());
+		
+		mahjong.jEst.getHand().hand=temp;
+		System.out.println("main joueur Est");
+		System.out.println(mahjong.jEst.getHand().handSize());
+		
+		
+		
+		for(int i=0; i<14; i++){
+			
+			c.add(tuilesList.get(i));
+			//mahjong.jEst.setHand(facadeTuile.getITuile(i, list));
+		}
+		
+		
+		mahjong.jEst.getHand().hand.tuilesListOfHand.addAll(c);
+		System.out.println("main joueur Est remplie");
+		System.out.println(mahjong.jEst.getHand().handSize());
+		
+		System.out.println("main Est avant traitement");
+		for (Tuile t : mahjong.jEst.getHand().hand.tuilesListOfHand) {
+			System.out.print(t.getType().getName()+" ");
+			System.out.println(t.getValeur().getName()); 
+
+		}
+		
+		mahjong.traitementKong (mahjong.jEst, mahjong.murSpe);
+		
+		System.out.println("Bonus Est");
+		System.out.println(mahjong.jEst.getBonus().toString());
+		System.out.println(mahjong.jEst.getBonus().size());
+		System.out.println(mahjong.jEst.getHand().handSize());
+		System.out.println("--------------");
+		
+		System.out.println("main Est après traitement");
+		for (Tuile t : mahjong.jEst.getHand().hand.tuilesListOfHand) {
+			System.out.print(t.getType().getName()+" ");
+			System.out.println(t.getValeur().getName()); 
+
 		}
 		
 	}

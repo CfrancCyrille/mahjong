@@ -8,7 +8,6 @@ import java.util.List;
 import com.squirrel.app.MahjongPartie.Combinaison;
 import com.squirrel.ctrl.Gestionnaire;
 import com.squirrel.model.FacadeTuile;
-import com.squirrel.model.Hand;
 import com.squirrel.model.HandFacade;
 import com.squirrel.model.Joueur;
 import com.squirrel.model.Mur;
@@ -301,17 +300,19 @@ public class MahjongInitialisation
 	public void traitementKong (Joueur jCourant, Mur murSpecial){
 
 		//On récupère dans une hashmap res les combinaisons du joueur courant triées par type
-		HashMap<Combinaison, List<List<Tuile>>> res = jCourant.getHand().getIdentificationCombi();
+		jCourant.getHand().res=jCourant.getHand().getCombinaison();
+		HashMap<Combinaison, List<List<Tuile>>> combinaisons = jCourant.getHand().getIdentificationCombi();
 
 		//ajouter les listes présentes dans la HashMap avec mot clé kong dans la liste bonus du joueur
 		//sortir ces tuiles de la hashmap (remove)
 		//ajouter une tuile dans la main du joueur avec la méthode retirer tuile
-		while (!res.get("KONG").isEmpty()){
-			for (int j = 0; j < 3; j++) {
-				jCourant.getBonus().add(res.get("KONG").get(0).get(j));
-				jCourant.getHand().remove(res.get("KONG").get(0).get(j));
+		int nbKong=combinaisons.get(Combinaison.KONG).size();
+		for(int k=0; k<nbKong ; k++){
+			jCourant.getBonus().addAll(combinaisons.get(Combinaison.KONG).get(0));
+			jCourant.getHand().hand.tuilesListOfHand.removeAll(combinaisons.get(Combinaison.KONG).get(k));
+			if(murSpecial != null){
+				murSpecial = this.uneTuileSpecialeDansLaMain(murSpecial, jCourant.getHand());
 			}
-			murSpecial = this.uneTuileSpecialeDansLaMain(murSpecial, jCourant.getHand());
 		}
 	}
 }
