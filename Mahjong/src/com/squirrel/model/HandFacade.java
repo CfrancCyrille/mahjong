@@ -75,11 +75,10 @@ public class HandFacade {
 	/**
 	 * Fonction permettant de rajouter une tuile défaussée à la main, si elle forme une combinaison
 	 */
-	public Hand piocheDefausse(Tuile t){
-		boolean isCombi = false;
-		isCombi = hand.isCombi(t);
-		hand.pickDefausse(t,isCombi);
-		return hand;
+	public boolean isCombinaisonValid(Tuile t){
+		
+		return  hand.isCombi(t);
+		
 	}
 	/**
 	 * Fonction permettant de récupérer la taille de la main
