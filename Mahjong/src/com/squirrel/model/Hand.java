@@ -35,9 +35,6 @@ public class Hand implements Serializable {
 			throw new MainPleineException();
 		}
 		return this.tuilesListOfHand;
-
-
-
 	}
 
 
