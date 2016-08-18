@@ -121,22 +121,22 @@ public class Hand implements Serializable {
 
 	}
 
-	Collection<Tuile> pickDefausse(Tuile t, boolean isCombi){
-		// pickDefausse() permet d'ajouter une tuile t à la liste tuilesListOfHand depuis la défausse 
-		// Seulement si la tuile de la défausse forme une combinaison avec celles dans tuilesListOfHand (isCombi)
-		if (isCombi == true){
-			try {
-				fillHand( t);
-			} catch (MainPleineException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}else{ System.out.println("Vous ne pouvez pas prendre cette tuile");
-		//TODO Ajout une pénalité au score du joueur
-		}
-		return this.tuilesListOfHand;
-	}
-	// TODO : test :  on peut ajouter des tuiles / on ne peut pas ajouter une 15eme tuile  / si pas de combi, on ne peut pas la prendre
+//	Collection<Tuile> pickDefausse(Tuile t, boolean isCombi){
+//		// pickDefausse() permet d'ajouter une tuile t à la liste tuilesListOfHand depuis la défausse 
+//		// Seulement si la tuile de la défausse forme une combinaison avec celles dans tuilesListOfHand (isCombi)
+//		if (isCombi == true){
+//			try {
+//				fillHand( t);
+//			} catch (MainPleineException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}else{ System.out.println("Vous ne pouvez pas prendre cette tuile");
+//		//TODO Ajout une pénalité au score du joueur
+//		}
+//		return this.tuilesListOfHand;
+//	}
+//	// TODO : test :  on peut ajouter des tuiles / on ne peut pas ajouter une 15eme tuile  / si pas de combi, on ne peut pas la prendre
 
 
 	public Collection<Tuile> triTuiles(List<Tuile> hand){
@@ -168,19 +168,21 @@ public class Hand implements Serializable {
 		//on met les tuiles seules dans seules
 		trouveGroupesTuilesIdentiques(res, seules, listClone);
 
+		// les trois if sont indépendants car chaque fonction nécéssite qu'il y ait des tuiles dans seules, si ce n'est plus le cas, il ne faut pas faire tourner les autres fonctions
 		if (seules.size()!=0){
 			//chercher une recombinaison entre seules
 			recombinaisonSeulesSeules(res, seules);
 		}
-		if (seules.size()!=0){
+		if (seules.size()!=0 && res.size()!=0){
 			//si ca ne suffit pas : chercher a associer deux tuiles seules à une tuile de res
 			recombinaisonSeulesCombisDeux(res, seules);
+		}
+		if (seules.size()!=0 && res.size()!=0){
 			//si ca ne suffit pas : chercher a associer une tuile seule à deux tuiles de res
 			recombinaisonSeulesCombis(res, seules);
-			//on vérifie qu'on a pas laissé de tuile seule dans les combinaisons après recherche
-			petiteVerif(res, seules);
 		}
-
+		//on vérifie qu'on a pas laissé de tuile seule dans les combinaisons après recherche
+		petiteVerif(res, seules);
 		mahjongPossible  = verifMahjong(res);
 
 		return res;
@@ -490,7 +492,7 @@ public class Hand implements Serializable {
 			sbTableauTaille.append(integer);
 		}
 
-		if(list!=null && !list.isEmpty() && Integer.parseInt(sbList.toString())==Integer.parseInt(sbTableauTaille.toString())){
+		if(sbList.toString()!="" && sbList.length()==sbTableauTaille.length() && sbTableauTaille.toString()!="" && Integer.parseInt(sbList.toString())==Integer.parseInt(sbTableauTaille.toString())){
 			bool=true;
 		}
 
@@ -569,6 +571,37 @@ public class Hand implements Serializable {
 		testee.removeAll(testee.get(l));
 
 	}
+
+//	java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+//	at java.util.ArrayList.rangeCheck(Unknown Source)
+//	at java.util.ArrayList.get(Unknown Source)
+//	at com.squirrel.model.Hand.recombinaisonSeulesCombis(Hand.java:258)
+//	at com.squirrel.model.Hand.findCombinaisons(Hand.java:182)
+//	at com.squirrel.model.Hand.isCombi(Hand.java:108)
+//	at com.squirrel.model.TestHand.testPiocheDefausseIsCombi(TestHand.java:698)
+//	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+//	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+//	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+//	at java.lang.reflect.Method.invoke(Unknown Source)
+//	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+//	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+//	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+//	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+//	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+//	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+//	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+//	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+//	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+//	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+//	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+//	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+//	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+//	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+//	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+//	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+//	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:678)
+//	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+//	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
 
 
 

@@ -57,7 +57,7 @@ public class TestHand {
 		// on teste la taille du jeu pour vérifier qu'il n'y a pas de perte ou gain de tuiles lors du rangement
 		int actual = list.size();
 		int expected = 144;
-		
+
 		assertEquals(expected, actual);
 	}
 
@@ -124,7 +124,7 @@ public class TestHand {
 
 		//on trie les tuiles
 		hand.triTuiles(hand.tuilesListOfHand);
-		
+
 
 		//on affiche les tuiles triées. Permet de vérifiée la distribution des tuiles à l'étape suivante
 		System.out.println("Main triée");
@@ -155,11 +155,11 @@ public class TestHand {
 		System.out.println("-listClone--------");
 		System.out.println("----------");
 		System.out.println(listClone);
-		
+
 		int actual = listClone.size();
 		int expected = 0;
 		assertEquals(expected, actual);
-		
+
 		// on s'attends à trouver des groupes dans res (res peut être vide s'il n'y a pas de groupes)
 		System.out.println("-res--------");
 		System.out.println("----------");
@@ -209,7 +209,7 @@ public class TestHand {
 		remplissageDeMain(hand, list, facadeTuile);
 		// on trie les tuiles
 		hand.triTuiles(hand.tuilesListOfHand);
-		
+
 
 
 		//On instancie les listes res, seules et une fausse liste identique à la main du joueur
@@ -263,13 +263,13 @@ public class TestHand {
 		System.out.println("==========");
 		Hand hand = new Hand();
 		ArrayList<Tuile> list = new ArrayList<Tuile>();
-		
+
 		FacadeTuile facadeTuile = genererJeuDeTuilesMelangees(list);
 		remplissageDeMain(hand, list, facadeTuile);
 
 		// on trie
 		hand.triTuiles(hand.tuilesListOfHand);
-		
+
 
 		//On instancie les listes res, seules et une fausse liste identique à la main du joueur
 		List<List<Tuile>> res;
@@ -285,8 +285,8 @@ public class TestHand {
 
 		//on recombine seule à seule
 		hand.recombinaisonSeulesSeules(res, seules);
-		
-		
+
+
 		//Affichage des listes trouvées (avec  recombinaison SeulesSeules)
 		System.out.println("-Groupes formés---");
 		System.out.println("----------");
@@ -361,7 +361,7 @@ public class TestHand {
 
 		//on trie
 		hand.triTuiles(hand.tuilesListOfHand);
-		
+
 
 		//On instancie les listes res, seules et une fausse liste identique à la main du joueur
 		List<List<Tuile>> res;
@@ -427,7 +427,7 @@ public class TestHand {
 		remplissageDeMain(hand, list, facadeTuile);
 		//on trie
 		hand.triTuiles(hand.tuilesListOfHand);
-		
+
 
 		//On instancie les listes res, seules et une fausse liste identique à la main du joueur
 		List<List<Tuile>> res;
@@ -468,7 +468,7 @@ public class TestHand {
 		}
 		//après cette méthode, le tableau de seules doit être identique ou plus grand qu'avant
 		int expected = seules.size();
-		
+
 		// on vérifie res, aucune tuile ne doit être seule - aucune suite de deux tuiles non plus
 		hand.petiteVerif(res, seules);
 
@@ -494,11 +494,11 @@ public class TestHand {
 		}
 		//après cette méthode, le tableau de seules doit être identique ou plus grand qu'avant
 		int actual = seules.size();
-		
+
 		if(actual>expected ){
 			System.out.println("vérifier visuellement que des tuiles ont été rajoutées dans seules");
 		}
-			if (actual==expected){
+		if (actual==expected){
 			assertEquals(expected, actual);
 		}
 	}
@@ -519,7 +519,7 @@ public class TestHand {
 		FacadeTuile tuileFacade=new FacadeTuile();
 		ArrayList<Tuile> tuilesList = new ArrayList<Tuile>();
 		ArrayList<Tuile> list = tuileFacade.getTuilesList(tuilesList);
-		
+
 		Hand hand = new Hand();
 		Hand hand2 = new Hand();
 
@@ -539,26 +539,26 @@ public class TestHand {
 			res.add(list3);
 		}
 		res.add(list2);
-		
+
 		//on teste la méthode, on s'attend à trouver true
 		hand.mahjongPossible = hand.verifMahjong(res);
 		System.out.println("on s'attends à true : "+hand.mahjongPossible );
 		assertEquals(true,hand.mahjongPossible);
-		
-		
-		
+
+
+
 		// on met 2 combinaisons de trois tuiles dans le faux res et 4 paire -> on s'attends à un echec
 		for (int i=0;i<4;i++){
 			res2.add(list2);
 		}
 		res2.add(list3);
 		res2.add(list3);
-		
+
 		//on teste la méthode, on s'attend à trouver false
 		hand2.mahjongPossible = hand2.verifMahjong(res2);
 		System.out.println("on s'attends à false : "+hand2.mahjongPossible );
 		assertEquals(false,hand2.mahjongPossible);
-		
+
 	}
 
 
@@ -618,63 +618,48 @@ public class TestHand {
 		ArrayList<Tuile> list = new ArrayList<Tuile>();
 
 		FacadeTuile facadeTuile = genererJeuDeTuilesMelangees(list);
-
 		remplissageDeMain(hand, list, facadeTuile);
 
 		//On trouve les combinaisons (paire, pung, kong, chow) de la main indépendamment de leur nom
 		List<List<Tuile>> res = hand.findCombinaisons(hand.tuilesListOfHand);
 
 		//On les affiche
-		System.out.println("-res--après traitement-----");
+		System.out.println("-res------");
 		System.out.println("----------");
 		affichRes(res);
-		System.out.println("-taille res--après petiteVerif-----");
+		System.out.println("-taille des combinaisons trouvées-----");
 		System.out.println("----------");
 		for (int j=0;j<res.size();j++){
 			int taille = res.get(j).size();
 			System.out.println("Ligne : "+j +" Taille : ["+taille+"]");
-
-
 		}
-		System.out.println(hand.mahjongPossible);
+		System.out.println("mahjongPossible? "+ hand.mahjongPossible);
 
 		//On crée notre hashMap qui a pour clés : pung, kong, chow et qui prend en paramètre la liste de nos combinaisons.
-		//On applique la fonction identeficationCombi qui va répartir les combinaisons dans les listes auxquelles elles appartiennent (PUNG, KONG, CHOW)
+		//On applique la fonction identificationCombi qui va répartir les combinaisons dans les listes auxquelles elles appartiennent (PUNG, KONG, CHOW)
 		HashMap<Combinaison, List<List<Tuile>>> resCombi = hand.identificationCombi(res);
 
-		System.out.println("-resCombi--après findCombinaisons-----");
+		System.out.println("-resCombi-------");
 		System.out.println("----------");
-		
+
 		//On affiche les clés associées aux combinaisons trouvées grace au getName renvoyant à l'énumération de la classe MahjongPartie
 		for (Combinaison mapKey : resCombi.keySet()) {
-
 			List<List<Tuile>> currentCombinaisonList = resCombi.get(mapKey);
-
-			System.out.println("------------------");
 			System.out.println(mapKey.getName()+" ");
-			System.out.println("------------------");
-
 			// On affiche les tuiles correspondantes à la combinaison trouvée
 			int i=1;
 			for (List<Tuile> elementCurrentCombi : currentCombinaisonList) {
-				
+
 				System.out.println("N°"+i);
 				i++;
 				for (Tuile tuile : elementCurrentCombi) {
 					System.out.print(tuile.getType().getName()+" ");
 					System.out.println(tuile.getValeur().getName()+" ");
 				}
-
-
 			}
-
-
-
 		}
-
-
 	}
-	
+
 	@Test
 	/**
 	 *on teste l'identification de nos combinaisons présentes dans la main (pung, kong, chow) après que les groupes furent formés par findCombinaisons.
@@ -689,7 +674,7 @@ public class TestHand {
 		ArrayList<Tuile> list = new ArrayList<Tuile>();
 		FacadeTuile facadeTuile = genererJeuDeTuilesMelangees(list);
 		remplissageDeMain(hand, list, facadeTuile);
-		
+
 
 		//on crée une main factice à 13 tuiles
 		System.out.println("==========");
@@ -698,98 +683,98 @@ public class TestHand {
 		hand.tuilesListOfHand.remove(0);
 		hand.toStringList(hand.tuilesListOfHand);
 		System.out.println(hand.tuilesListOfHand.size() + "tuiles");
-		
+
 		//on vérifie le nombre de tuiles
 		int actual = hand.tuilesListOfHand.size();
 		int expected = 13;
 		assertEquals(expected, actual);
-		
+
 		System.out.println("==========");
 		System.out.println("tuile défaussée");
-		System.out.println("==========");
-		boolean isCombi = hand.isCombi(list.get(50));
 		System.out.print(list.get(50).getType().getName()+" ");
 		System.out.println(list.get(50).getValeur().getName()+" ");
-		
+
+		//test de la possibilité
+		boolean isCombi = hand.isCombi(list.get(50));
+
 		System.out.println("==========");
 		System.out.println("booléen : true si on peut faire une combinaison");
-		System.out.println("==========");
 		System.out.println(isCombi);
 	}
-	
-	@Test
-	/**
-	 * A sauter - useless
-	 *on teste l'identification de nos combinaisons présentes dans la main (pung, kong, chow) après que les groupes furent formés par findCombinaisons.
-	 *Test validé le 12.08.2016
-	 **/
 
-	public void testPiocheDefaussePickDefausse(){
-		System.out.println("==========");
-		System.out.println("testPiocheDefaussePickDefausse");
-		System.out.println("==========");
-		Hand hand = new Hand();
-		ArrayList<Tuile> list = new ArrayList<Tuile>();
-		FacadeTuile facadeTuile = genererJeuDeTuilesMelangees(list);
-		remplissageDeMain(hand, list, facadeTuile);
-		
-
-		//on crée une main factice à 13 tuiles
-		hand.tuilesListOfHand.remove(0);
-		System.out.println("main de  " + hand.tuilesListOfHand.size() + " tuiles");
-		
-		//on vérifie le nombre de tuiles
-		int actual = hand.tuilesListOfHand.size();
-		int expected = 13;
-		assertEquals(expected, actual);
-		
-		//on affiche la main 
-				hand.toStringList(hand.tuilesListOfHand);
-		
-		System.out.println("==========");
-		System.out.println("tuile défaussée");
-		boolean isCombi = hand.isCombi(list.get(50));
-		System.out.println(list.get(50).getType().getName()+" "+list.get(50).getValeur().getName()+" ");
-		System.out.println("==========");
-
-		System.out.println("booléen : " +isCombi);
-		
-		
-		hand.pickDefausse(list.get(50), isCombi); //ici tuileListOfHand.size() = 14
-		
-		//on affiche la main 
-		System.out.println("==========");
-		hand.toStringList(hand.tuilesListOfHand);
-		
-		
-		
-		
-		
-//		//on crée une main factice à 14 tuiles -> elle ne doit pas pouvoir piocher!
-//		//on vérifie le nombre de tuiles
-//		Hand hand2 = new Hand();
-//		ArrayList<Tuile> list2 = new ArrayList<Tuile>();
-//		FacadeTuile facadeTuile2 = genererJeuDeTuilesMelangees(list2);
-//		remplissageDeMain(hand2, list2, facadeTuile2);
-//		
-//		System.out.println(hand2.tuilesListOfHand.size() + "tuiles");
-//				int actual2 = hand2.tuilesListOfHand.size();
-//				int expected2 = 14;
-//				assertEquals(expected, actual);
-//				
-//				System.out.print("==========");
-//				System.out.print("tuile défaussée");
-//				System.out.println("==========");
-//				boolean isCombi2 = hand2.isCombi(list2.get(50));
-//				System.out.println(list2.get(50).getType().getName()+" "+list2.get(50).getValeur().getName()+" ");
-//
-//				System.out.println("booléen : " +isCombi2);
-//				
-//				hand2.pickDefausse(list2.get(50), isCombi2);
-//				
-//				//on affiche la main 
-//				hand2.toStringList(hand2.tuilesListOfHand);
-	}
+	//	@Test
+	//	/**
+	//	 * A sauter - useless Cleancode
+	//	 *on teste l'identification de nos combinaisons présentes dans la main (pung, kong, chow) après que les groupes furent formés par findCombinaisons.
+	//	 *Test validé le 12.08.2016
+	//	 **/
+	//
+	//	public void testPiocheDefaussePickDefausse(){
+	//		System.out.println("==========");
+	//		System.out.println("testPiocheDefaussePickDefausse");
+	//		System.out.println("==========");
+	//		Hand hand = new Hand();
+	//		ArrayList<Tuile> list = new ArrayList<Tuile>();
+	//		FacadeTuile facadeTuile = genererJeuDeTuilesMelangees(list);
+	//		remplissageDeMain(hand, list, facadeTuile);
+	//		
+	//
+	//		//on crée une main factice à 13 tuiles
+	//		hand.tuilesListOfHand.remove(0);
+	//		System.out.println("main de  " + hand.tuilesListOfHand.size() + " tuiles");
+	//		
+	//		//on vérifie le nombre de tuiles
+	//		int actual = hand.tuilesListOfHand.size();
+	//		int expected = 13;
+	//		assertEquals(expected, actual);
+	//		
+	//		//on affiche la main 
+	//				hand.toStringList(hand.tuilesListOfHand);
+	//		
+	//		System.out.println("==========");
+	//		System.out.println("tuile défaussée");
+	//		boolean isCombi = hand.isCombi(list.get(50));
+	//		System.out.println(list.get(50).getType().getName()+" "+list.get(50).getValeur().getName()+" ");
+	//		System.out.println("==========");
+	//
+	//		System.out.println("booléen : " +isCombi);
+	//		
+	//		
+	//		hand.pickDefausse(list.get(50), isCombi); //ici tuileListOfHand.size() = 14
+	//		
+	//		//on affiche la main 
+	//		System.out.println("==========");
+	//		hand.toStringList(hand.tuilesListOfHand);
+	//		
+	//		
+	//		
+	//		
+	//		
+	////		//on crée une main factice à 14 tuiles -> elle ne doit pas pouvoir piocher!
+	////		//on vérifie le nombre de tuiles
+	////		Hand hand2 = new Hand();
+	////		ArrayList<Tuile> list2 = new ArrayList<Tuile>();
+	////		FacadeTuile facadeTuile2 = genererJeuDeTuilesMelangees(list2);
+	////		remplissageDeMain(hand2, list2, facadeTuile2);
+	////		
+	////		System.out.println(hand2.tuilesListOfHand.size() + "tuiles");
+	////				int actual2 = hand2.tuilesListOfHand.size();
+	////				int expected2 = 14;
+	////				assertEquals(expected, actual);
+	////				
+	////				System.out.print("==========");
+	////				System.out.print("tuile défaussée");
+	////				System.out.println("==========");
+	////				boolean isCombi2 = hand2.isCombi(list2.get(50));
+	////				System.out.println(list2.get(50).getType().getName()+" "+list2.get(50).getValeur().getName()+" ");
+	////
+	////				System.out.println("booléen : " +isCombi2);
+	////				
+	////				hand2.pickDefausse(list2.get(50), isCombi2);
+	////				
+	////				//on affiche la main 
+	////				hand2.toStringList(hand2.tuilesListOfHand);
+	//	}
 
 
 }
