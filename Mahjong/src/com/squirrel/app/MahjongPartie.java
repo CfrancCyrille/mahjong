@@ -15,10 +15,10 @@ import com.squirrel.model.Mur;
 import com.squirrel.model.Tuile;
 
 public class MahjongPartie implements Runnable {
-	static final int ENTRETOURS = 20;	//définir le nombre passages par sleeptime lors de l'attente d'un appel (exemple sleep 500ms, ENTRETOURS=20 alors on attend 10 secondes :D )
+	static final int ENTRETOURS = 1;	//définir le nombre passages par sleeptime lors de l'attente d'un appel (exemple sleep 500ms, ENTRETOURS=20 alors on attend 10 secondes :D )
 
 	MahjongInitialisation mah=new MahjongInitialisation();
-
+	
 	/*Joueur jEst=new Joueur("jean-pierre", mah.mainEst,EST);
 	Joueur jNord=new Joueur("hervé",mah.mainNord,NOR);
 	Joueur jOuest=new Joueur("denis",mah.mainOuest,OUE);
@@ -29,23 +29,25 @@ public class MahjongPartie implements Runnable {
 	boolean mahjong=false;
 	boolean repRecue=false;
 	int sleepTime_ms=500;
-	boolean penalite=false;
+	
+	Mur murPioche=mah.murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile;
+	Tuile tuile = null;
+	Joueur jCourant;
+	Joueur jSuivant;
 	
 	public void lancerPartie(){
 		// Creation d'une partie
 		mah.initialiserUnePartie();
-
+		murPioche=mah.murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile;
 		ArrayList<Joueur> liste=new ArrayList<Joueur>();
-		Joueur jCourant;
-		Joueur jSuivant;
 		jCourant=mah.jEst;
 		liste = ordreJoueurs(jCourant);
 		jSuivant=liste.get(1);
-		Mur murPioche=mah.murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile;
+		
 		Mur murSpe=mah.murSpe;
 
 		
-		Tuile tuile = null;
+		
 		int tuilesRestantes=144;
 		
 		int nbPassage=0;
@@ -85,14 +87,15 @@ public class MahjongPartie implements Runnable {
 					
 				nbAttente++;
 
-				if(repAppelJoueur.isAppel()){
+				if(repAppelJoueur!=null && repAppelJoueur.isAppel()){
 					etat=JOUEURAPPELLE;
+					
 					reqEnvoyee = false;
 
 				}else if (nbAttente>ENTRETOURS){
 					nbAttente=0;
 					murPioche = mah.uneTuileDansLaMain(murPioche,jSuivant);
-					mah.verifFleursEtSaisons(murSpe,jSuivant);
+					murSpe = mah.verifFleursEtSaisons(murSpe,jSuivant);
 					liste=ordreJoueurs(jSuivant);
 					etat=TROPTUILE;
 					reqEnvoyee = false;
@@ -101,13 +104,13 @@ public class MahjongPartie implements Runnable {
 
 			case JOUEURAPPELLE:
 				if(tuile!=null){
-					if(isCombinaisonValid(tuile,repAppelJoueur.getHand(),KONG)) {
+					if(repAppelJoueur.getHand().isCombinaisonValid(tuile)) {
 						repAppelJoueur.getHand().remplirMain(tuile);
 						repAppelJoueur.setAppel(false);
 						liste=ordreJoueurs(repAppelJoueur);
 						etat=TROPTUILE;
 					}
-					else if(penalite){
+					else{
 						repAppelJoueur.incremPenalite();
 						etat=TUILEATTEND;
 					}
@@ -123,7 +126,10 @@ public class MahjongPartie implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	System.out.println("la partie a duré " + nbPassage*sleepTime_ms/1000+ "secondes.");
 	}
+	
+	
 
 	public void reqAfficheTuile(Tuile tuile) {
 		// TODO donne a tous les joueurs la tuile en attente
@@ -154,12 +160,7 @@ public class MahjongPartie implements Runnable {
 		repSelectionTuile=tuile;
 	}
 
-	// Cette méthode permet de savoir si la combinaison d'un joueur essaie de faire
-	private boolean isCombinaisonValid(Tuile tuile, HandFacade hand, Combinaison combi) {
-		// TODO savoir si la combinaison est valable a coder
-
-		return false;
-	}
+	
 
 	// Méthode de défausse d'une tuile. On rempli la liste de défausse associée a la partie.
 	public void jetteTuile(Joueur joueur, Tuile tuile){

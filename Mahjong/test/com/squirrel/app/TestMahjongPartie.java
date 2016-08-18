@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import com.squirrel.model.Joueur;
+import com.squirrel.model.MurException;
+import com.squirrel.model.Tuile;
+
 import static com.squirrel.app.MahjongPartie.EtatPartie.JOUEURAPPELLE;
 import static com.squirrel.app.MahjongPartie.EtatPartie.TROPTUILE;
 import static com.squirrel.app.MahjongPartie.EtatPartie.TUILEATTEND;
@@ -112,16 +115,22 @@ public class TestMahjongPartie {
 
 					@Override
 					public void run() {
-						//					mahp.etat = TUILEATTEND;
+						mahp.etat = TUILEATTEND;
 						mahp.lancerPartie();
 					}
 				}
 				);
 		t.start();
 		//	mahp.repRecue=false;
-
 		try {
-			Thread.sleep(mahp.sleepTime_ms*mahp.ENTRETOURS+1);
+			Thread.sleep(mahp.sleepTime_ms);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals(TUILEATTEND,mahp.etat);
+		try {
+			Thread.sleep(mahp.sleepTime_ms*(mahp.ENTRETOURS+1));
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -129,7 +138,7 @@ public class TestMahjongPartie {
 		assertEquals(TROPTUILE,mahp.etat);
 	}
 
-	/*@Test
+	@Test
 	public void testLancerPartie2c() {
 
 		mahp = new MahjongPartie();
@@ -139,30 +148,71 @@ public class TestMahjongPartie {
 
 					@Override
 					public void run() {
-						mahp.etat = JOUEURAPPELLE;
+
 						mahp.lancerPartie();
 					}
 				}
 				);
 		t.start();
-		mahp.repAppel(mahp.mah.jSud,MahjongPartie.Combinaison.CHOW);
-		mahp.repAppelJoueur.appel();
+		
+			mahp.etat = JOUEURAPPELLE;
+			try {
+				Thread.sleep(mahp.sleepTime_ms);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			assertEquals(JOUEURAPPELLE,mahp.etat);
+			mahp.repAppelJoueur=mahp.mah.jOuest;
+			try{
+				Tuile tuile =mahp.murPioche.piocherTuile();
+				mahp.tuile=tuile;
+			}
+			catch(MurException e){
+				e.printStackTrace();
+			}
 
-		try {
-			Thread.sleep(mahp.sleepTime_ms*3);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+			try {
+				Thread.sleep(mahp.sleepTime_ms*3);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			assertTrue(mahp.etat.equals(TUILEATTEND)|| mahp.etat.equals(TROPTUILE));
+
+		
+
+	}
+	
+	@Test
+	public void TestPartieComplete(){
+		mahp = new MahjongPartie();
+
+		Thread t= new Thread(
+				new Runnable() {
+
+					@Override
+					public void run() {
+
+						mahp.lancerPartie();
+					}
+				}
+				);
+		t.start();
+		for (int i = 0; i < 100; i++) {
+			if(mahp.etat==TROPTUILE){
+				mahp.repSelectionTuile=mahp.jCourant.getHand().get(0);
+				try {
+					Thread.sleep(mahp.sleepTime_ms);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}else{i--;}
+			System.out.println(mahp.defausse.size());
+			
+		
 		}
-
-		if (isCombinaison == true) {
-
-			assertEquals(TROPTUILE,mahp.etat);	
-		}
-
-		else{
-			assertEquals(TUILEATTEND,mahp.etat);
-		}
-	}*/
+		
+	}
 }
 
