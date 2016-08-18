@@ -58,8 +58,10 @@ public class HandFacade {
 	/**
 	 * Fonction permettant d'identifier à partir des combinaisons trouvées lesquelles sont des pung, lesquelles sont des kong, lesquelles sont des chow
 	 * Renvoie une hashMap qui associe a chaque liste de combinaisons une clé (pung ou kong ou chow)
+	 * Comporte la méthode getCombinaison() 
 	 */
 	public HashMap<Combinaison, List<List<Tuile>>> getIdentificationCombi(){
+		res = hand.findCombinaisons(hand.tuilesListOfHand);
 		return combinaisons = hand.identificationCombi(res);
 	}
 	/**
