@@ -296,7 +296,7 @@ public class TestMahjongInitialisation {
 
 		}
 		
-		mahjong.traitementKong (mahjong.jEst, mahjong.murSpe);
+		mahjong.traitementKong (mahjong.murSpe, mahjong.jEst);
 		
 		System.out.println("Bonus Est");
 		System.out.println(mahjong.jEst.getBonus().toString());

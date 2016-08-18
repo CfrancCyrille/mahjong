@@ -161,6 +161,12 @@ public class MahjongInitialisation
 		murSpecial = verifFleursEtSaisons(murSpecial, jSud);
 		murSpecial = verifFleursEtSaisons(murSpecial, jOuest);
 		murSpecial = verifFleursEtSaisons(murSpecial, jNord);
+		
+		//On vérifie pour chaque joueur qu'il n'a pas des kong à retirer da sa main
+		murSpecial = traitementKong(murSpecial, jEst);
+		murSpecial = traitementKong(murSpecial, jSud);
+		murSpecial = traitementKong(murSpecial, jOuest);
+		murSpecial = traitementKong(murSpecial, jNord);
 
 		//La c'est pour que partie sache ou piocher
 		murPiochePostInitialisationCatalystiquementDerisoireEtCompletementInutile=murPioche;
@@ -184,7 +190,7 @@ public class MahjongInitialisation
 			if (tuile1.getType().equals(TypeTuile.FLEU) || tuile1.getType().equals(TypeTuile.SAIS)){
 				currentJoueur.getBonus().add(tuile1);
 				currentJoueur.getHand().remove(tuile1);
-				murSpecial = this.uneTuileSpecialeDansLaMain(murSpecial, currentJoueur.getHand());
+				murSpecial = this.uneTuileSpecialeDansLaMain(murSpecial, currentJoueur);
 			}
 			else {
 				i++;
@@ -221,11 +227,11 @@ public class MahjongInitialisation
 	 * @param mainCourrante
 	 * @return
 	 */
-	Mur uneTuileSpecialeDansLaMain(Mur murSpecial, HandFacade mainCourrante) {
+	Mur uneTuileSpecialeDansLaMain(Mur murSpecial, Joueur curentJoueur) {
 		try {
 			Tuile tuilePiochee = murSpecial.retirerTuile();
 			int breche1 = murSpecial.getBrecheSpeciale();
-			mainCourrante.remplirMain(tuilePiochee);
+			curentJoueur.getHand().remplirMain(tuilePiochee);
 			if(breche1==-1){
 				murSpecial = murSpecial.prevMur(murSpecial, tousLesMurs(this));
 			}
@@ -297,7 +303,7 @@ public class MahjongInitialisation
 	}
 
 
-	public void traitementKong (Joueur jCourant, Mur murSpecial){
+	public Mur traitementKong (Mur murSpecial, Joueur jCourant){
 
 		//On récupère dans une hashmap res les combinaisons du joueur courant triées par type
 		jCourant.getHand().res=jCourant.getHand().getCombinaison();
@@ -311,8 +317,10 @@ public class MahjongInitialisation
 			jCourant.getBonus().addAll(combinaisons.get(Combinaison.KONG).get(0));
 			jCourant.getHand().hand.tuilesListOfHand.removeAll(combinaisons.get(Combinaison.KONG).get(k));
 			if(murSpecial != null){
-				murSpecial = this.uneTuileSpecialeDansLaMain(murSpecial, jCourant.getHand());
+				murSpecial = this.uneTuileSpecialeDansLaMain(murSpecial, jCourant);
+				
 			}
 		}
+		return murSpecial;
 	}
 }
