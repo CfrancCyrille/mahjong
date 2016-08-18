@@ -9,9 +9,9 @@ import com.squirrel.app.MahjongPartie.Combinaison;
 public class HandFacade {
 
 	public Hand hand;
-	boolean mahjongPossible=false;
+	boolean mahjongPossible;
 	public List<List<Tuile>> res;
-	public HashMap<Combinaison, List<List<Tuile>>> combinaisons = new HashMap<Combinaison, List<List<Tuile>>>();
+	public HashMap<Combinaison, List<List<Tuile>>> combinaisons;
 
 /**
  * Constructeur de la facade
@@ -19,6 +19,8 @@ public class HandFacade {
 	public HandFacade() {
 		this.hand = new Hand();
 		this.res=new ArrayList<List<Tuile>>();
+		this.mahjongPossible=false;
+		this.combinaisons= new HashMap<Combinaison, List<List<Tuile>>>();
 	}
 	/**
 	 * Fonction permettant d'afficher les tuiles dans une liste de tuiles
