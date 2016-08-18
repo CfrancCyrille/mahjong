@@ -46,7 +46,7 @@ public class TestHand {
 
 		//On visualise ce que contient la liste rentrée en paramètre.
 		System.out.println(list);
-		//On visualise ce que contient liste remplie.
+		//On visualise ce que contient liste remplie. Permet de vérifier que les tuiles sont dans le bon ordre
 		System.out.println(hand.tuilesListOfHand);
 		for (int i=0; i<144;i++){
 			System.out.print(facadeTuile.getITuile( i,(ArrayList<Tuile>) list).getType().getName());
@@ -54,7 +54,11 @@ public class TestHand {
 			System.out.println(facadeTuile.getITuile( i,(ArrayList<Tuile>) list).getValeur().getName());
 		}
 
-
+		// on teste la taille du jeu pour vérifier qu'il n'y a pas de perte ou gain de tuiles lors du rangement
+		int actual = list.size();
+		int expected = 144;
+		
+		assertEquals(expected, actual);
 	}
 
 
@@ -114,24 +118,24 @@ public class TestHand {
 		System.out.println("==========");
 		Hand hand = new Hand();
 		ArrayList<Tuile> list = new ArrayList<Tuile>();
-
+		//ici on utilise des méthodes pour réduire l'initialisation du test
 		FacadeTuile facadeTuile = genererJeuDeTuilesMelangees(list);
-
-
 		remplissageDeMain(hand, list, facadeTuile);
 
+		//on trie les tuiles
 		hand.triTuiles(hand.tuilesListOfHand);
+		
+
+		//on affiche les tuiles triées. Permet de vérifiée la distribution des tuiles à l'étape suivante
 		System.out.println("Main triée");
 		System.out.println("----------");
-
-		//on affiche les tuiles triées
 		for (Tuile t : hand.tuilesListOfHand) {
 			System.out.print(t.getType().getName() + " ");
 			System.out.println(t.getValeur().getName()); 
 		}
 
 
-		//On instancie la liste res
+		//On instancie les listes res, seules et une fausse liste identique à la main du joueur
 		List<List<Tuile>> res;
 		res=new ArrayList<List<Tuile>>();
 		List<Tuile> seules;
@@ -141,31 +145,50 @@ public class TestHand {
 		listClone.addAll(hand.tuilesListOfHand);
 
 
-		System.out.println("Groupes formés");
-		System.out.println("----------");
+		//on execute la methode de "rangement"
 		hand.trouveGroupesTuilesIdentiques(res,seules, listClone);
 
-		//Affichage des listes trouvées (la main, les groupes identifiés et les tuiles seules)
+		//Affichage des groupes trouvées (la main, les groupes identifiés et les tuiles seules)
+		System.out.println("-Groupes formés--------");
+		System.out.println("----------");
+		// on s'attends à ce que listclone soit vidée de toutes ses tuiles
 		System.out.println("-listClone--------");
 		System.out.println("----------");
 		System.out.println(listClone);
-
+		
+		int actual = listClone.size();
+		int expected = 0;
+		assertEquals(expected, actual);
+		
+		// on s'attends à trouver des groupes dans res (res peut être vide s'il n'y a pas de groupes)
 		System.out.println("-res--------");
 		System.out.println("----------");
+		affichRes(res);
+		// on s'attends à trouver des tuiles seules dans seules (seules peut être vide s'il n'y a pas de tuiles seules)
+		System.out.println("---seules------");
+		System.out.println("----------");
+		affichSeules(seules);
+
+	}
+
+
+
+	private void affichSeules(List<Tuile> seules) {
+		for (Tuile t : seules) {
+			System.out.print(t.getType().getName()+" ");
+			System.out.println(t.getValeur().getName()); 
+		}
+	}
+
+
+
+	private void affichRes(List<List<Tuile>> res) {
 		for (int j=0;j<res.size();j++){
 			for (Tuile t : res.get(j)) {
 				System.out.print(t.getType().getName()+" ");
 				System.out.println(t.getValeur().getName()); 
 			}
 		}
-
-		System.out.println("---seules------");
-		System.out.println("----------");
-		for (Tuile t : seules) {
-			System.out.print(t.getType().getName()+" ");
-			System.out.println(t.getValeur().getName()); 
-		}
-
 	}
 
 
@@ -182,24 +205,14 @@ public class TestHand {
 		Hand hand = new Hand();
 		ArrayList<Tuile> list = new ArrayList<Tuile>();
 
-
 		FacadeTuile facadeTuile = genererJeuDeTuilesMelangees(list);
-
-
 		remplissageDeMain(hand, list, facadeTuile);
-
+		// on trie les tuiles
 		hand.triTuiles(hand.tuilesListOfHand);
-		System.out.println("Main triée");
-		System.out.println("----------");
-
-		//on affiche les tuiles triées
-		for (Tuile t : hand.tuilesListOfHand) {
-			System.out.print(t.getType().getName() + " ");
-			System.out.println(t.getValeur().getName()); 
-		}
+		
 
 
-		//On instancie la liste res
+		//On instancie les listes res, seules et une fausse liste identique à la main du joueur
 		List<List<Tuile>> res;
 		res=new ArrayList<List<Tuile>>();
 		List<Tuile> seules;
@@ -215,49 +228,25 @@ public class TestHand {
 
 
 		//Affichage des listes trouvées (avant recombinaison)
-		System.out.println("-listClone--avant recombinaison------");
-		System.out.println("----------");		
-		System.out.println(listClone);
-
 		System.out.println("-res---avant recombinaison-----");
 		System.out.println("----------");
-		for (int j=0;j<res.size();j++){
-			for (Tuile t : res.get(j)) {
-				System.out.print(t.getType().getName()+" ");
-				System.out.println(t.getValeur().getName()); 
-			}
-		}
+		affichRes(res);
 
 		System.out.println("---seules--avant recombinaison----");
 		System.out.println("----------");
-		for (Tuile t : seules) {
-			System.out.print(t.getType().getName()+" ");
-			System.out.println(t.getValeur().getName()); 
-		}
+		affichSeules(seules);
 
-
+		//on fait la recombinaison, si des tuiles seules forment une suite elles doivent disparaitre de seules et aller dans res
 		hand.recombinaisonSeulesSeules(res, seules);
 
 		//Affichage des listes trouvées (après recombinaison)
-		System.out.println("-listClone--après recombinaison------");
-		System.out.println("----------");
-		System.out.println(listClone);
-
 		System.out.println("-res--après recombinaison------");
 		System.out.println("----------");
-		for (int j=0;j<res.size();j++){
-			for (Tuile t : res.get(j)) {
-				System.out.print(t.getType().getName()+" ");
-				System.out.println(t.getValeur().getName()); 
-			}
-		}
+		affichRes(res);
 
 		System.out.println("---seules--après recombinaison----");
 		System.out.println("----------");
-		for (Tuile t : seules) {
-			System.out.print(t.getType().getName()+" ");
-			System.out.println(t.getValeur().getName()); 
-		}
+		affichSeules(seules);
 
 
 	}
@@ -274,24 +263,15 @@ public class TestHand {
 		System.out.println("==========");
 		Hand hand = new Hand();
 		ArrayList<Tuile> list = new ArrayList<Tuile>();
+		
 		FacadeTuile facadeTuile = genererJeuDeTuilesMelangees(list);
-
-
 		remplissageDeMain(hand, list, facadeTuile);
 
-
+		// on trie
 		hand.triTuiles(hand.tuilesListOfHand);
-		System.out.println("Main triée");
-		System.out.println("----------");
+		
 
-		//on affiche les tuiles triées
-		for (Tuile t : hand.tuilesListOfHand) {
-			System.out.print(t.getType().getName() + " ");
-			System.out.println(t.getValeur().getName()); 
-		}
-
-
-		//On instancie la liste res
+		//On instancie les listes res, seules et une fausse liste identique à la main du joueur
 		List<List<Tuile>> res;
 		res=new ArrayList<List<Tuile>>();
 		List<Tuile> seules;
@@ -300,60 +280,39 @@ public class TestHand {
 		listClone=new ArrayList<Tuile>();
 		listClone.addAll(hand.tuilesListOfHand);
 
-
-		System.out.println("Groupes formés");
-		System.out.println("----------");
+		// on range
 		hand.trouveGroupesTuilesIdentiques(res,seules, listClone);
 
+		//on recombine seule à seule
 		hand.recombinaisonSeulesSeules(res, seules);
+		
+		
 		//Affichage des listes trouvées (avec  recombinaison SeulesSeules)
-		System.out.println("-listClone--avec  recombinaison SeulesSeules------");
-		System.out.println("----------");		
-		System.out.println(listClone);
+		System.out.println("-Groupes formés---");
+		System.out.println("----------");
 
 		System.out.println("-res---avec  recombinaison SeulesSeules-----");
 		System.out.println("----------");
-		for (int j=0;j<res.size();j++){
-			for (Tuile t : res.get(j)) {
-				System.out.print(t.getType().getName()+" ");
-				System.out.println(t.getValeur().getName()); 
-			}
-		}
+		affichRes(res);
 
 		System.out.println("---seules--avec  recombinaison SeulesSeules----");
 		System.out.println("----------");
-		for (Tuile t : seules) {
-			System.out.print(t.getType().getName()+" ");
-			System.out.println(t.getValeur().getName()); 
-		}
+		affichSeules(seules);
 
 
 
-
+		//on recombine -  deux tuiles seules avec une tuile de res
 		hand.recombinaisonSeulesCombisDeux( res, seules);
 
 		//Affichage des listes trouvées (après recombinaison)
-		//ListClone
-		System.out.println("-listClone--après recombinaison--SeulesCombisDeux----");
-		System.out.println("----------");
-		System.out.println(listClone);
-
 		//res
 		System.out.println("-res--après recombinaison-SeulesCombisDeux-----");
 		System.out.println("----------");
-		for (int j=0;j<res.size();j++){
-			for (Tuile t : res.get(j)) {
-				System.out.print(t.getType().getName()+" ");
-				System.out.println(t.getValeur().getName()); 
-			}
-		}
+		affichRes(res);
 		//Seules
 		System.out.println("---seules--après recombinaison-SeulesCombisDeux---");
 		System.out.println("----------");
-		for (Tuile t : seules) {
-			System.out.print(t.getType().getName()+" ");
-			System.out.println(t.getValeur().getName()); 
-		}
+		affichSeules(seules);
 
 
 	}
@@ -397,28 +356,14 @@ public class TestHand {
 		Hand hand = new Hand();
 		ArrayList<Tuile> list = new ArrayList<Tuile>();
 
-
-
 		FacadeTuile facadeTuile = genererJeuDeTuilesMelangees(list);
-
-
 		remplissageDeMain(hand, list, facadeTuile);
 
-
-
-
+		//on trie
 		hand.triTuiles(hand.tuilesListOfHand);
-		System.out.println("Main triée");
-		System.out.println("----------");
+		
 
-		//on affiche les tuiles triées
-		for (Tuile t : hand.tuilesListOfHand) {
-			System.out.print(t.getType().getName() + " ");
-			System.out.println(t.getValeur().getName()); 
-		}
-
-
-		//On instancie la liste res
+		//On instancie les listes res, seules et une fausse liste identique à la main du joueur
 		List<List<Tuile>> res;
 		res=new ArrayList<List<Tuile>>();
 		List<Tuile> seules;
@@ -428,59 +373,38 @@ public class TestHand {
 		listClone.addAll(hand.tuilesListOfHand);
 
 
-		System.out.println("Groupes formés");
-		System.out.println("----------");
+		// on range
 		hand.trouveGroupesTuilesIdentiques(res,seules, listClone);
-		//recombinaisons
+		//on recombine
 		hand.recombinaisonSeulesSeules(res, seules);
 		hand.recombinaisonSeulesCombisDeux( res, seules);
 
-		//Affichage des listes trouvées (avec  recombinaison SeulesSeules)
-		System.out.println("-listClone--avec  recombinaison SeulesCombisDeux------");
-		System.out.println("----------");		
-		System.out.println(listClone);
+		//Affichage des listes trouvées 
+		System.out.println("--Groupes formés----");
+		System.out.println("----------");
 
 		System.out.println("-res---avec  recombinaison SeulesCombisDeux-----");
 		System.out.println("----------");
-		for (int j=0;j<res.size();j++){
-			for (Tuile t : res.get(j)) {
-				System.out.print(t.getType().getName()+" ");
-				System.out.println(t.getValeur().getName()); 
-			}
-		}
+		affichRes(res);
 
 		System.out.println("---seules--avec  recombinaison SeulesCombisDeux----");
 		System.out.println("----------");
-		for (Tuile t : seules) {
-			System.out.print(t.getType().getName()+" ");
-			System.out.println(t.getValeur().getName()); 
-		}
+		affichSeules(seules);
 
 
 
-
+		// on recombine - une tuile seule, deux tuiles de res
 		hand.recombinaisonSeulesCombis( res, seules);
 
 		//Affichage des listes trouvées (après recombinaison)
-		System.out.println("-listClone--après recombinaison--SeulesCombis----");
-		System.out.println("----------");
-		System.out.println(listClone);
 
 		System.out.println("-res--après recombinaison-SeulesCombis-----");
 		System.out.println("----------");
-		for (int j=0;j<res.size();j++){
-			for (Tuile t : res.get(j)) {
-				System.out.print(t.getType().getName()+" ");
-				System.out.println(t.getValeur().getName()); 
-			}
-		}
+		affichRes(res);
 
 		System.out.println("---seules--après recombinaison-SeulesCombis---");
 		System.out.println("----------");
-		for (Tuile t : seules) {
-			System.out.print(t.getType().getName()+" ");
-			System.out.println(t.getValeur().getName()); 
-		}
+		affichSeules(seules);
 
 
 	}
@@ -499,28 +423,13 @@ public class TestHand {
 		Hand hand = new Hand();
 		ArrayList<Tuile> list = new ArrayList<Tuile>();
 
-
-
 		FacadeTuile facadeTuile = genererJeuDeTuilesMelangees(list);
-
-
 		remplissageDeMain(hand, list, facadeTuile);
-
-
-
-
+		//on trie
 		hand.triTuiles(hand.tuilesListOfHand);
-		System.out.println("Main triée");
-		System.out.println("----------");
+		
 
-		//on affiche les tuiles triées
-		for (Tuile t : hand.tuilesListOfHand) {
-			System.out.print(t.getType().getName() + " ");
-			System.out.println(t.getValeur().getName()); 
-		}
-
-
-		//On instancie la liste res
+		//On instancie les listes res, seules et une fausse liste identique à la main du joueur
 		List<List<Tuile>> res;
 		res=new ArrayList<List<Tuile>>();
 		List<Tuile> seules;
@@ -530,34 +439,24 @@ public class TestHand {
 		listClone.addAll(hand.tuilesListOfHand);
 
 
-		System.out.println("Groupes formés");
-		System.out.println("----------");
+		// on range
 		hand.trouveGroupesTuilesIdentiques(res,seules, listClone);
-		//recombinaisons
+		//on recombine
 		hand.recombinaisonSeulesSeules(res, seules);
 		hand.recombinaisonSeulesCombisDeux( res, seules);
 		hand.recombinaisonSeulesCombis( res, seules);
 
 		//Affichage des listes trouvées (avec  recombinaison SeulesSeules)
-		System.out.println("-listClone--avec  recombinaison ------");
-		System.out.println("----------");		
-		System.out.println(listClone);
+		System.out.println("--Groupes formés----");
+		System.out.println("----------");
 
 		System.out.println("-res---avec  recombinaison -----");
 		System.out.println("----------");
-		for (int j=0;j<res.size();j++){
-			for (Tuile t : res.get(j)) {
-				System.out.print(t.getType().getName()+" ");
-				System.out.println(t.getValeur().getName()); 
-			}
-		}
+		affichRes(res);
 
 		System.out.println("---seules--avec  recombinaison ----");
 		System.out.println("----------");
-		for (Tuile t : seules) {
-			System.out.print(t.getType().getName()+" ");
-			System.out.println(t.getValeur().getName()); 
-		}
+		affichSeules(seules);
 
 		System.out.println("-taille res--avant petiteVerif-----");
 		System.out.println("----------");
@@ -567,30 +466,23 @@ public class TestHand {
 
 
 		}
-
+		//après cette méthode, le tableau de seules doit être identique ou plus grand qu'avant
+		int expected = seules.size();
+		
+		// on vérifie res, aucune tuile ne doit être seule - aucune suite de deux tuiles non plus
 		hand.petiteVerif(res, seules);
 
 
 		//Affichage des listes trouvées (après recombinaison)
-		System.out.println("-listClone--après petiteVerif----");
-		System.out.println("----------");
-		System.out.println(listClone);
+
 
 		System.out.println("-res--après petiteVerif-----");
 		System.out.println("----------");
-		for (int j=0;j<res.size();j++){
-			for (Tuile t : res.get(j)) {
-				System.out.print(t.getType().getName()+" ");
-				System.out.println(t.getValeur().getName()); 
-			}
-		}
+		affichRes(res);
 
 		System.out.println("---seules--après petiteVerif---");
 		System.out.println("----------");
-		for (Tuile t : seules) {
-			System.out.print(t.getType().getName()+" ");
-			System.out.println(t.getValeur().getName()); 
-		}
+		affichSeules(seules);
 
 		System.out.println("-taille res--après petiteVerif-----");
 		System.out.println("----------");
@@ -599,6 +491,15 @@ public class TestHand {
 			System.out.println("Ligne : "+j +" Taille : ["+taille+"]");
 
 
+		}
+		//après cette méthode, le tableau de seules doit être identique ou plus grand qu'avant
+		int actual = seules.size();
+		
+		if(actual>expected ){
+			System.out.println("vérifier visuellement que des tuiles ont été rajoutées dans seules");
+		}
+			if (actual==expected){
+			assertEquals(expected, actual);
 		}
 	}
 
@@ -612,46 +513,52 @@ public class TestHand {
 		System.out.println("testVerifMahjong");
 		System.out.println("----------------------");
 
-		//on crée un faux res
+		//on crée un faux res contenant un mahjong
 		List<List<Tuile>> res = new ArrayList<List<Tuile>>();
+		List<List<Tuile>> res2 = new ArrayList<List<Tuile>>();
 		FacadeTuile tuileFacade=new FacadeTuile();
 		ArrayList<Tuile> tuilesList = new ArrayList<Tuile>();
 		ArrayList<Tuile> list = tuileFacade.getTuilesList(tuilesList);
-		boolean mahjongPossible=false;
+		
 		Hand hand = new Hand();
+		Hand hand2 = new Hand();
 
 		Tuile tuile1=tuileFacade.getITuile(1, list);
 		List<Tuile> list3 = new ArrayList<Tuile>();
 		List<Tuile> list2 = new ArrayList<Tuile>();
-
+		// on crée des pung ou chow (3 tuiles)
 		for (int i=0;i<3;i++){
 			list3.add(tuile1);
 		}
+		// on crée une paire
 		for (int i=0;i<2;i++){
 			list2.add(tuile1);
 		}
-
-
-
-
+		// on met quatre combinaisons de trois tuiles dans le faux res et une paire
 		for (int i=0;i<4;i++){
 			res.add(list3);
 		}
 		res.add(list2);
-
-		mahjongPossible = hand.verifMahjong(res);
-		System.out.println(mahjongPossible);
-		String str ="";
-		if(mahjongPossible==true){
-			str="Bravo";
-		}else{ 
-			str="Perdu";
+		
+		//on teste la méthode, on s'attend à trouver true
+		hand.mahjongPossible = hand.verifMahjong(res);
+		System.out.println("on s'attends à true : "+hand.mahjongPossible );
+		assertEquals(true,hand.mahjongPossible);
+		
+		
+		
+		// on met 2 combinaisons de trois tuiles dans le faux res et 4 paire -> on s'attends à un echec
+		for (int i=0;i<4;i++){
+			res2.add(list2);
 		}
-
-		String actual = str;
-		String expected = "Bravo";
-
-		assertEquals(expected,actual);
+		res2.add(list3);
+		res2.add(list3);
+		
+		//on teste la méthode, on s'attend à trouver false
+		hand2.mahjongPossible = hand2.verifMahjong(res2);
+		System.out.println("on s'attends à false : "+hand2.mahjongPossible );
+		assertEquals(false,hand2.mahjongPossible);
+		
 	}
 
 
@@ -674,21 +581,16 @@ public class TestHand {
 		ArrayList<Tuile> list = new ArrayList<Tuile>();
 
 		FacadeTuile facadeTuile = genererJeuDeTuilesMelangees(list);
-
 		remplissageDeMain(hand, list, facadeTuile);
 
 
 		List<List<Tuile>> res = hand.findCombinaisons(hand.tuilesListOfHand);
 
-
+		//on vérifie que res après traitement contient des combinaisons
 		System.out.println("-res--après traitement-----");
 		System.out.println("----------");
-		for (int j=0;j<res.size();j++){
-			for (Tuile t : res.get(j)) {
-				System.out.print(t.getType().getName()+" ");
-				System.out.println(t.getValeur().getName()); 
-			}
-		}
+		affichRes(res);
+		//on regarde la taille des combinaisons dans res, correspondent elles?
 		System.out.println("-taille res--après petiteVerif-----");
 		System.out.println("----------");
 		for (int j=0;j<res.size();j++){
@@ -697,7 +599,8 @@ public class TestHand {
 
 
 		}
-		System.out.println(hand.mahjongPossible);
+		//on vérifie si mahjonPossible a changé de valeur
+		System.out.println("mahjongPossible?" +hand.mahjongPossible);
 
 	}
 
@@ -724,12 +627,7 @@ public class TestHand {
 		//On les affiche
 		System.out.println("-res--après traitement-----");
 		System.out.println("----------");
-		for (int j=0;j<res.size();j++){
-			for (Tuile t : res.get(j)) {
-				System.out.print(t.getType().getName()+" ");
-				System.out.println(t.getValeur().getName()); 
-			}
-		}
+		affichRes(res);
 		System.out.println("-taille res--après petiteVerif-----");
 		System.out.println("----------");
 		for (int j=0;j<res.size();j++){
@@ -821,6 +719,7 @@ public class TestHand {
 	
 	@Test
 	/**
+	 * A sauter - useless
 	 *on teste l'identification de nos combinaisons présentes dans la main (pung, kong, chow) après que les groupes furent formés par findCombinaisons.
 	 *Test validé le 12.08.2016
 	 **/

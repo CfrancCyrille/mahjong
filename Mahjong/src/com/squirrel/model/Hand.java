@@ -18,7 +18,7 @@ public class Hand implements Serializable {
 	public List<Tuile> tuilesListOfHand;
 	final int TAILLE_MAIN=14; // constante taille de la main (maximum)
 	public boolean mahjongPossible = false;
-	
+
 
 	//constructeur
 	public Hand(){
@@ -38,23 +38,23 @@ public class Hand implements Serializable {
 	}
 
 
-	
+
 	public void toStringList(List<Tuile> listAffichable) {
 		//Affichage
-		
-		
-			for (Tuile t : listAffichable) {
-				System.out.print(t.getType().getName()+" ");
-				System.out.println(t.getValeur().getName()); 
 
-			}	
-		
-		
+
+		for (Tuile t : listAffichable) {
+			System.out.print(t.getType().getName()+" ");
+			System.out.println(t.getValeur().getName()); 
+
+		}	
+
+
 	}
-	
+
 	public void toStringListList(List<List<Tuile>> listListAffichable) {
 		//Affichage
-		
+
 		for (int j=0;j<listListAffichable.size();j++){
 			for (Tuile t : listListAffichable.get(j)) {
 				System.out.print(t.getType().getName()+" ");
@@ -62,12 +62,12 @@ public class Hand implements Serializable {
 			}
 			System.out.println(" ");
 		}
-		
-		
-		
+
+
+
 	}
-	
-	
+
+
 	public void toStringHashMap(HashMap<Combinaison, List<List<Tuile>>> hashMapAffichable){
 		//Affichage
 		for (Combinaison mapKey : hashMapAffichable.keySet()) {
@@ -80,7 +80,7 @@ public class Hand implements Serializable {
 
 			int i=1;
 			for (List<Tuile> elementCurrentCombi : currentCombinaisonList) {
-				
+
 				System.out.println("N°"+i);
 				i++;
 				for (Tuile tuile : elementCurrentCombi) {
@@ -92,33 +92,33 @@ public class Hand implements Serializable {
 			}
 
 		}
-		
-		
+
+
 	}
-	
+
 	boolean isCombi(Tuile t){
 		//isCombi vérifie si la tuile défaussée demandée forme une combinaison avec la main
 		//pour cela on utilise findCombinaisons et on regarde si la tuile défaussée est dans res (une combianson est forcément supérieure à deux tuiles)
 		//si la tuile défaussée a une jumelle dans la main et qu'une seule se retrouve dans res on considère que c'est celle défaussée et récupéerée
 		boolean isCombi = false;
-		
+
 		List<Tuile> listTestee = new ArrayList<Tuile>();
 		listTestee.addAll(tuilesListOfHand);	
 		listTestee.add(t);
 		List<List<Tuile>> res = findCombinaisons(listTestee);
-		
+
 		if(mahjongPossible==true){
 			isCombi=true;
 		}else{
-				for(int j=0; j<res.size();j++){
-					if (res.get(j).size()==3 && res.get(j).contains(t)){
-						isCombi=true;
-					}
+			for(int j=0; j<res.size();j++){
+				if (res.get(j).size()==3 && res.get(j).contains(t)){
+					isCombi=true;
 				}
+			}
 		}
-		
+
 		return isCombi;
-		
+
 	}
 
 	Collection<Tuile> pickDefausse(Tuile t, boolean isCombi){
@@ -466,7 +466,7 @@ public class Hand implements Serializable {
 			nb = res.get(j).size();
 			tableauTaille.add(nb);
 		}
-		if (tableauTaille.containsAll(mahjong)){
+		if (containsAllCombi(mahjong,tableauTaille)){
 			this.mahjongPossible = true;
 		}
 
@@ -474,31 +474,55 @@ public class Hand implements Serializable {
 		return mahjongPossible;
 	}
 
+	boolean containsAllCombi(List<Integer> list, ArrayList<Integer> tableauTaille){
+		boolean bool = false;
+		Collections.sort(list);
+		Collections.sort(tableauTaille);
+
+		StringBuffer sbList = new StringBuffer();
+		StringBuffer sbTableauTaille = new StringBuffer();
+
+		for (Integer integer : list) {
+			sbList.append(integer);
+		}
+
+		for (Integer integer : tableauTaille) {
+			sbTableauTaille.append(integer);
+		}
+
+		if(list!=null && !list.isEmpty() && Integer.parseInt(sbList.toString())==Integer.parseInt(sbTableauTaille.toString())){
+			bool=true;
+		}
+
+		return bool;
+
+	}
+
 
 	HashMap<Combinaison, List<List<Tuile>>> identificationCombi(List<List<Tuile>>resCombi){
 		//Création d'une liste qui contiendra les 3 précédentes. (chow, pung, kong)
 		HashMap<Combinaison, List<List<Tuile>>> combinaisons = new HashMap<Combinaison, List<List<Tuile>>>();
-		
+
 		//Fonction qui retourne la liste des chows, pungs, kungs trouvés dans res après findCombinaisons
-		
+
 		//Création d'une liste de chows
 		List<List<Tuile>> chow =new ArrayList <List<Tuile>>();
-		
+
 		//Création d'une liste de pungs
 		List<List<Tuile>> pung = new ArrayList <List<Tuile>>();
-		
+
 		//Création d'une liste de kong
 		List<List<Tuile>> kong = new ArrayList <List<Tuile>>();
 
-		
+
 		//On parcourt le res déterminé au préalable par la fonction findCombinaisons
 		for (int j=0;j<resCombi.size();j++){
 			int taille = resCombi.get(j).size();
-			
+
 			//et on associe une variable "combinaison" qui prend pour valeur le nombre de tuiles par groupe de res
 			int combinaison = taille;
 
-			
+
 			switch (combinaison){
 			//si groupe de 3 trouvé :
 			case 3 :
@@ -506,7 +530,7 @@ public class Hand implements Serializable {
 					//on le met dans la liste pung si tuiles identiques
 					pung.add(resCombi.get(j));
 
-			
+
 				}else
 					//sinon c'est un chow alors on le place dans la liste chow
 				{
@@ -514,7 +538,7 @@ public class Hand implements Serializable {
 
 				}
 				break;
-				
+
 				//si groupe de 4 trouvé
 			case 4 :
 				//c'est forcément un kong, donc on le met dans la liste kong
@@ -522,7 +546,7 @@ public class Hand implements Serializable {
 					kong.add(resCombi.get(j));
 
 					//TODO : traitement du kong
-					
+
 					break;
 
 				}
@@ -534,21 +558,21 @@ public class Hand implements Serializable {
 		combinaisons.put(Combinaison.KONG, kong);
 		combinaisons.put(Combinaison.CHOW, chow);
 		return combinaisons;
-		
+
 
 	}
 	//dans une liste de listes , retire la l-ième liste 
-	 void removeAll(int l){
+	void removeAll(int l){
 		//ex   List<List>.removeAll(1) retire la 1ere liste 
-		 List<List<Tuile>> testee = new  ArrayList<List<Tuile>>();
-		 
-		 testee.removeAll(testee.get(l));
-		
+		List<List<Tuile>> testee = new  ArrayList<List<Tuile>>();
+
+		testee.removeAll(testee.get(l));
+
 	}
-	
-	
-	
-	
+
+
+
+
 }
 
 
